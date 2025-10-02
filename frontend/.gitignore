@@ -1,10 +1,107 @@
-# Ignore Gradle project-specific cache directory
-.gradle
+# Recommended .gitignore for Android Studio / Gradle projects
+# -------------------------------------------------------------------
+# BUILD ARTIFACTS
+# -------------------------------------------------------------------
+# Built output directory
+**/build/
+.gradle/
+out/
+.idea/libraries/
 
-# Ignore Gradle build output directory
-build
+# Dependency caches and intermediate files
+*.iml
+.DS_Store
+.class
+.classpath
+.project
+.settings/
 
+# Generated files
+**/gen/
+**/bin/
+**/*_intermediates/
+**/intermediates/
+**/exploded-aar/
+**/generated/
 
-# Ignore app bin
-app/bin/
+# R/Dagger/etc. generated files
+# This is usually covered by 'build/', but good to be explicit
+# if not all generated files are in 'build/'
+**/r.txt
+**/R.java
+**/BR.java
 
+# -------------------------------------------------------------------
+# LOCAL CONFIGURATION AND SECRETS
+# -------------------------------------------------------------------
+# Local machine-specific properties (MUST BE IGNORED)
+# This file contains the path to the Android SDK on your machine.
+**/local.properties
+.DS_Store
+.settings/
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/assetWizardSettings.xml
+.idea/dictionaries/
+.idea/deploymentTargetDropDown.xml
+.idea/external_build_system.xml
+.idea/fileTemplates/
+.idea/gradle.xml
+.idea/misc.xml
+.idea/renderSettings.xml
+.idea/vcs.xml
+.idea/navEditorSettings.xml
+
+# Keystore files (for signing releases, should not be in Git)
+*.keystore
+*.jks
+
+# -------------------------------------------------------------------
+# IDE SPECIFIC FILES (IntelliJ/Android Studio)
+# -------------------------------------------------------------------
+# Directories used by the IDE to manage state
+.idea/
+
+# Android Studio 2.1+ new .idea structure
+.idea/codeStyles/
+.idea/compiler.xml
+.idea/copyright/
+.idea/encodings.xml
+.idea/modules.xml
+.idea/scopes/
+.idea/jarRepositories.xml
+.idea/libraries/
+.idea/runConfigurations/
+
+# User-specific settings (local to the machine)
+.vscode/
+.ionide/
+
+# Temporary files for Android Lint
+lint-results.html
+lint-results.xml
+
+# -------------------------------------------------------------------
+# GRADLE WRAPPER (Keep the wrapper, ignore the wrapper JAR)
+# -------------------------------------------------------------------
+# The wrapper files themselves are tracked, but often the temporary files are not.
+# We explicitly KEEP:
+frontend/gradlew
+frontend/gradlew.bat
+frontend/gradle/wrapper/gradle-wrapper.jar
+frontend/gradle/wrapper/gradle-wrapper.properties
+# (These are all modified in your list, so we keep them.)
+# No need to ignore wrapper files here, as they are essential for other devs.
+# -------------------------------------------------------------------
+# TEST OUTPUT
+# -------------------------------------------------------------------
+# JUnit/Gradle test output
+**/test-results/
+**/jacoco/
+**/coverage/
+
+# -------------------------------------------------------------------
+# PROGUARD / R8
+# -------------------------------------------------------------------
+# Mapping file generated after R8/Proguard optimization
+*/mapping.txt

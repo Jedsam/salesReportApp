@@ -1,34 +1,23 @@
-// settings.gradle
-
 pluginManagement {
     repositories {
-        // These repositories are ONLY for plugins (AGP, Kotlin, Foojay)
-        google()
+        google {
+            content {
+                includeGroupByRegex("com\\.android.*")
+                includeGroupByRegex("com\\.google.*")
+                includeGroupByRegex("androidx.*")
+            }
+        }
         mavenCentral()
         gradlePluginPortal()
     }
 }
-
-// FIX: Moved the plugins block up to satisfy Gradle's required file structure order.
-plugins {
-    // Apply the foojay-resolver plugin to allow automatic download of JDKs
-    id 'org.gradle.toolchains.foojay-resolver-convention' version '1.0.0'
-    id 'com.android.application' version '8.2.0' apply false
-    id 'org.jetbrains.kotlin.android' version '1.9.23' apply false
-}
-
-// THIS BLOCK IS NOW CORRECTLY PLACED (after plugins {})
 dependencyResolutionManagement {
-    // Set repositories mode to fail if a repository is defined directly in a project build file, 
-    // ensuring consistency across the build.
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
-        // These repositories are for your actual project dependencies (Compose, AndroidX, Kotlin-stdlib)
         google()
         mavenCentral()
     }
 }
 
-rootProject.name = 'frontend'
-include(':app')
-
+rootProject.name = "frontendInternship"
+include ':app'
