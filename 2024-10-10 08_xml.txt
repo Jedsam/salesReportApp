@@ -1,0 +1,41 @@
+<hourlyReport>
+	<reportHour>2024-10-10 08</reportHour>
+	<receiptCount>15</receiptCount>
+	<totalAmount>619.90</totalAmount>
+	<canceledInfo>
+		<count>2</count>
+		<amount>51.90</amount>
+	</canceledInfo>
+	<salesVatDistribution>
+		<sales>
+			<vatRate>0</vatRate>
+			<amount>30.10</amount>
+		</sales>
+		<sales>
+			<vatRate>1</vatRate>
+			<amount>70.45</amount>
+		</sales>
+		<sales>
+			<vatRate>10</vatRate>
+			<amount>120.00</amount>
+		</sales>
+		<sales>
+			<vatRate>20</vatRate>
+			<amount>399.35</amount>
+		</sales>
+	</salesVatDistribution>
+	<paymentDistribution>
+		<payment>
+			<paymentType>1</paymentType>
+			<amount>55.00</amount>
+		</payment>
+		<payment>
+			<paymentType>2</paymentType>
+			<amount>480.85</amount>
+		</payment>
+		<payment>
+			<paymentType>3</paymentType>
+			<amount>84.05</amount>
+		</payment>
+	</paymentDistribution>
+</hourlyReport>
