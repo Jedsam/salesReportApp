@@ -5,53 +5,44 @@ package org.example;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.ServerSocket;
-import java.net.Socket;
+import java.net.InetSocketAddress;
+import java.util.Arrays;
 
-import org.w3c.dom.*;
-import org.xml.sax.SAXException;
-
-import javax.xml.parsers.*;
+import com.sun.net.httpserver.HttpExchange;
+import com.sun.net.httpserver.HttpHandler;
+import com.sun.net.httpserver.HttpServer;
 
 public class App {
 
   public static void main(String[] args) {
     try {
-      final ServerSocket server = new ServerSocket(4478);
-      System.out.println("Listening for connection on port 8080 ....");
-      while (true) {
-        final Socket clientSocket = server.accept();
-        System.out.println("An user connected!");
-        InputStream is = clientSocket.getInputStream();
-
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        try {
-          DocumentBuilder builder = factory.newDocumentBuilder();
-          Document doc = builder.parse(is);
-          doc.normalize();
-          NodeList headers = doc.getElementsByTagName("h1");
-          for (int i = 0; i < headers.getLength(); i++) {
-            Node header = headers.item(i);
-            String text = header.getTextContent();
-            if (text.contains("reportHour")) {
-              System.out.println(text);
+      final HttpServer server = HttpServer.create(new InetSocketAddress(4478), 0);
+      server.createContext("/receive", new HttpHandler() {
+        @Override
+        public void handle(HttpExchange exchange) throws IOException {
+          // We just need the body
+          InputStreamReader isr = new InputStreamReader(exchange.getRequestBody());
+          BufferedReader br = new BufferedReader(isr);
+          String line = br.readLine();
+          while (!line.isEmpty()) {
+            // do line operations
+            if (line.contains("reportHour")) {
+              String delims = "<[^>]*>";
+              System.out.println(line.split(delims)[2]);
+              return;
             }
+            // read next line
+            line = br.readLine();
           }
-        } catch (ParserConfigurationException e) {
-          // TODO Auto-generated catch block
-          e.printStackTrace();
-        } catch (SAXException e) {
-          // TODO Auto-generated catch block
-          e.printStackTrace();
+          exchange.sendResponseHeaders(200, 0);
+          exchange.getResponseBody().close();
+
         }
-
-        // spin forever
-      }
-    } catch (
-
-    IOException e) {
+      });
+      server.start();
+      System.out.println("Listening for connection on : " + server.getAddress());
+    } catch (IOException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
