@@ -18,26 +18,31 @@ public class App {
   public static void main(String[] args) {
     try {
       final HttpServer server = HttpServer.create(new InetSocketAddress(4478), 0);
+
       server.createContext("/receive", new HttpHandler() {
         @Override
         public void handle(HttpExchange exchange) throws IOException {
+          // Notify that an user has connected
+          System.out.println("A new user connected from: " + exchange.getRemoteAddress());
+
           // We just need the body
           InputStreamReader isr = new InputStreamReader(exchange.getRequestBody());
           BufferedReader br = new BufferedReader(isr);
           String line = br.readLine();
-          while (!line.isEmpty()) {
+          while (line != null) {
             // do line operations
             if (line.contains("reportHour")) {
               String delims = "<[^>]*>";
               System.out.println(line.split(delims)[2]);
-              return;
             }
             // read next line
             line = br.readLine();
           }
-          exchange.sendResponseHeaders(200, 0);
-          exchange.getResponseBody().close();
 
+          String response = "Success!";
+          exchange.sendResponseHeaders(200, response.getBytes().length);
+          exchange.getResponseBody().write(response.getBytes());
+          exchange.getResponseBody().close();
         }
       });
       server.start();
