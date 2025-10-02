@@ -6,3 +6,6 @@ build
 
 # Ignore classes
 *.class
+
+# Ignore report txt
+*.txt
