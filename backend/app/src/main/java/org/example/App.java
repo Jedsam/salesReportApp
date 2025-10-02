@@ -4,6 +4,8 @@
 package org.example;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.InetSocketAddress;
@@ -29,14 +31,23 @@ public class App {
           InputStreamReader isr = new InputStreamReader(exchange.getRequestBody());
           BufferedReader br = new BufferedReader(isr);
           String line = br.readLine();
+          String fileName = "";
+          String reportContent = "";
           while (line != null) {
+            reportContent += line + "\n";
             // do line operations
             if (line.contains("reportHour")) {
               String delims = "<[^>]*>";
-              System.out.println(line.split(delims)[2]);
+              fileName = line.split(delims)[2];
             }
             // read next line
             line = br.readLine();
+          }
+          File reportFile = new File(fileName + ".txt");
+          if (reportFile.createNewFile()) {
+            FileWriter myWriter = new FileWriter(reportFile);
+            myWriter.write(reportContent);
+            myWriter.close();
           }
 
           String response = "Success!";
