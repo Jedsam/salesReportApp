@@ -3,12 +3,57 @@
  */
 package org.example;
 
-public class App {
-    public String getGreeting() {
-        return "Hello World!";
-    }
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.ServerSocket;
+import java.net.Socket;
 
-    public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+import org.w3c.dom.*;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.*;
+
+public class App {
+
+  public static void main(String[] args) {
+    try {
+      final ServerSocket server = new ServerSocket(4478);
+      System.out.println("Listening for connection on port 8080 ....");
+      while (true) {
+        final Socket clientSocket = server.accept();
+        System.out.println("An user connected!");
+        InputStream is = clientSocket.getInputStream();
+
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        try {
+          DocumentBuilder builder = factory.newDocumentBuilder();
+          Document doc = builder.parse(is);
+          doc.normalize();
+          NodeList headers = doc.getElementsByTagName("h1");
+          for (int i = 0; i < headers.getLength(); i++) {
+            Node header = headers.item(i);
+            String text = header.getTextContent();
+            if (text.contains("reportHour")) {
+              System.out.println(text);
+            }
+          }
+        } catch (ParserConfigurationException e) {
+          // TODO Auto-generated catch block
+          e.printStackTrace();
+        } catch (SAXException e) {
+          // TODO Auto-generated catch block
+          e.printStackTrace();
+        }
+
+        // spin forever
+      }
+    } catch (
+
+    IOException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
     }
+  }
 }
