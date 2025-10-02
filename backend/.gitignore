@@ -9,3 +9,6 @@ build
 
 # Ignore report txt
 *.txt
+
+# Ignore app bin
+app/bin/
