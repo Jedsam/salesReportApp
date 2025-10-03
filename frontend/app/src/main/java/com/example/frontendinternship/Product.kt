@@ -11,27 +11,28 @@ import androidx.room.Query
 import androidx.room.RoomDatabase
 
 
-@Entity
+@Entity(tableName = "product")
 data class Product(
-    @PrimaryKey val id: Int,
-    @ColumnInfo(name = "name") val productName: String,
-    @ColumnInfo(name = "vatRate") val vatRate: Int,
-    @ColumnInfo(name = "price") val price: Double,
+    @PrimaryKey
+    val id: Int,
+    @ColumnInfo(name = "name") val productName: String?,
+    @ColumnInfo(name = "vatRate") val vatRate: Int?,
+    @ColumnInfo(name = "price") val price: String?,
 )
 
 @Dao
 interface ProductDao {
     @Query("SELECT * FROM product")
-    suspend fun getAll(): List<Product>
+    fun getAll(): List<Product>
 
     @Query("SELECT * FROM product WHERE vatrate = (:vatValue)")
-    suspend fun loadAllByVat(vatValue:Int ): List<Product>
+    fun loadAllByVat(vatValue:Int ): List<Product>
 
     @Insert
-    suspend fun insertAll(vararg products: Product)
+    fun insertAll(vararg products: Product)
 
     @Delete
-    suspend fun delete(product: Product)
+    fun delete(product: Product)
 }
 @Database(entities = [Product::class], version = 1)
 abstract class AppDatabase : RoomDatabase() {

@@ -34,14 +34,15 @@ class MainActivity : ComponentActivity() {
           AppDatabase::class.java, "product"
       )
           .createFromAsset("retail.db")
+          .allowMainThreadQueries()
           .build()
 
       val productDao = db.productDao()
 
-      val plu0ProductList: List<Product> = productDao.loadAllByVat(0)
-      val plu1ProductList: List<Product> = productDao.loadAllByVat(1)
-      val plu10ProductList: List<Product>  = productDao.loadAllByVat(10)
-      val plu20ProductList: List<Product>  = productDao.loadAllByVat(20)
+      val plu0ProductList: List<Product> = productDao.loadAllByVat(vatValue = 0)
+      val plu1ProductList: List<Product> = productDao.loadAllByVat(vatValue = 1)
+      val plu10ProductList: List<Product>  = productDao.loadAllByVat(vatValue = 10)
+      val plu20ProductList: List<Product>  = productDao.loadAllByVat(vatValue = 20)
     setContent {
       FrontendInternshipTheme {
             MainAppScreen(plu0ProductList.size)
