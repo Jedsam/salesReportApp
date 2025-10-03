@@ -1,17 +1,16 @@
 pluginManagement {
     repositories {
-        google {
-            content {
-                includeGroupByRegex("com\\.android.*")
-                includeGroupByRegex("com\\.google.*")
-                includeGroupByRegex("androidx.*")
-            }
-        }
+        // FIX: Reverted to standard declaration. The previous version explicitly
+        // excluded 'com.google.devtools.ksp', causing the plugin not to be found.
+        google()
         mavenCentral()
         gradlePluginPortal()
     }
 }
+
+// Ensure the repositories are also declared for dependency resolution
 dependencyResolutionManagement {
+    // This mode is generally correct for modern Android projects
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
         google()
@@ -19,5 +18,6 @@ dependencyResolutionManagement {
     }
 }
 
+// Using the name provided in your input
 rootProject.name = "frontendInternship"
 include ':app'
