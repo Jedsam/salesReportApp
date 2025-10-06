@@ -13,6 +13,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -26,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.room.Room
 import com.example.frontendinternship.ui.theme.FrontendInternshipTheme
+import com.example.frontendinternship.ui.theme.LocalPadding
 
 class MainActivity : ComponentActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,20 +65,65 @@ fun AppPreview (){
             productName =  "product1",
             vatRate = 0,
             price = "5.0"
-        )
+        ),
+        Product(
+            id = 2,
+            productName =  "product2",
+            vatRate = 0,
+            price = "5.0"
+        ),
     )
-    //val plu1ProductList: List<Product> = productDao.loadAllByVat(vatValue = 1)
-    // val plu10ProductList: List<Product>  = productDao.loadAllByVat(vatValue = 10)
-    // val plu20ProductList: List<Product>  = productDao.loadAllByVat(vatValue = 20)
-    MainAppScreen(plu0ProductList, null, null, null)
+    val plu1ProductList: List<Product> = listOf(
+        Product(
+            id = 1,
+            productName =  "product1",
+            vatRate = 0,
+            price = "5.0"
+        ),
+        Product(
+            id = 2,
+            productName =  "product2",
+            vatRate = 0,
+            price = "5.0"
+        ),
+    )
+    val plu10ProductList: List<Product> = listOf(
+        Product(
+            id = 1,
+            productName =  "product1",
+            vatRate = 0,
+            price = "5.0"
+        ),
+        Product(
+            id = 2,
+            productName =  "product2",
+            vatRate = 0,
+            price = "5.0"
+        ),
+    )
+    val plu20ProductList: List<Product> = listOf(
+        Product(
+            id = 1,
+            productName =  "product1",
+            vatRate = 0,
+            price = "5.0"
+        ),
+        Product(
+            id = 2,
+            productName =  "product2",
+            vatRate = 0,
+            price = "5.0"
+        ),
+    )
+    MainAppScreen(plu0ProductList, plu1ProductList, plu10ProductList, plu20ProductList)
 }
 
 @Composable
 fun MainAppScreen(
     plu0ProductList: List<Product>,
-    plu1ProductList: List<Product>?,
-    plu10ProductList: List<Product>?,
-    plu20ProductList: List<Product>?
+    plu1ProductList: List<Product>,
+    plu10ProductList: List<Product>,
+    plu20ProductList: List<Product>
 ) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -84,28 +132,37 @@ fun MainAppScreen(
         Column(
             modifier = Modifier
                 .padding(innerPadding),
-            verticalArrangement = Arrangement.spacedBy(24.dp),
+            verticalArrangement = Arrangement.spacedBy(LocalPadding.current.Normal),
         ) {
             Column(
-                verticalArrangement = Arrangement.spacedBy(24.dp),
+                modifier = Modifier
+                    .padding(LocalPadding.current.Normal),
+                verticalArrangement = Arrangement.spacedBy(LocalPadding.current.Normal),
             ) {
-                Row (horizontalArrangement = Arrangement.spacedBy(24.dp)){
-                    for (product0 in plu0ProductList) {
-                        Box(
-                            modifier = Modifier
-                                .size(100.dp)
-                                .clip(RoundedCornerShape(size = 16.dp))
-                                .background(Color.Blue),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Text(text = product0.productName + "\n" + product0.price)
-                        }
-                }
-            }
+                GetProductBoxes(plu0ProductList)
+                GetProductBoxes(plu1ProductList)
+                GetProductBoxes(plu10ProductList)
+                GetProductBoxes(plu20ProductList)
             }
         }}
 }
 
+@Composable
+fun GetProductBoxes(productList: List<Product>) {
+    LazyRow (horizontalArrangement = Arrangement.spacedBy(LocalPadding.current.Normal)) {
+        items (productList) { product ->
+            Box(
+                modifier = Modifier
+                    .size(100.dp)
+                    .clip(RoundedCornerShape(size = 16.dp))
+                    .background(Color.Blue),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(text = product.productName + "\n" + product.price)
+            }
+           }
+    }
+}
 @Composable
 fun TopBar() {
   Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
