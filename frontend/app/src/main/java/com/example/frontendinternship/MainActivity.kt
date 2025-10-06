@@ -4,10 +4,10 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.background
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,10 +17,13 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.TextAutoSize
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -55,7 +58,7 @@ class MainActivity : ComponentActivity() {
       val plu20ProductList: List<Product>  = productDao.loadAllByVat(vatValue = 20)
     setContent {
       FrontendInternshipTheme {
-            MainAppScreen(plu0ProductList,plu1ProductList,plu10ProductList,   plu20ProductList)
+            MainAppScreen(plu0ProductList, plu1ProductList, plu10ProductList, plu20ProductList)
       }
     }
   }
@@ -66,7 +69,7 @@ fun AppPreview (){
     val plu0ProductList: List<Product> = listOf(
         Product(
             id = 1,
-            productName =  "product1",
+            productName =  "PLU 001",
             vatRate = 0,
             price = "5.0"
         ),
@@ -130,6 +133,7 @@ fun MainAppScreen(
     plu20ProductList: List<Product>
 ) {
     Scaffold(
+        containerColor = MaterialTheme.colorScheme.background,
         modifier = Modifier.fillMaxSize(),
         topBar = { TopBar() },
         bottomBar = { BottomBar() })  {innerPadding ->
@@ -138,59 +142,135 @@ fun MainAppScreen(
                 .padding(innerPadding),
             verticalArrangement = Arrangement.spacedBy(LocalPadding.current.Normal),
         ) {
+            // Product boxes
             Column(
                 modifier = Modifier
                     .padding(LocalPadding.current.Normal),
                 verticalArrangement = Arrangement.spacedBy(LocalPadding.current.Normal),
             ) {
-                GetProductBoxes(plu0ProductList)
-                GetProductBoxes(plu1ProductList)
-                GetProductBoxes(plu10ProductList)
-                GetProductBoxes(plu20ProductList)
+                GetProductButtons(plu0ProductList)
+                GetProductButtons(plu1ProductList)
+                GetProductButtons(plu10ProductList)
+                GetProductButtons(plu20ProductList)
             }
-        }}
+            // Order information
+            Column(
+                modifier = Modifier
+                    .padding(LocalPadding.current.Normal),
+                verticalArrangement = Arrangement.spacedBy(LocalPadding.current.Normal),
+            ) {
+                Row(modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = LocalPadding.current.Small),horizontalArrangement = Arrangement.SpaceBetween) {
+                    Text(text = "0xPRODUCT NAME", fontSize = LocalTextFormat.current.sizeLarge)
+                    Text(text = "0", fontSize = LocalTextFormat.current.sizeLarge)
+                }
+                Row(modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = LocalPadding.current.Small),
+                    horizontalArrangement = Arrangement.SpaceBetween) {
+                    Text(text = "TOTAL", fontSize = LocalTextFormat.current.sizeLarge)
+                    Text(text = "0", fontSize = LocalTextFormat.current.sizeLarge)
+                }
+            }
+            // Action buttons
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceAround) {
+                GetActionButton("CANCEL", {})
+                GetActionButton("CASH", {})
+                GetActionButton("CREDIT", {})
+                GetActionButton("COUPON", {})
+            }
+        }
+    }
 }
 
 @Composable
-fun GetProductBoxes(productList: List<Product>) {
+fun GetActionButton(text: String, onClick: () -> Unit) {
+    Button(
+        onClick = onClick,
+        border = BorderStroke(
+            width = 2.dp,            // Thickness of the border
+            color = Color.Black        // Color of the border
+        ),
+        modifier = Modifier
+            .size(
+                width = LocalDimensions.current.viewLargePlus,
+                height = LocalDimensions.current.viewBig
+            ),
+        // TODO Add color change when button is pressed
+        colors = ButtonDefaults.buttonColors(
+            containerColor = MaterialTheme.colorScheme.background,
+            contentColor = Color.Black,
+            disabledContainerColor = Color.Blue,
+            disabledContentColor = Color.Black,
+        ),
+        // TODO specific shape
+         shape = RoundedCornerShape(LocalDimensions.current.clipTiny),
+        contentPadding = PaddingValues(horizontal = LocalPadding.current.VeryTiny, vertical = LocalPadding.current.Mini)
+    ) {
+        Text(modifier = Modifier.fillMaxWidth(),
+            text = text, maxLines = 2,
+            lineHeight = LocalTextFormat.current.sizeNormal,
+            autoSize = TextAutoSize.StepBased(
+                minFontSize = LocalTextFormat.current.sizeTiny,
+                maxFontSize = LocalTextFormat.current.sizeNormal,
+                stepSize = 1.sp
+            ), textAlign = TextAlign.Center
+        )
+    }
+}
+
+@Composable
+fun GetProductButtons(productList: List<Product>) {
     LazyRow (horizontalArrangement = Arrangement.spacedBy(LocalPadding.current.Normal)) {
         items (productList) { product ->
-            Box(
+            Button(
+                onClick = {},
+                border = BorderStroke(
+                    width = 2.dp,            // Thickness of the border
+                    color = Color.Black        // Color of the border
+                ),
                 modifier = Modifier
-                    .size(width = LocalDimensions.current.viewLarge,height = LocalDimensions.current.viewNormal)
-                    .clip(RoundedCornerShape(LocalDimensions.current.clipNormal))
-                    .background(Color.Blue),
-                contentAlignment = Alignment.Center
+                    .size(
+                        width = LocalDimensions.current.viewLarge,
+                        height = LocalDimensions.current.viewNormal
+                    ),
+                colors = ButtonColors(
+                    containerColor = MaterialTheme.colorScheme.background,
+                    contentColor = Color.Black,
+                    disabledContainerColor = Color.Blue,
+                    disabledContentColor = Color.Black,
+                ),
+                shape = RoundedCornerShape(LocalDimensions.current.clipTiny),
+                contentPadding = PaddingValues(horizontal = LocalPadding.current.VeryTiny, vertical = LocalPadding.current.Mini)
             ) {
-                Column(horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.spacedBy(0.dp),
-                ) {
-                    Text(text = product.productName + "\n" + product.price , maxLines = 2,
-                            lineHeight = LocalTextFormat.current.sizeNormal
-                        ,
-                        autoSize = TextAutoSize.StepBased(
+                Text(modifier = Modifier.fillMaxWidth(),
+                    text = product.productName + "\n" + product.price, maxLines = 2,
+                    lineHeight = LocalTextFormat.current.sizeNormal,
+                    autoSize = TextAutoSize.StepBased(
                         minFontSize = LocalTextFormat.current.sizeTiny,
                         maxFontSize = LocalTextFormat.current.sizeNormal,
                         stepSize = 1.sp
-                    ),textAlign = TextAlign.Center)
-                }
+                    ), textAlign = TextAlign.Center
+                )
             }
+        }
            }
     }
-}
+
 @Composable
 fun TopBar() {
   Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
 
-    Text(text = "WELCOME", fontSize = 30.sp)
-    Text(text = "TIME:7:45", fontSize = 30.sp)
+    Text(text = "WELCOME", fontSize = LocalTextFormat.current.sizeMain)
+    Text(text = "TIME:7:45", fontSize = LocalTextFormat.current.sizeMain)
   }
 }
 
 @Composable
 fun BottomBar() {
   Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
-    Text(text = "SERVER: ins.ert.ip.here", fontSize = 30.sp)
+    Text(text = "SERVER: ins.ert.ip.here", fontSize = LocalTextFormat.current.sizeMain)
   }
 }
 

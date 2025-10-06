@@ -5,6 +5,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 data class Padding(
+    val Mini: Dp = 2.dp,
+    val VeryTiny: Dp = 4.dp,
     val Tiny: Dp = 8.dp,
     val Small: Dp = 16.dp,
     val Normal: Dp = 24.dp,

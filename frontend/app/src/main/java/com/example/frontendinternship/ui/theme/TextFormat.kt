@@ -10,6 +10,7 @@ data class TextFormat(
     val sizeNormal: TextUnit = 16.sp,
     val sizeBig: TextUnit = 20.sp,
     val sizeLarge: TextUnit = 24.sp,
+    val sizeMain: TextUnit = 28.sp,
 )
 
 val LocalTextFormat = compositionLocalOf { TextFormat() }
