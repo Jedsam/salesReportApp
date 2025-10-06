@@ -17,6 +17,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.TextAutoSize
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
@@ -24,6 +25,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -221,10 +227,46 @@ fun GetActionButton(text: String, onClick: () -> Unit) {
 
 @Composable
 fun GetProductButtons(productList: List<Product>) {
+    val openDialog = remember { mutableStateOf(false)  }
+    var currentProduct: Product? by remember { mutableStateOf(null)  }
+
+
+    if (openDialog.value) {
+        AlertDialog(
+            onDismissRequest = {
+                openDialog.value = false
+            },
+            title = {
+                currentProduct?.let { Text(text = "Confirm Product : " + it.productName ) }
+            },
+            text = {
+                Text("")
+            },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        openDialog.value = false
+                    }) {
+                    Text("This is the Confirm Button")
+                }
+            },
+            dismissButton = {
+                Button(
+                    onClick = {
+                        openDialog.value = false
+                    }) {
+                    Text("This is the dismiss Button")
+                }
+            }
+        )
+    }
     LazyRow (horizontalArrangement = Arrangement.spacedBy(LocalPadding.current.Normal)) {
         items (productList) { product ->
             Button(
-                onClick = {},
+                onClick = {
+                    currentProduct = product
+                    openDialog.value = true
+                          },
                 border = BorderStroke(
                     width = 2.dp,            // Thickness of the border
                     color = Color.Black        // Color of the border
