@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -16,6 +17,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.TextAutoSize
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
@@ -25,14 +28,17 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableFloatState
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -136,8 +142,15 @@ fun MainAppScreen(
     plu0ProductList: List<Product>,
     plu1ProductList: List<Product>,
     plu10ProductList: List<Product>,
-    plu20ProductList: List<Product>
+    plu20ProductList: List<Product>,
 ) {
+    val basketListState: MutableState<List<ProductWithCount>> = remember {
+        mutableStateOf(emptyList<ProductWithCount>())
+    }
+    var basketList by basketListState
+
+    val totalBasketPriceState: MutableFloatState = remember { mutableFloatStateOf(0f) }
+    val totalBasketPrice by totalBasketPriceState
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
         modifier = Modifier.fillMaxSize(),
@@ -154,10 +167,10 @@ fun MainAppScreen(
                     .padding(LocalPadding.current.Normal),
                 verticalArrangement = Arrangement.spacedBy(LocalPadding.current.Normal),
             ) {
-                GetProductButtons(plu0ProductList)
-                GetProductButtons(plu1ProductList)
-                GetProductButtons(plu10ProductList)
-                GetProductButtons(plu20ProductList)
+                GetProductButtons(plu0ProductList, basketListState, totalBasketPriceState)
+                GetProductButtons(plu1ProductList, basketListState, totalBasketPriceState)
+                GetProductButtons(plu10ProductList, basketListState, totalBasketPriceState)
+                GetProductButtons(plu20ProductList, basketListState, totalBasketPriceState)
             }
             // Order information
             Column(
@@ -168,15 +181,22 @@ fun MainAppScreen(
                 Row(modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = LocalPadding.current.Small),horizontalArrangement = Arrangement.SpaceBetween) {
-                    Text(text = "0xPRODUCT NAME", fontSize = LocalTextFormat.current.sizeLarge)
-                    Text(text = "0", fontSize = LocalTextFormat.current.sizeLarge)
+                    if (basketList.isNotEmpty()) {
+                        val lastAddedProduct: ProductWithCount? = basketList[basketList.size - 1]
+                        Text(text = lastAddedProduct?.count.toString() + "x" + lastAddedProduct?.product?.productName,fontSize = LocalTextFormat.current.sizeLarge, color = Color.Black)
+                        val lastAddedProductCost = lastAddedProduct?.getCost()
+                        Text(text = lastAddedProductCost.toString(), fontSize = LocalTextFormat.current.sizeLarge, color = Color.Black)
+                    } else {
+                        Text(text = "0xNO PRODUCT",fontSize = LocalTextFormat.current.sizeLarge, color = Color.Black)
+                        Text(text = "0", fontSize = LocalTextFormat.current.sizeLarge, color = Color.Black)
+                     }
                 }
                 Row(modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = LocalPadding.current.Small),
                     horizontalArrangement = Arrangement.SpaceBetween) {
-                    Text(text = "TOTAL", fontSize = LocalTextFormat.current.sizeLarge)
-                    Text(text = "0", fontSize = LocalTextFormat.current.sizeLarge)
+                    Text(text = "TOTAL", fontSize = LocalTextFormat.current.sizeLarge, color = Color.Black)
+                    Text(text = totalBasketPrice.toString(), fontSize = LocalTextFormat.current.sizeLarge, color = Color.Black)
                 }
             }
             // Action buttons
@@ -189,6 +209,7 @@ fun MainAppScreen(
         }
     }
 }
+
 
 @Composable
 fun GetActionButton(text: String, onClick: () -> Unit) {
@@ -220,34 +241,66 @@ fun GetActionButton(text: String, onClick: () -> Unit) {
                 minFontSize = LocalTextFormat.current.sizeTiny,
                 maxFontSize = LocalTextFormat.current.sizeNormal,
                 stepSize = 1.sp
-            ), textAlign = TextAlign.Center
+            ), textAlign = TextAlign.Center, color = Color.Black
         )
     }
 }
 
 @Composable
-fun GetProductButtons(productList: List<Product>) {
+fun GetProductButtons(
+    productList: List<Product>,
+    basketListState: MutableState<List<ProductWithCount>>, totalBasketPriceState: MutableFloatState
+) {
     val openDialog = remember { mutableStateOf(false)  }
     var currentProduct: Product? by remember { mutableStateOf(null)  }
+    var basketList by basketListState
+    var totalBasketPrice by totalBasketPriceState
 
 
     if (openDialog.value) {
+        var quantityValue by remember { mutableStateOf("1") }
         AlertDialog(
             onDismissRequest = {
                 openDialog.value = false
             },
             title = {
-                currentProduct?.let { Text(text = "Confirm Product : " + it.productName ) }
+                currentProduct?.let { Text(text = "Confirm Product\n" + it.productName, fontSize = LocalTextFormat.current.sizeLarge, color = Color.Black) }
             },
             text = {
-                Text("")
+                Row(modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceAround) {
+                    Text("Quantity", color = Color.Black)
+                    BasicTextField(value = quantityValue,
+                        onValueChange = { newText ->
+                            quantityValue = newText.filter { it.isDigit() }
+                        },
+                        modifier = Modifier
+                            .fillMaxWidth() // Optional: Make it wide
+                            .padding(10.dp)  // Optional: Add space around the border
+                            // 🛠️ FIX: Apply the border modifier to draw the square
+                            .border(
+                                width = 2.dp,
+                                color = Color.Black
+                            )
+                            // Optional: Add padding *inside* the border to separate text from the lines
+                            .padding(8.dp),
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                    )
+                }
             },
             confirmButton = {
                 Button(
                     onClick = {
-                        openDialog.value = false
+                        // Save the item on the shop list
+                        currentProduct?.let { newProduct ->
+                            val newItem = ProductWithCount(newProduct, quantityValue.toInt())
+                            basketList = basketList + newItem
+                            totalBasketPrice += newItem.getCost()
+                        }
+                            openDialog.value = false
                     }) {
-                    Text("This is the Confirm Button")
+                    Text("This is the Confirm Button", color = Color.Black)
                 }
             },
             dismissButton = {
@@ -255,7 +308,7 @@ fun GetProductButtons(productList: List<Product>) {
                     onClick = {
                         openDialog.value = false
                     }) {
-                    Text("This is the dismiss Button")
+                    Text("This is the dismiss Button", color = Color.Black)
                 }
             }
         )
@@ -292,7 +345,7 @@ fun GetProductButtons(productList: List<Product>) {
                         minFontSize = LocalTextFormat.current.sizeTiny,
                         maxFontSize = LocalTextFormat.current.sizeNormal,
                         stepSize = 1.sp
-                    ), textAlign = TextAlign.Center
+                    ), textAlign = TextAlign.Center, color = Color.Black
                 )
             }
         }
@@ -303,15 +356,15 @@ fun GetProductButtons(productList: List<Product>) {
 fun TopBar() {
   Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
 
-    Text(text = "WELCOME", fontSize = LocalTextFormat.current.sizeMain)
-    Text(text = "TIME:7:45", fontSize = LocalTextFormat.current.sizeMain)
+    Text(text = "WELCOME", fontSize = LocalTextFormat.current.sizeMain, color = Color.Black)
+    Text(text = "TIME:7:45", fontSize = LocalTextFormat.current.sizeMain, color = Color.Black)
   }
 }
 
 @Composable
 fun BottomBar() {
   Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
-    Text(text = "SERVER: ins.ert.ip.here", fontSize = LocalTextFormat.current.sizeMain)
+    Text(text = "SERVER: ins.ert.ip.here", fontSize = LocalTextFormat.current.sizeMain, color = Color.Black)
   }
 }
 
