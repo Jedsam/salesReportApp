@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.TextAutoSize
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -23,12 +24,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.room.Room
 import com.example.frontendinternship.ui.theme.FrontendInternshipTheme
+import com.example.frontendinternship.ui.theme.LocalDimensions
 import com.example.frontendinternship.ui.theme.LocalPadding
+import com.example.frontendinternship.ui.theme.LocalTextFormat
 
 class MainActivity : ComponentActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -153,12 +157,23 @@ fun GetProductBoxes(productList: List<Product>) {
         items (productList) { product ->
             Box(
                 modifier = Modifier
-                    .size(100.dp)
-                    .clip(RoundedCornerShape(size = 16.dp))
+                    .size(width = LocalDimensions.current.viewLarge,height = LocalDimensions.current.viewNormal)
+                    .clip(RoundedCornerShape(LocalDimensions.current.clipNormal))
                     .background(Color.Blue),
                 contentAlignment = Alignment.Center
             ) {
-                Text(text = product.productName + "\n" + product.price)
+                Column(horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(0.dp),
+                ) {
+                    Text(text = product.productName + "\n" + product.price , maxLines = 2,
+                            lineHeight = LocalTextFormat.current.sizeNormal
+                        ,
+                        autoSize = TextAutoSize.StepBased(
+                        minFontSize = LocalTextFormat.current.sizeTiny,
+                        maxFontSize = LocalTextFormat.current.sizeNormal,
+                        stepSize = 1.sp
+                    ),textAlign = TextAlign.Center)
+                }
             }
            }
     }
