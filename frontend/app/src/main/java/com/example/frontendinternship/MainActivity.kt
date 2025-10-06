@@ -204,8 +204,7 @@ fun GetActionButton(text: String, onClick: () -> Unit) {
             disabledContainerColor = Color.Blue,
             disabledContentColor = Color.Black,
         ),
-        // TODO specific shape
-         shape = RoundedCornerShape(LocalDimensions.current.clipTiny),
+         shape = TriangleCutCornerShape(16f),
         contentPadding = PaddingValues(horizontal = LocalPadding.current.VeryTiny, vertical = LocalPadding.current.Mini)
     ) {
         Text(modifier = Modifier.fillMaxWidth(),
@@ -233,7 +232,7 @@ fun GetProductButtons(productList: List<Product>) {
                 modifier = Modifier
                     .size(
                         width = LocalDimensions.current.viewLarge,
-                        height = LocalDimensions.current.viewNormal
+                        height = LocalDimensions.current.viewBig
                     ),
                 colors = ButtonColors(
                     containerColor = MaterialTheme.colorScheme.background,
