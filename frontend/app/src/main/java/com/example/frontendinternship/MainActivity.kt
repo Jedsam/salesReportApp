@@ -47,12 +47,23 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.room.Database
 import androidx.room.Room
+import androidx.room.RoomDatabase
 import com.example.frontendinternship.ui.theme.FrontendInternshipTheme
 import com.example.frontendinternship.ui.theme.LocalDimensions
 import com.example.frontendinternship.ui.theme.LocalPadding
 import com.example.frontendinternship.ui.theme.LocalTextFormat
 import kotlinx.coroutines.delay
+
+@Database(
+    entities = [Receipt::class, Product::class],
+    version = 1
+)
+abstract class AppDatabase : RoomDatabase() {
+    abstract fun receiptDao(): ReceiptDao
+    abstract fun productDao(): ProductDao
+}
 
 class MainActivity : ComponentActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,6 +79,7 @@ class MainActivity : ComponentActivity() {
           .build()
 
       val productDao = db.productDao()
+      val receiptDao = db.receiptDao()
 
       val plu0ProductList: List<Product> = productDao.loadAllByVat(vatValue = 0)
       val plu1ProductList: List<Product> = productDao.loadAllByVat(vatValue = 1)
@@ -76,7 +88,7 @@ class MainActivity : ComponentActivity() {
 
     setContent {
       FrontendInternshipTheme {
-            MainAppScreen(plu0ProductList, plu1ProductList, plu10ProductList, plu20ProductList)
+            MainAppScreen(plu0ProductList, plu1ProductList, plu10ProductList, plu20ProductList, receiptDao)
       }
     }
   }
@@ -140,7 +152,8 @@ fun AppPreview (){
             price = "5.0"
         ),
     )
-    MainAppScreen(plu0ProductList, plu1ProductList, plu10ProductList, plu20ProductList)
+    val receiptDao = null
+    MainAppScreen(plu0ProductList, plu1ProductList, plu10ProductList, plu20ProductList, receiptDao)
 }
 
 @Composable
@@ -149,6 +162,7 @@ fun MainAppScreen(
     plu1ProductList: List<Product>,
     plu10ProductList: List<Product>,
     plu20ProductList: List<Product>,
+    receiptDao: ReceiptDao?,
 ) {
 
     var oldTime = System.currentTimeMillis()
@@ -231,11 +245,10 @@ fun MainAppScreen(
             }
             // Action buttons
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceAround) {
-                GetActionButton("CANCEL", onClick = {basketList = emptyList()
-                totalBasketPrice = 0f})
-                GetActionButton("CASH", onClick = {})
-                GetActionButton("CREDIT", onClick = {})
-                GetActionButton("COUPON", onClick = {})
+                GetActionButton("CANCEL", receiptDao, basketListState, totalBasketPriceState, PAYMENT_METHOD.CANCEL)
+                GetActionButton("CASH", receiptDao, basketListState, totalBasketPriceState, PAYMENT_METHOD.CASH)
+                GetActionButton("CREDIT", receiptDao, basketListState, totalBasketPriceState, PAYMENT_METHOD.CREDIT)
+                GetActionButton("COUPON", receiptDao, basketListState, totalBasketPriceState, PAYMENT_METHOD.COUPON)
             }
         }
     }
@@ -244,9 +257,20 @@ fun MainAppScreen(
 
 
 @Composable
-fun GetActionButton(text: String, onClick: () -> Unit) {
+fun GetActionButton(
+    text: String,
+    receiptDao: ReceiptDao?,
+    basketListState: MutableState<List<ProductWithCount>>,
+    totalBasketPriceState: MutableFloatState, paymentMethod: PAYMENT_METHOD
+) {
+    var basketList by basketListState
+    var totalBasketPrice by totalBasketPriceState
     Button(
-        onClick = onClick,
+        onClick = {
+           receiptDao?.insert(basketList, paymentMethod)
+            basketList = emptyList()
+            totalBasketPrice = 0f
+                  },
         border = BorderStroke(
             width = 2.dp,            // Thickness of the border
             color = Color.Black        // Color of the border
