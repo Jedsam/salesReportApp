@@ -29,6 +29,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableFloatState
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
@@ -51,6 +52,7 @@ import com.example.frontendinternship.ui.theme.FrontendInternshipTheme
 import com.example.frontendinternship.ui.theme.LocalDimensions
 import com.example.frontendinternship.ui.theme.LocalPadding
 import com.example.frontendinternship.ui.theme.LocalTextFormat
+import kotlinx.coroutines.delay
 
 class MainActivity : ComponentActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -71,6 +73,7 @@ class MainActivity : ComponentActivity() {
       val plu1ProductList: List<Product> = productDao.loadAllByVat(vatValue = 1)
       val plu10ProductList: List<Product>  = productDao.loadAllByVat(vatValue = 10)
       val plu20ProductList: List<Product>  = productDao.loadAllByVat(vatValue = 20)
+
     setContent {
       FrontendInternshipTheme {
             MainAppScreen(plu0ProductList, plu1ProductList, plu10ProductList, plu20ProductList)
@@ -147,10 +150,30 @@ fun MainAppScreen(
     plu10ProductList: List<Product>,
     plu20ProductList: List<Product>,
 ) {
+
+    var oldTime = System.currentTimeMillis()
+    val currentTime = System.currentTimeMillis()
+
     val basketListState: MutableState<List<ProductWithCount>> = remember {
-        mutableStateOf(emptyList<ProductWithCount>())
+        mutableStateOf(emptyList())
     }
     var basketList by basketListState
+
+    LaunchedEffect(Unit) {
+        while (true) {
+            delay(60_000)
+            // checkAndReportBasket(oldTime, currentTime, allBasketLists)
+            val oneHourMillis = 60 * 60 * 1000 // 3,600,000 ms
+            if (currentTime - oldTime >= oneHourMillis) {
+                if (basketList.isEmpty())  {
+                    oldTime = currentTime
+              //      reportBasket(allBasketLists)
+                }
+            }
+
+        }
+    }
+
 
     val totalBasketPriceState: MutableFloatState = remember { mutableFloatStateOf(0f) }
     var totalBasketPrice by totalBasketPriceState
@@ -208,11 +231,11 @@ fun MainAppScreen(
             }
             // Action buttons
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceAround) {
-                GetActionButton("CANCEL", {basketList = emptyList()
+                GetActionButton("CANCEL", onClick = {basketList = emptyList()
                 totalBasketPrice = 0f})
-                GetActionButton("CASH", {})
-                GetActionButton("CREDIT", {})
-                GetActionButton("COUPON", {})
+                GetActionButton("CASH", onClick = {})
+                GetActionButton("CREDIT", onClick = {})
+                GetActionButton("COUPON", onClick = {})
             }
         }
     }
@@ -259,11 +282,11 @@ fun GetActionButton(text: String, onClick: () -> Unit) {
 fun GetProductConfirmationWindow(
     basketListState: MutableState<List<ProductWithCount>>,
     totalBasketPriceState: MutableFloatState,
-    curentProductState: MutableState<ProductWithCount?>, currentCostState: MutableFloatState,openDialog: MutableState<Boolean>
+    currentProductState: MutableState<ProductWithCount?>, currentCostState: MutableFloatState, openDialog: MutableState<Boolean>
 ) {
     var basketList by basketListState
     var totalBasketPrice by totalBasketPriceState
-    var currentProduct by curentProductState
+    var currentProduct by currentProductState
     var currentCost by currentCostState
 
     if (openDialog.value) {
@@ -332,7 +355,9 @@ fun GetProductConfirmationWindow(
                     }
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         Text("Total Price", color = Color.Black)
-                        Box( ) {Text(text =currentCost.toString(), textDecoration = TextDecoration.Underline, color = Color.Black)}
+                        Box {
+                            Text(text = currentCost.toString(), textDecoration = TextDecoration.Underline, color = Color.Black)
+                        }
                     }
                 }
             }, containerColor = MaterialTheme.colorScheme.background,
@@ -383,7 +408,7 @@ fun GetProductButtons(
         items (productList) { product ->
             Button(
                 onClick = {
-                    currentProduct = ProductWithCount(product, 1)
+                    currentProduct = ProductWithCount(product.copy(), 1)
                     currentCost = currentProduct?.getCost() ?: 0f
                     openDialog.value = true
                           },
