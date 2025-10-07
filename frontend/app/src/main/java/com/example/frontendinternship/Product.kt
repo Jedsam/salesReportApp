@@ -17,7 +17,7 @@ data class Product(
     val id: Int,
     @ColumnInfo(name = "name") val productName: String?,
     @ColumnInfo(name = "vatRate") val vatRate: Int?,
-    @ColumnInfo(name = "price") val price: String?,
+    @ColumnInfo(name = "price") var price: String?,
 )
 
 @Dao

@@ -7,6 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -41,6 +42,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -262,6 +264,7 @@ fun GetProductButtons(
 
     if (openDialog.value) {
         var quantityValue by rememberSaveable { mutableStateOf("1") }
+        var priceValue by rememberSaveable { mutableStateOf("1") }
         AlertDialog(
             onDismissRequest = {
                 openDialog.value = false
@@ -273,29 +276,60 @@ fun GetProductButtons(
                 Row(modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceAround) {
-                    Text("Quantity", color = Color.Black)
-                    BasicTextField(value = quantityValue,
-                        onValueChange = { newText ->
-                            if ( newText.length < 4) {
-                                quantityValue =
-                                    newText.filter { it.isDigit() }
-                                currentProduct?.count = quantityValue.toIntOrNull() ?: 0
+                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                        Text("Price", color = Color.Black)
+                        BasicTextField(
+                            value = priceValue,
+                            onValueChange = { newText ->
+                                val tempText = newText.filter { it.isDigit() || it == '.' }
+                                val textFloat = tempText.toFloatOrNull() ?: 0f
+                                if (textFloat <= 999.99 && textFloat >= 0.01)
+                                    priceValue = tempText
+                                currentProduct?.product?.price = textFloat.toString()
                                 currentCost = currentProduct?.getCost() ?: 0f
-                            }
-                        },
-                        modifier = Modifier
-                            .size(
-                                width = LocalDimensions.current.viewNormal,
-                                height = LocalDimensions.current.viewSmall
-                            )
-                            .border(
-                                width = 2.dp,
-                                color = Color.Black
-                            )
-                            .padding(LocalPadding.current.Tiny),
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                    )
-                    Text(currentCost.toString(), color = Color.Black)
+                            },
+                            modifier = Modifier
+                                .size(
+                                    width = LocalDimensions.current.viewNormal,
+                                    height = LocalDimensions.current.viewSmall
+                                )
+                                .border(
+                                    width = 2.dp,
+                                    color = Color.Black
+                                )
+                                .padding(LocalPadding.current.Tiny),
+                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        )
+                    }
+                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                        Text("Quantity", color = Color.Black)
+                        BasicTextField(
+                            value = quantityValue,
+                            onValueChange = { newText ->
+                                val tempText = newText.filter { it.isDigit() }
+                                val textInt = tempText.toIntOrNull() ?: 0
+                                if (textInt <= 99 && textInt >= 1)
+                                    quantityValue = tempText
+                                currentProduct?.count = textInt
+                                currentCost = currentProduct?.getCost() ?: 0f
+                            },
+                            modifier = Modifier
+                                .size(
+                                    width = LocalDimensions.current.viewNormal,
+                                    height = LocalDimensions.current.viewSmall
+                                )
+                                .border(
+                                    width = 2.dp,
+                                    color = Color.Black
+                                )
+                                .padding(LocalPadding.current.Tiny),
+                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        )
+                    }
+                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                        Text("Total Price", color = Color.Black)
+                        Box( ) {Text(text =currentCost.toString(), textDecoration = TextDecoration.Underline, color = Color.Black)}
+                    }
                 }
             }, containerColor = MaterialTheme.colorScheme.background,
             confirmButton = {
