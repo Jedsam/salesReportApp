@@ -151,7 +151,7 @@ fun MainAppScreen(
     var basketList by basketListState
 
     val totalBasketPriceState: MutableFloatState = remember { mutableFloatStateOf(0f) }
-    val totalBasketPrice by totalBasketPriceState
+    var totalBasketPrice by totalBasketPriceState
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
         modifier = Modifier.fillMaxSize(),
@@ -202,7 +202,8 @@ fun MainAppScreen(
             }
             // Action buttons
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceAround) {
-                GetActionButton("CANCEL", {})
+                GetActionButton("CANCEL", {basketList = emptyList()
+                totalBasketPrice = 0f})
                 GetActionButton("CASH", {})
                 GetActionButton("CREDIT", {})
                 GetActionButton("COUPON", {})
