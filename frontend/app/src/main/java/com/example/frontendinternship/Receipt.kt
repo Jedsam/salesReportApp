@@ -35,17 +35,17 @@ fun insert(receipt: Receipt)
 
     @Insert
     fun insert(basketList: List<ProductWithCount>, paymentType: PAYMENT_METHOD) {
-       var amountVat0: Int = 0
-        var amountVat1: Int = 0
-        var amountVat10: Int = 0
-        var amountVat20: Int = 0
+       var amountVat0: Float = 0f
+        var amountVat1: Float = 0f
+        var amountVat10: Float = 0f
+        var amountVat20: Float = 0f
 
         for (productWithCount in basketList) {
            when (productWithCount.product.vatRate) {
-               0 -> amountVat0 += productWithCount.count
-               1 -> amountVat1 += productWithCount.count
-               10 -> amountVat10 += productWithCount.count
-               20 -> amountVat20 += productWithCount.count
+               0 -> amountVat0 += productWithCount.getCost()
+               1 -> amountVat1 += productWithCount.getCost()
+               10 -> amountVat10 += productWithCount.getCost()
+               20 -> amountVat20 += productWithCount.getCost()
            }
         }
         val currentMillis = System.currentTimeMillis()
@@ -66,5 +66,7 @@ fun insert(receipt: Receipt)
 
     @Delete
     fun delete(receipt: Receipt)
+    @Query("SELECT * FROM receipt WHERE receiptDateTime = (:dateTime)")
+    fun getFromDate(dateTime: String) : List<Receipt>
 }
 

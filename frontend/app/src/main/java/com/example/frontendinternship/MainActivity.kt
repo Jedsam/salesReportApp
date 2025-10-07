@@ -55,6 +55,8 @@ import com.example.frontendinternship.ui.theme.LocalDimensions
 import com.example.frontendinternship.ui.theme.LocalPadding
 import com.example.frontendinternship.ui.theme.LocalTextFormat
 import kotlinx.coroutines.delay
+import java.net.HttpURLConnection
+import java.net.URL
 
 @Database(
     entities = [Receipt::class, Product::class],
@@ -81,6 +83,21 @@ class MainActivity : ComponentActivity() {
       val productDao = db.productDao()
       val receiptDao = db.receiptDao()
 
+      val ip = "192.168.1.100"
+      val port = 8080
+      val path = "/receive"
+      val urlString = "http://$ip:$port$path"
+      val url = URL(urlString)
+      val connection = url.openConnection() as HttpURLConnection
+      var connectionStatus: String
+      try {
+          connection.connect()                // tries to reach server
+          connectionStatus = ip
+      } catch (e: Exception) {
+          connectionStatus = "Not able to connect to the server!"
+      }
+      val reportReceipt = ReportReceiptViewModel(receiptDao, connection, connectionStatus)
+
       val plu0ProductList: List<Product> = productDao.loadAllByVat(vatValue = 0)
       val plu1ProductList: List<Product> = productDao.loadAllByVat(vatValue = 1)
       val plu10ProductList: List<Product>  = productDao.loadAllByVat(vatValue = 10)
@@ -88,7 +105,7 @@ class MainActivity : ComponentActivity() {
 
     setContent {
       FrontendInternshipTheme {
-            MainAppScreen(plu0ProductList, plu1ProductList, plu10ProductList, plu20ProductList, receiptDao)
+            MainAppScreen(plu0ProductList, plu1ProductList, plu10ProductList, plu20ProductList, receiptDao, reportReceipt)
       }
     }
   }
@@ -153,7 +170,7 @@ fun AppPreview (){
         ),
     )
     val receiptDao = null
-    MainAppScreen(plu0ProductList, plu1ProductList, plu10ProductList, plu20ProductList, receiptDao)
+    MainAppScreen(plu0ProductList, plu1ProductList, plu10ProductList, plu20ProductList, receiptDao, null)
 }
 
 @Composable
@@ -163,28 +180,18 @@ fun MainAppScreen(
     plu10ProductList: List<Product>,
     plu20ProductList: List<Product>,
     receiptDao: ReceiptDao?,
+    reportReceipt: ReportReceiptViewModel?
 ) {
 
-    var oldTime = System.currentTimeMillis()
-    val currentTime = System.currentTimeMillis()
 
     val basketListState: MutableState<List<ProductWithCount>> = remember {
         mutableStateOf(emptyList())
     }
     var basketList by basketListState
-
     LaunchedEffect(Unit) {
         while (true) {
             delay(60_000)
-            // checkAndReportBasket(oldTime, currentTime, allBasketLists)
-            val oneHourMillis = 60 * 60 * 1000 // 3,600,000 ms
-            if (currentTime - oldTime >= oneHourMillis) {
-                if (basketList.isEmpty())  {
-                    oldTime = currentTime
-              //      reportBasket(allBasketLists)
-                }
-            }
-
+            reportReceipt?.checkAndReportBasket(basketList)
         }
     }
 
@@ -195,7 +202,7 @@ fun MainAppScreen(
         containerColor = MaterialTheme.colorScheme.background,
         modifier = Modifier.fillMaxSize(),
         topBar = { TopBar() },
-        bottomBar = { BottomBar() })  {innerPadding ->
+        bottomBar = { BottomBar(reportReceipt?.connectionStatus ?: "") })  {innerPadding ->
         Column(
             modifier = Modifier
                 .padding(innerPadding),
@@ -245,10 +252,36 @@ fun MainAppScreen(
             }
             // Action buttons
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceAround) {
-                GetActionButton("CANCEL", receiptDao, basketListState, totalBasketPriceState, PAYMENT_METHOD.CANCEL)
-                GetActionButton("CASH", receiptDao, basketListState, totalBasketPriceState, PAYMENT_METHOD.CASH)
-                GetActionButton("CREDIT", receiptDao, basketListState, totalBasketPriceState, PAYMENT_METHOD.CREDIT)
-                GetActionButton("COUPON", receiptDao, basketListState, totalBasketPriceState, PAYMENT_METHOD.COUPON)
+                GetActionButton("CANCEL",
+                    receiptDao,
+                    basketListState,
+                    totalBasketPriceState,
+                    PAYMENT_METHOD.CANCEL,
+                    reportReceipt)
+                GetActionButton(
+                    "CASH",
+                    receiptDao,
+                    basketListState,
+                    totalBasketPriceState,
+                    PAYMENT_METHOD.CASH,
+                    reportReceipt
+                )
+                GetActionButton(
+                    "CREDIT",
+                    receiptDao,
+                    basketListState,
+                    totalBasketPriceState,
+                    PAYMENT_METHOD.CREDIT,
+                    reportReceipt
+                )
+                GetActionButton(
+                    "COUPON",
+                    receiptDao,
+                    basketListState,
+                    totalBasketPriceState,
+                    PAYMENT_METHOD.COUPON,
+                    reportReceipt
+                )
             }
         }
     }
@@ -261,7 +294,9 @@ fun GetActionButton(
     text: String,
     receiptDao: ReceiptDao?,
     basketListState: MutableState<List<ProductWithCount>>,
-    totalBasketPriceState: MutableFloatState, paymentMethod: PAYMENT_METHOD
+    totalBasketPriceState: MutableFloatState,
+    paymentMethod: PAYMENT_METHOD,
+    reportReceipt: ReportReceiptViewModel?
 ) {
     var basketList by basketListState
     var totalBasketPrice by totalBasketPriceState
@@ -270,6 +305,7 @@ fun GetActionButton(
            receiptDao?.insert(basketList, paymentMethod)
             basketList = emptyList()
             totalBasketPrice = 0f
+            reportReceipt?.checkAndReportBasket(basketList)
                   },
         border = BorderStroke(
             width = 2.dp,            // Thickness of the border
@@ -478,9 +514,14 @@ fun TopBar() {
 }
 
 @Composable
-fun BottomBar() {
+fun BottomBar(string: String) {
   Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
-    Text(text = "SERVER: ins.ert.ip.here", fontSize = LocalTextFormat.current.sizeMain, color = Color.Black)
+      Text(text = "SERVER: ",fontSize = LocalTextFormat.current.sizeMain, color = Color.Black)
+    Text(text = string, maxLines = 2, autoSize = TextAutoSize.StepBased(
+        minFontSize = LocalTextFormat.current.sizeLarge,
+        maxFontSize = LocalTextFormat.current.sizeMain,
+        stepSize = 1.sp
+    ), color = Color.Black)
   }
 }
 
