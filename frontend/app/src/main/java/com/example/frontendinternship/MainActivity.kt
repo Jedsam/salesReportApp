@@ -34,6 +34,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -252,19 +253,20 @@ fun GetProductButtons(
     basketListState: MutableState<List<ProductWithCount>>, totalBasketPriceState: MutableFloatState
 ) {
     val openDialog = remember { mutableStateOf(false)  }
-    var currentProduct: Product? by remember { mutableStateOf(null)  }
+    var currentProduct: ProductWithCount? by remember {mutableStateOf(null)}
     var basketList by basketListState
     var totalBasketPrice by totalBasketPriceState
+    var currentCost: Float by remember { mutableFloatStateOf(0f)  }
 
 
     if (openDialog.value) {
-        var quantityValue by remember { mutableStateOf("1") }
+        var quantityValue by rememberSaveable { mutableStateOf("1") }
         AlertDialog(
             onDismissRequest = {
                 openDialog.value = false
             },
             title = {
-                currentProduct?.let { Text(text = "Confirm Product\n" + it.productName, fontSize = LocalTextFormat.current.sizeLarge, color = Color.Black) }
+                currentProduct?.let { Text(text = "Confirm Product\n" + it.product.productName, fontSize = LocalTextFormat.current.sizeLarge, color = Color.Black) }
             },
             text = {
                 Row(modifier = Modifier.fillMaxWidth(),
@@ -273,42 +275,57 @@ fun GetProductButtons(
                     Text("Quantity", color = Color.Black)
                     BasicTextField(value = quantityValue,
                         onValueChange = { newText ->
-                            quantityValue = newText.filter { it.isDigit() }
+                            if ( newText.length < 4) {
+                                quantityValue =
+                                    newText.filter { it.isDigit() }
+                                currentProduct?.count = quantityValue.toIntOrNull() ?: 0
+                                currentCost = currentProduct?.getCost() ?: 0f
+                            }
                         },
                         modifier = Modifier
-                            .fillMaxWidth() // Optional: Make it wide
-                            .padding(10.dp)  // Optional: Add space around the border
-                            // 🛠️ FIX: Apply the border modifier to draw the square
+                            .size(
+                                width = LocalDimensions.current.viewNormal,
+                                height = LocalDimensions.current.viewSmall
+                            )
                             .border(
                                 width = 2.dp,
                                 color = Color.Black
                             )
-                            // Optional: Add padding *inside* the border to separate text from the lines
-                            .padding(8.dp),
+                            .padding(LocalPadding.current.Tiny),
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     )
+                    Text(currentCost.toString(), color = Color.Black)
                 }
-            },
+            }, containerColor = MaterialTheme.colorScheme.background,
             confirmButton = {
                 Button(
                     onClick = {
                         // Save the item on the shop list
-                        currentProduct?.let { newProduct ->
-                            val newItem = ProductWithCount(newProduct, quantityValue.toInt())
-                            basketList = basketList + newItem
-                            totalBasketPrice += newItem.getCost()
+                        currentProduct?.let {
+                            basketList = basketList + it
+                            totalBasketPrice += currentCost
                         }
                             openDialog.value = false
-                    }) {
-                    Text("This is the Confirm Button", color = Color.Black)
+                    }, colors = ButtonColors(
+                        containerColor = MaterialTheme.colorScheme.background,
+                        contentColor = Color.Black,
+                        disabledContainerColor = Color.Blue,
+                        disabledContentColor = Color.Black,
+                    ),) {
+                    Text("Confirm", color = Color.Black)
                 }
             },
             dismissButton = {
                 Button(
                     onClick = {
                         openDialog.value = false
-                    }) {
-                    Text("This is the dismiss Button", color = Color.Black)
+                    }, colors = ButtonColors(
+                        containerColor = MaterialTheme.colorScheme.background,
+                        contentColor = Color.Black,
+                        disabledContainerColor = Color.Blue,
+                        disabledContentColor = Color.Black,),
+                ) {
+                    Text("Cancel", color = Color.Black)
                 }
             }
         )
@@ -317,12 +334,13 @@ fun GetProductButtons(
         items (productList) { product ->
             Button(
                 onClick = {
-                    currentProduct = product
+                    currentProduct = ProductWithCount(product, 1)
+                    currentCost = currentProduct?.getCost() ?: 0f
                     openDialog.value = true
                           },
                 border = BorderStroke(
-                    width = 2.dp,            // Thickness of the border
-                    color = Color.Black        // Color of the border
+                    width = 2.dp,
+                    color = Color.Black
                 ),
                 modifier = Modifier
                     .size(

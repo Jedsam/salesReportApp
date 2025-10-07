@@ -6,6 +6,7 @@ import androidx.compose.ui.unit.dp
 
 data class Dimensions(
     val viewTiny: Dp = 20.dp,
+    val viewSmall: Dp = 30.dp,
     val viewNormal: Dp = 40.dp,
     val viewBig: Dp = 60.dp,
     val viewLarge: Dp = 80.dp,
