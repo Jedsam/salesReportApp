@@ -170,10 +170,14 @@ fun MainAppScreen(
                     .padding(LocalPadding.current.Normal),
                 verticalArrangement = Arrangement.spacedBy(LocalPadding.current.Normal),
             ) {
-                GetProductButtons(plu0ProductList, basketListState, totalBasketPriceState)
-                GetProductButtons(plu1ProductList, basketListState, totalBasketPriceState)
-                GetProductButtons(plu10ProductList, basketListState, totalBasketPriceState)
-                GetProductButtons(plu20ProductList, basketListState, totalBasketPriceState)
+                val openDialog = remember { mutableStateOf(false)  }
+                val currentProductState = remember { mutableStateOf<ProductWithCount?>(null)  }
+                val currentCostState = remember { mutableFloatStateOf(0f)  }
+                GetProductConfirmationWindow(basketListState, totalBasketPriceState, currentProductState, currentCostState,openDialog)
+                GetProductButtons(plu0ProductList,  currentProductState, currentCostState, openDialog)
+                GetProductButtons(plu1ProductList, currentProductState,  currentCostState, openDialog)
+                GetProductButtons(plu10ProductList, currentProductState, currentCostState, openDialog)
+                GetProductButtons(plu20ProductList, currentProductState, currentCostState, openDialog)
             }
             // Order information
             Column(
@@ -215,6 +219,7 @@ fun MainAppScreen(
 }
 
 
+
 @Composable
 fun GetActionButton(text: String, onClick: () -> Unit) {
     Button(
@@ -251,20 +256,19 @@ fun GetActionButton(text: String, onClick: () -> Unit) {
 }
 
 @Composable
-fun GetProductButtons(
-    productList: List<Product>,
-    basketListState: MutableState<List<ProductWithCount>>, totalBasketPriceState: MutableFloatState
+fun GetProductConfirmationWindow(
+    basketListState: MutableState<List<ProductWithCount>>,
+    totalBasketPriceState: MutableFloatState,
+    curentProductState: MutableState<ProductWithCount?>, currentCostState: MutableFloatState,openDialog: MutableState<Boolean>
 ) {
-    val openDialog = remember { mutableStateOf(false)  }
-    var currentProduct: ProductWithCount? by remember {mutableStateOf(null)}
     var basketList by basketListState
     var totalBasketPrice by totalBasketPriceState
-    var currentCost: Float by remember { mutableFloatStateOf(0f)  }
-
+    var currentProduct by curentProductState
+    var currentCost by currentCostState
 
     if (openDialog.value) {
         var quantityValue by rememberSaveable { mutableStateOf("1") }
-        var priceValue by rememberSaveable { mutableStateOf("1") }
+        var priceValue by rememberSaveable { mutableStateOf(currentProduct?.product?.price ?:"1") }
         AlertDialog(
             onDismissRequest = {
                 openDialog.value = false
@@ -290,7 +294,7 @@ fun GetProductButtons(
                             },
                             modifier = Modifier
                                 .size(
-                                    width = LocalDimensions.current.viewNormal,
+                                    width = LocalDimensions.current.viewLarge,
                                     height = LocalDimensions.current.viewSmall
                                 )
                                 .border(
@@ -340,7 +344,7 @@ fun GetProductButtons(
                             basketList = basketList + it
                             totalBasketPrice += currentCost
                         }
-                            openDialog.value = false
+                        openDialog.value = false
                     }, colors = ButtonColors(
                         containerColor = MaterialTheme.colorScheme.background,
                         contentColor = Color.Black,
@@ -365,6 +369,16 @@ fun GetProductButtons(
             }
         )
     }
+}
+@Composable
+fun GetProductButtons(
+    productList: List<Product>,
+     currentProductState: MutableState<ProductWithCount?>, currentCostState: MutableFloatState, openDialog: MutableState<Boolean>
+) {
+    var currentProduct: ProductWithCount? by currentProductState
+    var currentCost: Float by currentCostState
+
+
     LazyRow (horizontalArrangement = Arrangement.spacedBy(LocalPadding.current.Normal)) {
         items (productList) { product ->
             Button(

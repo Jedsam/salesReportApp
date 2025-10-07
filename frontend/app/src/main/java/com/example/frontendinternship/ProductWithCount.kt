@@ -1,7 +1,5 @@
 package com.example.frontendinternship
 
-import android.util.Half.toFloat
-
 data class ProductWithCount(
     val product: Product,
     var count: Int
