@@ -1,4 +1,6 @@
-package com.example.frontendinternship
+package com.example.frontendinternship.domain.model
+
+import com.example.frontendinternship.data.local.entity.Product
 
 data class ProductWithCount(
     val product: Product,

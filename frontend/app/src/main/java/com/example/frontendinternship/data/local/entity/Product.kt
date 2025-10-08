@@ -1,4 +1,4 @@
-package com.example.frontendinternship
+package com.example.frontendinternship.data.local.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Dao
@@ -18,17 +18,3 @@ data class Product(
     @ColumnInfo(name = "price") var price: String?,
 )
 
-@Dao
-interface ProductDao {
-    @Query("SELECT * FROM product")
-    fun getAll(): List<Product>
-
-    @Query("SELECT * FROM product WHERE vatrate = (:vatValue)")
-    fun loadAllByVat(vatValue:Int ): List<Product>
-
-    @Insert
-    fun insertAll(vararg products: Product)
-
-    @Delete
-    fun delete(product: Product)
-}

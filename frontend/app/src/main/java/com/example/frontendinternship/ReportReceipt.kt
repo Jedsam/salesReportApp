@@ -4,6 +4,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import com.example.frontendinternship.data.local.entity.PAYMENT_METHOD
+import com.example.frontendinternship.data.local.entity.ReceiptDao
 import java.lang.Thread.sleep
 import java.net.HttpURLConnection
 import java.net.URL

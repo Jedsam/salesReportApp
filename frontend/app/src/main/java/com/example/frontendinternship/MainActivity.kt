@@ -50,10 +50,16 @@ import androidx.compose.ui.unit.sp
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.example.frontendinternship.data.local.entity.PAYMENT_METHOD
+import com.example.frontendinternship.data.local.entity.Product
+import com.example.frontendinternship.data.local.entity.ProductDao
+import com.example.frontendinternship.data.local.entity.Receipt
+import com.example.frontendinternship.data.local.entity.ReceiptDao
 import com.example.frontendinternship.ui.theme.FrontendInternshipTheme
 import com.example.frontendinternship.ui.theme.LocalDimensions
 import com.example.frontendinternship.ui.theme.LocalPadding
 import com.example.frontendinternship.ui.theme.LocalTextFormat
+import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.delay
 
 @Database(
@@ -65,6 +71,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun productDao(): ProductDao
 }
 
+@HiltAndroidApp
 class MainActivity : ComponentActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -101,13 +108,13 @@ fun AppPreview (){
     val plu0ProductList: List<Product> = listOf(
         Product(
             id = 1,
-            productName =  "PLU 001",
+            productName = "PLU 001",
             vatRate = 0,
             price = "5.0"
         ),
         Product(
             id = 2,
-            productName =  "product2",
+            productName = "product2",
             vatRate = 0,
             price = "5.0"
         ),
@@ -115,13 +122,13 @@ fun AppPreview (){
     val plu1ProductList: List<Product> = listOf(
         Product(
             id = 1,
-            productName =  "product1",
+            productName = "product1",
             vatRate = 0,
             price = "5.0"
         ),
         Product(
             id = 2,
-            productName =  "product2",
+            productName = "product2",
             vatRate = 0,
             price = "5.0"
         ),
@@ -129,13 +136,13 @@ fun AppPreview (){
     val plu10ProductList: List<Product> = listOf(
         Product(
             id = 1,
-            productName =  "product1",
+            productName = "product1",
             vatRate = 0,
             price = "5.0"
         ),
         Product(
             id = 2,
-            productName =  "product2",
+            productName = "product2",
             vatRate = 0,
             price = "5.0"
         ),
@@ -143,13 +150,13 @@ fun AppPreview (){
     val plu20ProductList: List<Product> = listOf(
         Product(
             id = 1,
-            productName =  "product1",
+            productName = "product1",
             vatRate = 0,
             price = "5.0"
         ),
         Product(
             id = 2,
-            productName =  "product2",
+            productName = "product2",
             vatRate = 0,
             price = "5.0"
         ),
@@ -445,7 +452,7 @@ fun GetProductConfirmationWindow(
 @Composable
 fun GetProductButtons(
     productList: List<Product>,
-     currentProductState: MutableState<ProductWithCount?>, currentCostState: MutableFloatState, openDialog: MutableState<Boolean>
+    currentProductState: MutableState<ProductWithCount?>, currentCostState: MutableFloatState, openDialog: MutableState<Boolean>
 ) {
     var currentProduct: ProductWithCount? by currentProductState
     var currentCost: Float by currentCostState
