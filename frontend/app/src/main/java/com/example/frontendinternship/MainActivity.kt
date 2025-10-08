@@ -55,8 +55,6 @@ import com.example.frontendinternship.ui.theme.LocalDimensions
 import com.example.frontendinternship.ui.theme.LocalPadding
 import com.example.frontendinternship.ui.theme.LocalTextFormat
 import kotlinx.coroutines.delay
-import java.net.HttpURLConnection
-import java.net.URL
 
 @Database(
     entities = [Receipt::class, Product::class],
@@ -83,20 +81,7 @@ class MainActivity : ComponentActivity() {
       val productDao = db.productDao()
       val receiptDao = db.receiptDao()
 
-      val ip = "192.168.1.100"
-      val port = 8080
-      val path = "/receive"
-      val urlString = "http://$ip:$port$path"
-      val url = URL(urlString)
-      val connection = url.openConnection() as HttpURLConnection
-      var connectionStatus: String
-      try {
-          connection.connect()                // tries to reach server
-          connectionStatus = ip
-      } catch (e: Exception) {
-          connectionStatus = "Not able to connect to the server!"
-      }
-      val reportReceipt = ReportReceiptViewModel(receiptDao, connection, connectionStatus)
+      val reportReceipt = ReportReceiptViewModel(receiptDao)
 
       val plu0ProductList: List<Product> = productDao.loadAllByVat(vatValue = 0)
       val plu1ProductList: List<Product> = productDao.loadAllByVat(vatValue = 1)
@@ -202,7 +187,7 @@ fun MainAppScreen(
         containerColor = MaterialTheme.colorScheme.background,
         modifier = Modifier.fillMaxSize(),
         topBar = { TopBar() },
-        bottomBar = { BottomBar(reportReceipt?.connectionStatus ?: "") })  {innerPadding ->
+        bottomBar = { BottomBar(reportReceipt?.getConnectionStatusString() ?: "") })  {innerPadding ->
         Column(
             modifier = Modifier
                 .padding(innerPadding),

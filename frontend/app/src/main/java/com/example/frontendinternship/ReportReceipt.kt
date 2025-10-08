@@ -3,31 +3,50 @@ package com.example.frontendinternship
 import androidx.lifecycle.ViewModel
 import java.io.OutputStream
 import java.net.HttpURLConnection
+import java.net.URL
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
 class ReportReceiptViewModel(
-    private val receiptDao: ReceiptDao?,
-    private var connection: HttpURLConnection,
-    val connectionStatus: String
+    private val receiptDao: ReceiptDao?
 ) : ViewModel() {
+    private lateinit var connectionStatus: String
+    private lateinit var url: URL
     private var oldTime: Long = System.currentTimeMillis()
     private var currentTime: Long = System.currentTimeMillis()
+    init {
+        Thread{
+        val ip = "10.0.2.2"
+        val port = 4478
+        val path = "/receive"
+        val urlString = "http://$ip:$port$path"
+            url = URL(urlString)
+            var connection: HttpURLConnection = url.openConnection() as HttpURLConnection
+        try {
+            connection.connect()                // tries to reach server
+            connectionStatus = ip
+            connection.disconnect()
+        } catch (e: Exception) {
+            connectionStatus = "Not able to connect to the server!"
+        }}.start()
+    }
+    fun getConnectionStatusString() :String {return connectionStatus}
 
     fun checkAndReportBasket(basketList: List<ProductWithCount>) {
-        if (receiptDao == null)
-            return
+        if (receiptDao == null) {
+            error("Could not load receipt data base!")
+        }
 
         val oneHourMillis = 60 * 60 * 1000 // 3,600,000 ms
-        if (currentTime - oldTime >= oneHourMillis) {
-            if (basketList.isEmpty())  {
+            // if (currentTime - oldTime >= oneHourMillis) {
+            //if (basketList.isEmpty())  {
                 oldTime = currentTime
                 // reportBasket
                 val xml = getXmlReport()
                 postXml(xml)
-            }
-        }
+            //}
+        //}
     }
     private fun getXmlReport() :String {
         val date = Date(oldTime)
@@ -53,16 +72,16 @@ class ReportReceiptViewModel(
                     val isNotCancel = if (PAYMENT_METHOD.entries[it] == PAYMENT_METHOD.CANCEL) 0f else 1f
                     var currentVatRateAmount = receipt.amountVat0?.toFloatOrNull() ?: 0f
                     vatRate0Amount += currentVatRateAmount * isNotCancel
-                    currentTotalAmount += currentVatRateAmount
+                    currentTotalAmount += currentVatRateAmount * isNotCancel
                     currentVatRateAmount = receipt.amountVat1?.toFloatOrNull() ?: 0f
                     vatRate1Amount += currentVatRateAmount * isNotCancel
-                    currentTotalAmount += currentVatRateAmount
+                    currentTotalAmount += currentVatRateAmount * isNotCancel
                     currentVatRateAmount = receipt.amountVat10?.toFloatOrNull() ?: 0f
                     vatRate10Amount += currentVatRateAmount * isNotCancel
-                    currentTotalAmount += currentVatRateAmount
+                    currentTotalAmount += currentVatRateAmount * isNotCancel
                     currentVatRateAmount = receipt.amountVat20?.toFloatOrNull() ?: 0f
                     vatRate20Amount += currentVatRateAmount * isNotCancel
-                    currentTotalAmount += currentVatRateAmount
+                    currentTotalAmount += currentVatRateAmount * isNotCancel
                     when (PAYMENT_METHOD.entries[it]) {
                         PAYMENT_METHOD.CANCEL -> {
                             canceledReceiptsCount++
@@ -128,21 +147,18 @@ class ReportReceiptViewModel(
         }
        return xml
     }
-    private fun postXml(xmlBody: String): String {
+    private fun postXml(xmlBody: String) {
+        Thread {
+                val connection = url.openConnection() as HttpURLConnection
+                connection.requestMethod = "POST"
+                connection.doOutput = true
+                connection.setRequestProperty("Content-Type", "application/xml")
+                connection.setRequestProperty("Accept", "application/xml")
 
-        connection.requestMethod = "POST"
-        connection.doOutput = true
-        connection.setRequestProperty("Content-Type", "application/xml") // important
-        connection.setRequestProperty("Accept", "application/xml")
-
-        connection.outputStream.use { os: OutputStream ->
-            os.write(xmlBody.toByteArray(Charsets.UTF_8))
-        }
-
-        // Read response
-        val response = connection.inputStream.bufferedReader().use { it.readText() }
-
-        connection.disconnect()
-        return response
+                connection.outputStream.use { it.write(xmlBody.toByteArray()) }
+                val response = connection.inputStream.bufferedReader().use { it.readText() }
+                println("Server response: $response")
+                connection.disconnect()
+        }.start()
     }
 }
