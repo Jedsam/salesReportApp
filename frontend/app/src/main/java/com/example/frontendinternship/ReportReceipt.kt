@@ -1,7 +1,10 @@
 package com.example.frontendinternship
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import java.io.OutputStream
+import java.lang.Thread.sleep
 import java.net.HttpURLConnection
 import java.net.URL
 import java.text.SimpleDateFormat
@@ -11,10 +14,11 @@ import java.util.Locale
 class ReportReceiptViewModel(
     private val receiptDao: ReceiptDao?
 ) : ViewModel() {
-    private lateinit var connectionStatus: String
+    private lateinit var connectedIpString: String
     private lateinit var url: URL
     private var oldTime: Long = System.currentTimeMillis()
     private var currentTime: Long = System.currentTimeMillis()
+    public var connectionStatusString by mutableStateOf("")
     init {
         Thread{
         val ip = "10.0.2.2"
@@ -25,13 +29,13 @@ class ReportReceiptViewModel(
             var connection: HttpURLConnection = url.openConnection() as HttpURLConnection
         try {
             connection.connect()                // tries to reach server
-            connectionStatus = ip
+            connectedIpString = ip
             connection.disconnect()
         } catch (e: Exception) {
-            connectionStatus = "Not able to connect to the server!"
+            connectedIpString = "Not able to connect to the server!"
         }}.start()
     }
-    fun getConnectionStatusString() :String {return connectionStatus}
+    fun getCurrentConnectedIp() :String {return connectedIpString}
 
     fun checkAndReportBasket(basketList: List<ProductWithCount>) {
         if (receiptDao == null) {
@@ -149,16 +153,22 @@ class ReportReceiptViewModel(
     }
     private fun postXml(xmlBody: String) {
         Thread {
+            connectionStatusString = "Connecting..."
                 val connection = url.openConnection() as HttpURLConnection
+            connectionStatusString = "Connected"
                 connection.requestMethod = "POST"
                 connection.doOutput = true
                 connection.setRequestProperty("Content-Type", "application/xml")
                 connection.setRequestProperty("Accept", "application/xml")
 
+            connectionStatusString = "Sending data..."
                 connection.outputStream.use { it.write(xmlBody.toByteArray()) }
+            connectionStatusString = "Receiving data..."
                 val response = connection.inputStream.bufferedReader().use { it.readText() }
-                println("Server response: $response")
+                connectionStatusString = "Server response: $response"
                 connection.disconnect()
+            sleep(5_000) // Sleep for 5 seconds
+            connectionStatusString = ""
         }.start()
     }
 }

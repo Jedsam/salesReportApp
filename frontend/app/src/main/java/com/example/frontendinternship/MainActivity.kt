@@ -187,7 +187,7 @@ fun MainAppScreen(
         containerColor = MaterialTheme.colorScheme.background,
         modifier = Modifier.fillMaxSize(),
         topBar = { TopBar() },
-        bottomBar = { BottomBar(reportReceipt?.getConnectionStatusString() ?: "") })  {innerPadding ->
+        bottomBar = { BottomBar(reportReceipt?.getCurrentConnectedIp() ?: "") })  {innerPadding ->
         Column(
             modifier = Modifier
                 .padding(innerPadding),
@@ -268,6 +268,7 @@ fun MainAppScreen(
                     reportReceipt
                 )
             }
+            Text( text = reportReceipt?.connectionStatusString ?: "")
         }
     }
 }
