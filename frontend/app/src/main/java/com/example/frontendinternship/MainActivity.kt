@@ -74,7 +74,7 @@ class MainActivity : ComponentActivity() {
           applicationContext,
           AppDatabase::class.java, "product"
       )
-          .createFromAsset("retail.db")
+          .createFromAsset("retail_2.db")
           .allowMainThreadQueries()
           .build()
 
@@ -179,6 +179,7 @@ fun MainAppScreen(
             reportReceipt?.checkAndReportBasket(basketList)
         }
     }
+
 
 
     val totalBasketPriceState: MutableFloatState = remember { mutableFloatStateOf(0f) }

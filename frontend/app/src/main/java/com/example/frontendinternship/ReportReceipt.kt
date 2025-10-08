@@ -18,7 +18,7 @@ class ReportReceiptViewModel(
     private lateinit var url: URL
     private var oldTime: Long = System.currentTimeMillis()
     private var currentTime: Long = System.currentTimeMillis()
-    public var connectionStatusString by mutableStateOf("")
+    var connectionStatusString by mutableStateOf("")
     init {
         Thread{
         val ip = "10.0.2.2"
@@ -42,15 +42,17 @@ class ReportReceiptViewModel(
             error("Could not load receipt data base!")
         }
 
+        currentTime = System.currentTimeMillis()
+
         val oneHourMillis = 60 * 60 * 1000 // 3,600,000 ms
-            // if (currentTime - oldTime >= oneHourMillis) {
-            //if (basketList.isEmpty())  {
+            if (currentTime - oldTime >= oneHourMillis) {
+            if (basketList.isEmpty())  {
                 oldTime = currentTime
                 // reportBasket
                 val xml = getXmlReport()
                 postXml(xml)
-            //}
-        //}
+            }
+        }
     }
     private fun getXmlReport() :String {
         val date = Date(oldTime)
@@ -76,20 +78,21 @@ class ReportReceiptViewModel(
                     val isNotCancel = if (PAYMENT_METHOD.entries[it] == PAYMENT_METHOD.CANCEL) 0f else 1f
                     var currentVatRateAmount = receipt.amountVat0?.toFloatOrNull() ?: 0f
                     vatRate0Amount += currentVatRateAmount * isNotCancel
-                    currentTotalAmount += currentVatRateAmount * isNotCancel
+                    currentTotalAmount += currentVatRateAmount
                     currentVatRateAmount = receipt.amountVat1?.toFloatOrNull() ?: 0f
                     vatRate1Amount += currentVatRateAmount * isNotCancel
-                    currentTotalAmount += currentVatRateAmount * isNotCancel
+                    currentTotalAmount += currentVatRateAmount
                     currentVatRateAmount = receipt.amountVat10?.toFloatOrNull() ?: 0f
                     vatRate10Amount += currentVatRateAmount * isNotCancel
-                    currentTotalAmount += currentVatRateAmount * isNotCancel
+                    currentTotalAmount += currentVatRateAmount
                     currentVatRateAmount = receipt.amountVat20?.toFloatOrNull() ?: 0f
                     vatRate20Amount += currentVatRateAmount * isNotCancel
-                    currentTotalAmount += currentVatRateAmount * isNotCancel
+                    currentTotalAmount += currentVatRateAmount
                     when (PAYMENT_METHOD.entries[it]) {
                         PAYMENT_METHOD.CANCEL -> {
                             canceledReceiptsCount++
                             canceledReceiptsAmount += currentTotalAmount
+                            currentTotalAmount = 0f
                         }
                         PAYMENT_METHOD.CASH -> {
                             cashPaymentAmount += currentTotalAmount
