@@ -1,4 +1,4 @@
-package com.example.frontendinternship
+package com.example.frontendinternship.ui.common.shapes
 
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Outline

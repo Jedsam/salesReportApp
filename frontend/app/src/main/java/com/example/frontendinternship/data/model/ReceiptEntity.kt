@@ -1,11 +1,11 @@
-package com.example.frontendinternship.data.local.entity
+package com.example.frontendinternship.data.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "receipt")
-data class Receipt(
+data class ReceiptEntity(
     @PrimaryKey(autoGenerate = true)
     val receiptNumber: Int? = null,
     @ColumnInfo(name = "receiptDateTime") val receiptDateTime: String?,

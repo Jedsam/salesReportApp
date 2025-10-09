@@ -1,16 +1,12 @@
-package com.example.frontendinternship.data.local.entity
+package com.example.frontendinternship.data.model
 
 import androidx.room.ColumnInfo
-import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Entity
-import androidx.room.Insert
 import androidx.room.PrimaryKey
-import androidx.room.Query
 
 
 @Entity(tableName = "product")
-data class Product(
+data class ProductEntity(
     @PrimaryKey
     val id: Int,
     @ColumnInfo(name = "name") val productName: String?,
