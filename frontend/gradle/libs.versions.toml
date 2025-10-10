@@ -44,6 +44,5 @@ android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
-com-google-dagger-hilt-android = { id = "com.google.dagger.hilt.android", version = "2.44" }
-kotlin-kapt = { id = "org.jetbrains.kotlin.kapt" }
+com-google-dagger-hilt-android = { id = "com.google.dagger.hilt.android", version = "2.57.2" }
 

@@ -7,6 +7,9 @@ import com.example.frontendinternship.domain.model.ProductWithCount
 import com.example.frontendinternship.domain.model.VatTotalAmounts
 import com.example.frontendinternship.domain.model.getCost
 import com.example.frontendinternship.domain.repository.ReceiptRepository
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import jakarta.inject.Inject
 import java.text.SimpleDateFormat
 import java.util.Date

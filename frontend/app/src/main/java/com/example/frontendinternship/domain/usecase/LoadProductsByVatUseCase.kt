@@ -2,6 +2,9 @@ package com.example.frontendinternship.domain.usecase
 
 import com.example.frontendinternship.domain.model.Product
 import com.example.frontendinternship.domain.repository.ProductRepository
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import javax.inject.Inject
 
 class LoadProductsByVatUseCase @Inject constructor(

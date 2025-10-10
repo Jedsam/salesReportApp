@@ -5,6 +5,9 @@ import com.example.frontendinternship.domain.model.ProductWithCount
 import com.example.frontendinternship.domain.model.VatTotalAmounts
 import com.example.frontendinternship.domain.model.getCost
 import com.example.frontendinternship.domain.repository.ReceiptRepository
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import javax.inject.Inject
 
 class FinalizeOrderUseCase @Inject constructor(
