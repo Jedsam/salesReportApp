@@ -13,4 +13,3 @@ data class ProductEntity(
     @ColumnInfo(name = "vatRate") val vatRate: Int?,
     @ColumnInfo(name = "price") var price: String?,
 )
-

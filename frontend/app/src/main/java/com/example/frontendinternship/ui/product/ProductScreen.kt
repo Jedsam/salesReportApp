@@ -25,18 +25,16 @@ import com.example.frontendinternship.ui.theme.LocalPadding
 import com.example.frontendinternship.ui.theme.LocalTextFormat
 import androidx.compose.runtime.collectAsState
 import com.example.frontendinternship.domain.model.PAYMENT_METHOD
+import com.example.frontendinternship.domain.model.Product
 import com.example.frontendinternship.domain.model.getCost
 import com.example.frontendinternship.ui.components.BottomBar
 import com.example.frontendinternship.ui.components.GetActionButton
-import com.example.frontendinternship.ui.components.GetProductButtons
-import com.example.frontendinternship.ui.components.GetProductConfirmationWindow
+import com.example.frontendinternship.ui.components.ProductButtons
 import com.example.frontendinternship.ui.components.TopBar
+import com.example.frontendinternship.ui.product.components.ConfirmationWindow
 
 @Composable
 fun ProductScreen(viewModel: ProductViewModel = hiltViewModel()) {
-    val basketListState: MutableState<List<ProductWithCount>> = remember {
-        mutableStateOf(emptyList())
-    }
 
     //LaunchedEffect(Unit) {
     // while (true) {
@@ -44,9 +42,11 @@ fun ProductScreen(viewModel: ProductViewModel = hiltViewModel()) {
     //   reportReceipt?.checkAndReportBasket(basketList)
     //}
     //}
+    val basketListState: MutableState<List<ProductWithCount>> = remember { mutableStateOf(emptyList()) }
     var basketList by basketListState
     val totalBasketPriceState: MutableFloatState = remember { mutableFloatStateOf(0f) }
     var totalBasketPrice by totalBasketPriceState
+    val openDialogState = remember { mutableStateOf(false) }
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
         modifier = Modifier.fillMaxSize(),
@@ -64,15 +64,63 @@ fun ProductScreen(viewModel: ProductViewModel = hiltViewModel()) {
                     .padding(LocalPadding.current.Normal),
                 verticalArrangement = Arrangement.spacedBy(LocalPadding.current.Normal),
             ) {
-                val openDialog = remember { mutableStateOf(false)  }
+                var openWindow by remember { mutableStateOf(false)  }
                 val currentProductState = remember { mutableStateOf<ProductWithCount?>(null)  }
+                var currentProduct by currentProductState
                 val currentCostState = remember { mutableFloatStateOf(0f)  }
+                var currentCost by currentCostState
                 val productGroup by viewModel.products.collectAsState()
-                GetProductConfirmationWindow(basketListState, totalBasketPriceState, currentProductState, currentCostState,openDialog)
-                GetProductButtons(productGroup.plu0,  currentProductState, currentCostState, openDialog)
-                GetProductButtons(productGroup.plu1, currentProductState,  currentCostState, openDialog)
-                GetProductButtons(productGroup.plu10, currentProductState, currentCostState, openDialog)
-                GetProductButtons(productGroup.plu20, currentProductState, currentCostState, openDialog)
+
+
+                var quantityValue by remember { mutableStateOf("1") }
+                var priceValue by remember { mutableStateOf(currentProduct?.product?.price ?:"1") }
+                val onDismissal = { openWindow = false}
+                val onPriceFieldValueChanged = { newText: String->
+                    val tempText = newText.filter { it.isDigit() || it == '.' }
+                    val textFloat = tempText.toFloatOrNull() ?: 0f
+                    if (textFloat <= 999.99 && textFloat >= 0.01)
+                        priceValue = tempText
+                    currentProduct?.product?.price = textFloat.toString()
+                    currentCost = currentProduct?.getCost() ?: 0f
+                }
+                val onQuantityFieldValueChanged = { newText: String->
+                    val tempText = newText.filter { it.isDigit() }
+                    val textInt = tempText.toIntOrNull() ?: 0
+                    if (textInt <= 99 && textInt >= 1)
+                        quantityValue = tempText
+                    currentProduct?.count = textInt
+                    currentCost = currentProduct?.getCost() ?: 0f
+                }
+                val onConfirmClick = {
+                    // Save the item on the shop list
+                    currentProduct?.let {
+                        basketList = basketList + it
+                        totalBasketPrice += currentCost
+                    }
+                    openWindow = false
+                }
+                ConfirmationWindow(priceValue = priceValue,
+                    quantityValue = quantityValue,
+                    currentProduct = currentProduct,
+                    currentCost = currentCost,
+                    openWindow = openWindow,
+                    onDismissRequest = onDismissal,
+                    onQuantityFieldChange =  onQuantityFieldValueChanged,
+                    onPriceFieldValueChange = onPriceFieldValueChanged,
+                    onConfirmClick = onConfirmClick )
+                val onProductSelect = { selectedProduct: Product ->
+                    currentProductState.value = ProductWithCount(selectedProduct.copy(), 1)
+                    currentCostState.floatValue = currentProductState.value?.getCost() ?: 0f
+                    openDialogState.value = true
+                openWindow = true}
+                ProductButtons(productList = productGroup.plu0,
+                    onProductSelected = onProductSelect)
+                ProductButtons(productGroup.plu1,
+                    onProductSelected = onProductSelect)
+                ProductButtons(productGroup.plu10,
+                    onProductSelected = onProductSelect)
+                ProductButtons(productGroup.plu20,
+                    onProductSelected = onProductSelect)
             }
             // Order information
             Column(
