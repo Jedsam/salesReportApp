@@ -14,39 +14,25 @@ import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableFloatState
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.frontendinternship.domain.model.Product
-import com.example.frontendinternship.domain.model.ProductWithCount
-import com.example.frontendinternship.domain.model.getCost
 import com.example.frontendinternship.ui.theme.LocalDimensions
 import com.example.frontendinternship.ui.theme.LocalPadding
 import com.example.frontendinternship.ui.theme.LocalTextFormat
 
 @Composable
-fun GetProductButtons(
+fun ProductButtons(
     productList: List<Product>,
-    currentProductState: MutableState<ProductWithCount?>, currentCostState: MutableFloatState, openDialog: MutableState<Boolean>
+    onProductSelected: (Product) -> Unit
 ) {
-    var currentProduct: ProductWithCount? by currentProductState
-    var currentCost: Float by currentCostState
-
-
-    LazyRow (horizontalArrangement = Arrangement.spacedBy(LocalPadding.current.Normal)) {
-        items (productList) { product ->
+    LazyRow(horizontalArrangement = Arrangement.spacedBy(LocalPadding.current.Normal)) {
+        items(productList) { product ->
             Button(
-                onClick = {
-                    currentProduct = ProductWithCount(product.copy(), 1)
-                    currentCost = currentProduct?.getCost() ?: 0f
-                    openDialog.value = true
-                },
+                onClick = { onProductSelected(product) },
                 border = BorderStroke(
                     width = 2.dp,
                     color = Color.Black
@@ -63,9 +49,13 @@ fun GetProductButtons(
                     disabledContentColor = Color.Black,
                 ),
                 shape = RoundedCornerShape(LocalDimensions.current.clipTiny),
-                contentPadding = PaddingValues(horizontal = LocalPadding.current.VeryTiny, vertical = LocalPadding.current.Mini)
+                contentPadding = PaddingValues(
+                    horizontal = LocalPadding.current.VeryTiny,
+                    vertical = LocalPadding.current.Mini
+                )
             ) {
-                Text(modifier = Modifier.fillMaxWidth(),
+                Text(
+                    modifier = Modifier.fillMaxWidth(),
                     text = product.productName + "\n" + product.price, maxLines = 2,
                     lineHeight = LocalTextFormat.current.sizeNormal,
                     autoSize = TextAutoSize.StepBased(

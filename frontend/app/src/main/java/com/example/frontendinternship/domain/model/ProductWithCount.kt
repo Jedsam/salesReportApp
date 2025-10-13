@@ -4,10 +4,11 @@ import com.example.frontendinternship.data.model.ProductEntity
 
 
 data class ProductWithCount(
-    val product: Product,
-    var count: Int,
-)
+    val product: Product = Product(),
+    var count: Int = 1,
+) {
+}
+
 fun ProductWithCount.getCost(): Float {
-    val price = product.price.toFloatOrNull() ?: 0f
-    return price * count
+    return product.price * count
 }

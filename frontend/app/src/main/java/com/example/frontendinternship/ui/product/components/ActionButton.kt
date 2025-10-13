@@ -1,4 +1,4 @@
-package com.example.frontendinternship.ui.product.components
+package com.example.frontendinternship.ui.components
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.PaddingValues
@@ -10,10 +10,6 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableFloatState
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
@@ -30,20 +26,14 @@ import com.example.frontendinternship.ui.theme.LocalTextFormat
 fun GetActionButton(
     text: String,
     //receiptDao: ReceiptDao?,
-    basketListState: MutableState<List<ProductWithCount>>,
-    totalBasketPriceState: MutableFloatState,
+    basketList: List<ProductWithCount>,
+    totalBasketPrice: Float,
     paymentMethod: PAYMENT_METHOD,
-    //reportReceipt: ReportReceiptViewModel?
+    //reportReceipt: ReportReceiptViewModel?,
+    onButtonClick: (PAYMENT_METHOD) -> Unit
 ) {
-    var basketList by basketListState
-    var totalBasketPrice by totalBasketPriceState
     Button(
-        onClick = {
-            //receiptDao?.insert(basketList, paymentMethod)
-            basketList = emptyList()
-            totalBasketPrice = 0f
-            //reportReceipt?.checkAndReportBasket(basketList)
-        },
+        onClick = { onButtonClick(paymentMethod) },
         border = BorderStroke(
             width = 2.dp,            // Thickness of the border
             color = Color.Black        // Color of the border
@@ -61,9 +51,13 @@ fun GetActionButton(
             disabledContentColor = Color.Black,
         ),
         shape = TriangleCutCornerShape(16f),
-        contentPadding = PaddingValues(horizontal = LocalPadding.current.VeryTiny, vertical = LocalPadding.current.Mini)
+        contentPadding = PaddingValues(
+            horizontal = LocalPadding.current.VeryTiny,
+            vertical = LocalPadding.current.Mini
+        )
     ) {
-        Text(modifier = Modifier.fillMaxWidth(),
+        Text(
+            modifier = Modifier.fillMaxWidth(),
             text = text, maxLines = 2,
             lineHeight = LocalTextFormat.current.sizeNormal,
             autoSize = TextAutoSize.StepBased(

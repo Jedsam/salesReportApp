@@ -41,19 +41,27 @@ fun ConfirmationWindow(
 ) {
     if (openWindow) {
         AlertDialog(
-            onDismissRequest = {onDismissRequest()},
+            onDismissRequest = { onDismissRequest() },
             title = {
-                currentProduct?.let { Text(text = "Confirm Product\n" + it.product.productName, fontSize = LocalTextFormat.current.sizeLarge, color = Color.Black) }
+                currentProduct?.let {
+                    Text(
+                        text = "Confirm Product\n" + it.product.productName,
+                        fontSize = LocalTextFormat.current.sizeLarge,
+                        color = Color.Black
+                    )
+                }
             },
             text = {
-                Row(modifier = Modifier.fillMaxWidth(),
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceAround) {
+                    horizontalArrangement = Arrangement.SpaceAround
+                ) {
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         Text("Price", color = Color.Black)
                         BasicTextField(
                             value = priceValue,
-                            onValueChange = {newText -> onPriceFieldValueChange(newText)},
+                            onValueChange = { newText: String -> onPriceFieldValueChange(newText) },
                             modifier = Modifier
                                 .size(
                                     width = LocalDimensions.current.viewLarge,
@@ -71,7 +79,7 @@ fun ConfirmationWindow(
                         Text("Quantity", color = Color.Black)
                         BasicTextField(
                             value = quantityValue,
-                            onValueChange = { newText-> onQuantityFieldChange(newText)},
+                            onValueChange = { newText -> onQuantityFieldChange(newText) },
                             modifier = Modifier
                                 .size(
                                     width = LocalDimensions.current.viewNormal,
@@ -88,20 +96,27 @@ fun ConfirmationWindow(
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         Text("Total Price", color = Color.Black)
                         Box {
-                            Text(text = currentCost.toString(), textDecoration = TextDecoration.Underline, color = Color.Black)
+                            Text(
+                                text = currentCost.toString(),
+                                textDecoration = TextDecoration.Underline,
+                                color = Color.Black
+                            )
                         }
                     }
                 }
             }, containerColor = MaterialTheme.colorScheme.background,
             confirmButton = {
                 Button(
-                    onClick = { onConfirmClick()
-                    }, colors = ButtonColors(
+                    onClick = {
+                        onConfirmClick()
+                    },
+                    colors = ButtonColors(
                         containerColor = MaterialTheme.colorScheme.background,
                         contentColor = Color.Black,
                         disabledContainerColor = Color.Blue,
                         disabledContentColor = Color.Black,
-                    ),) {
+                    ),
+                ) {
                     Text("Confirm", color = Color.Black)
                 }
             },
@@ -109,11 +124,13 @@ fun ConfirmationWindow(
                 Button(
                     onClick = {
                         onDismissRequest()
-                    }, colors = ButtonColors(
+                    },
+                    colors = ButtonColors(
                         containerColor = MaterialTheme.colorScheme.background,
                         contentColor = Color.Black,
                         disabledContainerColor = Color.Blue,
-                        disabledContentColor = Color.Black,),
+                        disabledContentColor = Color.Black,
+                    ),
                 ) {
                     Text("Cancel", color = Color.Black)
                 }
