@@ -10,8 +10,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableFloatState
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -42,10 +40,8 @@ fun ProductScreen(viewModel: ProductViewModel = hiltViewModel()) {
     //   reportReceipt?.checkAndReportBasket(basketList)
     //}
     //}
-    val basketListState: MutableState<List<ProductWithCount>> = remember { mutableStateOf(emptyList()) }
-    var basketList by basketListState
-    val totalBasketPriceState: MutableFloatState = remember { mutableFloatStateOf(0f) }
-    var totalBasketPrice by totalBasketPriceState
+    var basketList: List<ProductWithCount> by remember { mutableStateOf(emptyList()) }
+    var totalBasketPrice: Float by remember { mutableFloatStateOf(0f) }
     val openDialogState = remember { mutableStateOf(false) }
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
@@ -65,10 +61,8 @@ fun ProductScreen(viewModel: ProductViewModel = hiltViewModel()) {
                 verticalArrangement = Arrangement.spacedBy(LocalPadding.current.Normal),
             ) {
                 var openWindow by remember { mutableStateOf(false)  }
-                val currentProductState = remember { mutableStateOf<ProductWithCount?>(null)  }
-                var currentProduct by currentProductState
-                val currentCostState = remember { mutableFloatStateOf(0f)  }
-                var currentCost by currentCostState
+                var currentProduct by remember { mutableStateOf<ProductWithCount?>(null)  }
+                var currentCost by remember { mutableFloatStateOf(0f)  }
                 val productGroup by viewModel.products.collectAsState()
 
 
@@ -109,8 +103,8 @@ fun ProductScreen(viewModel: ProductViewModel = hiltViewModel()) {
                     onPriceFieldValueChange = onPriceFieldValueChanged,
                     onConfirmClick = onConfirmClick )
                 val onProductSelect = { selectedProduct: Product ->
-                    currentProductState.value = ProductWithCount(selectedProduct.copy(), 1)
-                    currentCostState.floatValue = currentProductState.value?.getCost() ?: 0f
+                    currentProduct = ProductWithCount(selectedProduct.copy(), 1)
+                    currentCost = currentProduct?.getCost() ?: 0f
                     openDialogState.value = true
                 openWindow = true}
                 ProductButtons(productList = productGroup.plu0,
@@ -151,28 +145,39 @@ fun ProductScreen(viewModel: ProductViewModel = hiltViewModel()) {
             }
             // Action buttons
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceAround) {
-                GetActionButton("CANCEL",
-                    basketListState,
-                    totalBasketPriceState,
-                    PAYMENT_METHOD.CANCEL,
+                val onActionButtonClick = { paymentMethod: PAYMENT_METHOD ->
+                    //receiptDao?.insert(basketList, paymentMethod)
+                    basketList = emptyList()
+                    totalBasketPrice = 0f
+                    //reportReceipt?.checkAndReportBasket(basketList)
+                }
+                GetActionButton(
+                    text = "CANCEL",
+                    basketList = basketList,
+                    totalBasketPrice = totalBasketPrice,
+                    paymentMethod = PAYMENT_METHOD.CANCEL,
+                    onButtonClick = onActionButtonClick
                 )
                 GetActionButton(
-                    "CASH",
-                    basketListState,
-                    totalBasketPriceState,
-                    PAYMENT_METHOD.CASH,
+                    text = "CASH",
+                    basketList = basketList,
+                    totalBasketPrice = totalBasketPrice,
+                    paymentMethod = PAYMENT_METHOD.CASH,
+                    onButtonClick = onActionButtonClick
                 )
                 GetActionButton(
-                    "CREDIT",
-                    basketListState,
-                    totalBasketPriceState,
-                    PAYMENT_METHOD.CREDIT,
+                    text = "CREDIT",
+                    basketList = basketList,
+                    totalBasketPrice = totalBasketPrice,
+                    paymentMethod = PAYMENT_METHOD.CREDIT,
+                    onButtonClick = onActionButtonClick
                 )
                 GetActionButton(
-                    "COUPON",
-                    basketListState,
-                    totalBasketPriceState,
-                    PAYMENT_METHOD.COUPON,
+                    text = "COUPON",
+                    basketList = basketList,
+                    totalBasketPrice = totalBasketPrice,
+                    paymentMethod = PAYMENT_METHOD.COUPON,
+                    onButtonClick = onActionButtonClick
                 )
             }
             // Text( text = reportReceipt?.connectionStatusString ?: "")
