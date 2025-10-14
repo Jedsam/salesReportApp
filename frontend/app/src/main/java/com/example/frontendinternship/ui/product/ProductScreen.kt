@@ -29,19 +29,12 @@ import com.example.frontendinternship.ui.product.components.TopBar
 @Composable
 fun ProductScreen(viewModel: ProductViewModel = hiltViewModel()) {
 
-    //LaunchedEffect(Unit) {
-    // while (true) {
-    //    delay(60_000)
-    //   reportReceipt?.checkAndReportBasket(basketList)
-    //}
-    //}
     val uiState by viewModel.uiState.collectAsState()
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
         modifier = Modifier.fillMaxSize(),
         topBar = { TopBar() },
-        bottomBar = { BottomBar("empty") }) { innerPadding ->
-        // TODO bottomBar = { BottomBar(reportReceipt?.getCurrentConnectedIp() ?: "") })  {innerPadding ->
+        bottomBar = { BottomBar(string = uiState.connectedIpString) }) { innerPadding ->
         Column(
             modifier = Modifier
                 .padding(innerPadding),
@@ -174,8 +167,7 @@ fun ProductScreen(viewModel: ProductViewModel = hiltViewModel()) {
                     onButtonClick = viewModel::onActionButtonClick
                 )
             }
-            // Text( text = reportReceipt?.connectionStatusString ?: "")
-            Text(text = "")
+            Text(text = uiState.connectionStatusString)
         }
     }
 }
