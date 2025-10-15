@@ -42,7 +42,6 @@ DECIMAL10d2 total
 CHAR3 currency 
 ENUM_STATUS status "active, suspended, closed"
 TEXT auth_code
-ENUM_STATUS transaction_type "sale, refund"
 TIMESTAMP created_at
 ENUM_PAYMENT_TYPE payment_type "cash, credit, coupon"
 }
