@@ -22,6 +22,16 @@
 Thumbs.db
 
 # -----------------------------
+# Generated files
+# -----------------------------
+**/gen/
+**/bin/
+**/*_intermediates/
+**/intermediates/
+**/exploded-aar/
+**/generated/
+
+# -----------------------------
 # Logs and temporary files
 # -----------------------------
 *.log
@@ -29,3 +39,5 @@ Thumbs.db
 *.bak
 *.swp
 
+# environment file
+.env
