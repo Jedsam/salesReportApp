@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @ComponentScan({ "com.backend.controller", "com.backend.service" })
 @EntityScan("com.backend.model")
-@EnableJpaRepositories("com.tutorialspoint.repository")
+@EnableJpaRepositories("com.backend.repository")
 @SpringBootApplication
 public class ServerApplication {
 
