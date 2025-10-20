@@ -1,9 +1,14 @@
 package com.backend.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "COUPON_PAYMENT_METHOD")
 public class CouponPaymentMethod extends PaymentMethod {

@@ -1,10 +1,15 @@
 package com.backend.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Set;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "TRANSACTIONS")
 public class Transaction {
