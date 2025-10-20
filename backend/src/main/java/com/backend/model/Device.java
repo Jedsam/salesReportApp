@@ -21,8 +21,9 @@ public class Device {
   @JoinColumn(name = "firmware_id", nullable = false)
   private Firmware firmware;
 
-  @Column(name = "model", nullable = false, length = 100)
-  private String model;
+  @ManyToOne(fetch = FetchType.LAZY, optional = false)
+  @JoinColumn(name = "model_id", nullable = false)
+  private Model model;
 
   @Column(name = "last_seen")
   private Instant lastSeen;
