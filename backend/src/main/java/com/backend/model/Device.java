@@ -17,11 +17,11 @@ public class Device {
   @JoinColumn(name = "shop_id", nullable = false)
   private Shop shop;
 
-  @ManyToOne(fetch = FetchType.LAZY, optional = false)
+  @ManyToOne(fetch = FetchType.EAGER, optional = false)
   @JoinColumn(name = "firmware_id", nullable = false)
   private Firmware firmware;
 
-  @ManyToOne(fetch = FetchType.LAZY, optional = false)
+  @ManyToOne(fetch = FetchType.EAGER, optional = false)
   @JoinColumn(name = "model_id", nullable = false)
   private Model model;
 
