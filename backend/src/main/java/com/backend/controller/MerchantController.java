@@ -3,6 +3,7 @@ package com.backend.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,26 +14,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.backend.model.Merchant;
+import com.backend.security.Authentication;
 import com.backend.service.MerchantService;
 
 @RestController
-@RequestMapping(path = "/emp")
+@RequestMapping(path = "/merc")
 public class MerchantController {
 
   @Autowired
   MerchantService merchantService;
 
-  // get all merchants
-  @GetMapping("/merchants")
-  public List<Merchant> getAllMerchants() {
-    return merchantService.getAllMerchants();
-  }
-
-  // get an merchant by id
-  @GetMapping("/merchant/{id}")
-  public Merchant getMerchant(@PathVariable("id") int id) {
-    return merchantService.getMerchantById(id);
-  }
+  // get the current merchant information
+  // @GetMapping("/merchant")
+  // public Merchant getMerchant(Authentication authentication) {
+  // // Authentication authentication =
+  // // SecurityContextHolder.getContext().getAuthentication();
+  // return
+  // merchantService.getMerchantById(authentication.getPrincipal().getId());
+  // }
 
   // delete an merchant by id
   @DeleteMapping("/merchant/{id}")
