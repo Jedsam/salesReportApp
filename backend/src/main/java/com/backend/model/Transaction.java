@@ -18,10 +18,6 @@ public class Transaction {
   @JoinColumn(name = "device_id", nullable = false)
   private Device device;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "payment_method_id")
-  private PaymentMethod paymentMethod;
-
   @Column(name = "subtotal", nullable = false, precision = 10, scale = 2)
   private BigDecimal subtotal;
 

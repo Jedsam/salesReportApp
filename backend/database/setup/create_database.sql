@@ -53,7 +53,6 @@ CREATE TABLE IF NOT EXISTS `DEVICES` (
     `shop_id`       BIGINT UNSIGNED NOT NULL,
     `firmware_id`   BIGINT UNSIGNED NOT NULL,
     `model_id`   BIGINT UNSIGNED NOT NULL,
-    `model`         VARCHAR(100)    NOT NULL,
     `last_seen`     TIMESTAMP       NULL,
     `created_at`    TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `status`        ENUM('active', 'suspended', 'closed') NOT NULL DEFAULT 'active',
@@ -78,64 +77,55 @@ CREATE TABLE IF NOT EXISTS `PRODUCTS` (
 
 ---
 
--- Base Table for Polymorphic Payment Methods
-CREATE TABLE IF NOT EXISTS `PAYMENT_METHODS` (
-    `payment_method_id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY
-);
-
----
-
--- Table: CASH_PAYMENT_METHOD
-CREATE TABLE IF NOT EXISTS `CASH_PAYMENT_METHOD` (
-    `payment_method_id` BIGINT UNSIGNED NOT NULL PRIMARY KEY,
-    `received_amount`   DECIMAL(10, 2)  NOT NULL,
-    `change_given`      DECIMAL(10, 2)  NOT NULL,
-    FOREIGN KEY (`payment_method_id`) REFERENCES `PAYMENT_METHODS`(`payment_method_id`)
-        ON DELETE CASCADE
-);
-
----
-
--- Table: COUPON_PAYMENT_METHOD
-CREATE TABLE IF NOT EXISTS `COUPON_PAYMENT_METHOD` (
-    `payment_method_id` BIGINT UNSIGNED NOT NULL PRIMARY KEY,
-    `coupon_code`       VARCHAR(50)     NOT NULL,
-    `coupon_value`      DECIMAL(10, 2)  NOT NULL,
-    `expiry_date`       DATE            NOT NULL,
-    FOREIGN KEY (`payment_method_id`) REFERENCES `PAYMENT_METHODS`(`payment_method_id`)
-        ON DELETE CASCADE
-);
-
----
-
--- Table: CREDIT_PAYMENT_METHOD
-CREATE TABLE IF NOT EXISTS `CREDIT_PAYMENT_METHOD` (
-    `payment_method_id` BIGINT UNSIGNED NOT NULL PRIMARY KEY,
-    `card_scheme`       VARCHAR(50)     NOT NULL,
-    `card_last4`        CHAR(4)         NOT NULL,
-    `auth_code`         VARCHAR(20)     NOT NULL,
-    FOREIGN KEY (`payment_method_id`) REFERENCES `PAYMENT_METHODS`(`payment_method_id`)
-        ON DELETE CASCADE
-);
-
----
 
 -- Table: TRANSACTIONS
 CREATE TABLE IF NOT EXISTS `TRANSACTIONS` (
     `transaction_id`    BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `device_id`         BIGINT UNSIGNED NOT NULL,
-    `payment_method_id` BIGINT UNSIGNED NULL,
     `subtotal`          DECIMAL(10, 2)  NOT NULL,
-    `total`             DECIMAL(10, 2)  NOT NULL,
+    `total`             DECIMAL(11, 2)  NOT NULL,
     `currency`          CHAR(3)         NOT NULL,
     `auth_code`         VARCHAR(20),
     `created_at`        TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `status`            ENUM('active', 'suspended', 'closed') NOT NULL DEFAULT 'active',
     `payment_type`      ENUM('cash', 'credit', 'coupon') NOT NULL,
     FOREIGN KEY (`device_id`) REFERENCES `DEVICES`(`device_id`)
-        ON DELETE RESTRICT,
-    FOREIGN KEY (`payment_method_id`) REFERENCES `PAYMENT_METHODS`(`payment_method_id`)
         ON DELETE RESTRICT
+);
+
+---
+
+-- Table: CASH_PAYMENT_METHOD
+CREATE TABLE IF NOT EXISTS `CASH_PAYMENT_METHOD` (
+    `transaction_id` BIGINT UNSIGNED NOT NULL PRIMARY KEY,
+    `received_amount`   DECIMAL(10, 2)  NOT NULL,
+    `change_given`      DECIMAL(10, 2)  NOT NULL,
+  FOREIGN KEY (`transaction_id`) REFERENCES `TRANSACTIONS`(`transaction_id`)
+  ON DELETE CASCADE
+);
+
+---
+
+-- Table: COUPON_PAYMENT_METHOD
+CREATE TABLE IF NOT EXISTS `COUPON_PAYMENT_METHOD` (
+    `transaction_id` BIGINT UNSIGNED NOT NULL PRIMARY KEY,
+    `coupon_code`       VARCHAR(50)     NOT NULL,
+    `coupon_value`      DECIMAL(10, 2)  NOT NULL,
+    `expiry_date`       DATE            NOT NULL,
+  FOREIGN KEY (`transaction_id`) REFERENCES `TRANSACTIONS`(`transaction_id`)
+  ON DELETE CASCADE
+);
+
+---
+
+-- Table: CREDIT_PAYMENT_METHOD
+CREATE TABLE IF NOT EXISTS `CREDIT_PAYMENT_METHOD` (
+    `transaction_id` BIGINT UNSIGNED NOT NULL PRIMARY KEY,
+    `card_scheme`       VARCHAR(50)     NOT NULL,
+    `card_last4`        CHAR(4)         NOT NULL,
+    `auth_code`         VARCHAR(20)     NOT NULL,
+    FOREIGN KEY (`transaction_id`) REFERENCES `TRANSACTIONS`(`transaction_id`)
+        ON DELETE CASCADE
 );
 
 ---
