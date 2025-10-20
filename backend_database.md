@@ -25,10 +25,14 @@ TIMESTAMP created_at
 DEVICES {
 UUID device_id PK
 UUID shop_id FK
-TEXT model
+UUID model_id FK
 TIMESTAMP last_seen
 ENUM_STATUS status "active, suspended, closed"
 TIMESTAMP created_at
+}
+MODEL {
+UUID model_id
+TEXT model_name
 }
 FIRMWARE {
 UUID firmware_id
@@ -91,5 +95,6 @@ TRANSACTIONS ||--o| CREDIT_PAYMENT_METHOD : uses
 MERCHANTS ||--o{ SHOPS : owns
 SHOPS ||--o{ DEVICES : has
 FIRMWARE ||--|{ DEVICES : has
+MODEL ||--|{ DEVICES : has
 DEVICES ||--o{ TRANSACTIONS : madeat
 ```
