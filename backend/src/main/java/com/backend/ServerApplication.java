@@ -2,7 +2,13 @@ package com.backend;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.persistence.autoconfigure.EntityScan;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
+@ComponentScan({ "com.backend.controller", "com.backend.service" })
+@EntityScan("com.backend.model")
+@EnableJpaRepositories("com.tutorialspoint.repository")
 @SpringBootApplication
 public class ServerApplication {
 
