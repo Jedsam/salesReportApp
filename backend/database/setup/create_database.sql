@@ -4,7 +4,7 @@ USE `payment_system`;
 
 -- Table: MERCHANTS
 CREATE TABLE IF NOT EXISTS `MERCHANTS` (
-    `merchant_id`   BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    `merchant_id`   BINARY(16)      NOT NULL PRIMARY KEY,
     `name`          VARCHAR(255)    NOT NULL,
     `business_name` VARCHAR(255)    NOT NULL,
     `email`         VARCHAR(255)    NOT NULL UNIQUE COMMENT 'Login information',
@@ -19,8 +19,8 @@ CREATE TABLE IF NOT EXISTS `MERCHANTS` (
 
 -- Table: SHOPS
 CREATE TABLE IF NOT EXISTS `SHOPS` (
-    `shop_id`       BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    `merchant_id`   BIGINT UNSIGNED NOT NULL,
+    `shop_id`        BINARY(16) NOT NULL PRIMARY KEY,
+    `merchant_id`    BINARY(16) NOT NULL,
     `name`          VARCHAR(255)    NOT NULL,
     `address`       VARCHAR(255)    NOT NULL,
     `phone`         VARCHAR(30),
@@ -35,13 +35,13 @@ CREATE TABLE IF NOT EXISTS `SHOPS` (
 
 -- Table: FIRMWARE
 CREATE TABLE IF NOT EXISTS `FIRMWARE` (
-    `firmware_id`      BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    `firmware_id`       BINARY(16) NOT NULL PRIMARY KEY,
     `firmware_version` VARCHAR(50) NOT NULL UNIQUE
 );
 
 -- Table: MODEL
 CREATE TABLE IF NOT EXISTS `MODEL` (
-    `model_id`      BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    `model_id`       BINARY(16) NOT NULL PRIMARY KEY,
     `model_name` VARCHAR(50) NOT NULL UNIQUE
 );
 
@@ -49,10 +49,10 @@ CREATE TABLE IF NOT EXISTS `MODEL` (
 
 -- Table: DEVICES
 CREATE TABLE IF NOT EXISTS `DEVICES` (
-    `device_id`     BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    `shop_id`       BIGINT UNSIGNED NOT NULL,
-    `firmware_id`   BIGINT UNSIGNED NOT NULL,
-    `model_id`   BIGINT UNSIGNED NOT NULL,
+    `device_id`      BINARY(16) NOT NULL PRIMARY KEY,
+    `shop_id`        BINARY(16) NOT NULL,
+    `firmware_id`    BINARY(16) NOT NULL,
+    `model_id`    BINARY(16) NOT NULL,
     `last_seen`     TIMESTAMP       NULL,
     `created_at`    TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `status`        ENUM('active', 'suspended', 'closed') NOT NULL DEFAULT 'active',
@@ -68,7 +68,7 @@ CREATE TABLE IF NOT EXISTS `DEVICES` (
 
 -- Table: PRODUCTS
 CREATE TABLE IF NOT EXISTS `PRODUCTS` (
-    `product_id`    BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    `product_id`     BINARY(16) NOT NULL PRIMARY KEY,
     `name`          VARCHAR(255)    NOT NULL,
     `price`         DECIMAL(10, 2)  NOT NULL,
     `vat_rate`      DECIMAL(4, 2)   NOT NULL,
@@ -80,8 +80,8 @@ CREATE TABLE IF NOT EXISTS `PRODUCTS` (
 
 -- Table: TRANSACTIONS
 CREATE TABLE IF NOT EXISTS `TRANSACTIONS` (
-    `transaction_id`    BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    `device_id`         BIGINT UNSIGNED NOT NULL,
+    `transaction_id`     BINARY(16) NOT NULL PRIMARY KEY,
+    `device_id`          BINARY(16) NOT NULL,
     `subtotal`          DECIMAL(10, 2)  NOT NULL,
     `total`             DECIMAL(11, 2)  NOT NULL,
     `currency`          CHAR(3)         NOT NULL,
@@ -97,7 +97,7 @@ CREATE TABLE IF NOT EXISTS `TRANSACTIONS` (
 
 -- Table: CASH_PAYMENT_METHOD
 CREATE TABLE IF NOT EXISTS `CASH_PAYMENT_METHOD` (
-    `transaction_id` BIGINT UNSIGNED NOT NULL PRIMARY KEY,
+    `transaction_id`  BINARY(16) NOT NULL PRIMARY KEY,
     `received_amount`   DECIMAL(10, 2)  NOT NULL,
     `change_given`      DECIMAL(10, 2)  NOT NULL,
   FOREIGN KEY (`transaction_id`) REFERENCES `TRANSACTIONS`(`transaction_id`)
@@ -108,7 +108,7 @@ CREATE TABLE IF NOT EXISTS `CASH_PAYMENT_METHOD` (
 
 -- Table: COUPON_PAYMENT_METHOD
 CREATE TABLE IF NOT EXISTS `COUPON_PAYMENT_METHOD` (
-    `transaction_id` BIGINT UNSIGNED NOT NULL PRIMARY KEY,
+    `transaction_id`  BINARY(16) NOT NULL PRIMARY KEY,
     `coupon_code`       VARCHAR(50)     NOT NULL,
     `coupon_value`      DECIMAL(10, 2)  NOT NULL,
     `expiry_date`       DATE            NOT NULL,
@@ -120,7 +120,7 @@ CREATE TABLE IF NOT EXISTS `COUPON_PAYMENT_METHOD` (
 
 -- Table: CREDIT_PAYMENT_METHOD
 CREATE TABLE IF NOT EXISTS `CREDIT_PAYMENT_METHOD` (
-    `transaction_id` BIGINT UNSIGNED NOT NULL PRIMARY KEY,
+    `transaction_id`  BINARY(16) NOT NULL PRIMARY KEY,
     `card_scheme`       VARCHAR(50)     NOT NULL,
     `card_last4`        CHAR(4)         NOT NULL,
     `auth_code`         VARCHAR(20)     NOT NULL,
@@ -132,9 +132,9 @@ CREATE TABLE IF NOT EXISTS `CREDIT_PAYMENT_METHOD` (
 
 -- Table: TRANSACTION_ITEMS
 CREATE TABLE IF NOT EXISTS `TRANSACTION_ITEMS` (
-    `transaction_item_id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    `transaction_id`      BIGINT UNSIGNED NOT NULL,
-    `product_id`          BIGINT UNSIGNED NOT NULL,
+    `transaction_item_id`  BINARY(16) NOT NULL PRIMARY KEY,
+    `transaction_id`       BINARY(16) NOT NULL,
+    `product_id`           BINARY(16) NOT NULL,
     `product_name`        VARCHAR(255)    NOT NULL,
     `sku`                 VARCHAR(20)     NOT NULL,
     `unit_price`          DECIMAL(10, 2)  NOT NULL,
