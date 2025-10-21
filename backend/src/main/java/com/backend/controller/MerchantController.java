@@ -1,6 +1,7 @@
 package com.backend.controller;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -35,7 +36,7 @@ public class MerchantController {
 
   // delete an merchant by id
   @DeleteMapping("/merchant/{id}")
-  public void deleteMerchant(@PathVariable("id") int id) {
+  public void deleteMerchant(@PathVariable UUID id) {
     merchantService.deleteMerchantById(id);
   }
 

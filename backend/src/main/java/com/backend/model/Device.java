@@ -8,6 +8,8 @@ import java.time.Instant;
 import java.util.Set;
 import java.util.UUID;
 
+import com.backend.utils.UUIDBinaryConverter;
+
 @Getter
 @Setter
 @Entity
@@ -16,6 +18,7 @@ public class Device {
 
   @Id
   @Column(name = "device_id", nullable = false, updatable = false, columnDefinition = "BINARY(16)")
+  @Convert(converter = UUIDBinaryConverter.class)
   private UUID deviceId;
 
   @ManyToOne(fetch = FetchType.LAZY, optional = false)

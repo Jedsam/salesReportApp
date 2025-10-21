@@ -3,6 +3,7 @@ package com.backend.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +18,7 @@ public class MerchantService {
   MerchantRepository repository;
 
   // get an merchant by id
-  public Merchant getMerchantById(int id) {
+  public Merchant getMerchantById(UUID id) {
     return repository.findById(id).get();
   }
 
@@ -34,7 +35,7 @@ public class MerchantService {
   }
 
   // delete an merchant by id
-  public void deleteMerchantById(int id) {
+  public void deleteMerchantById(UUID id) {
     repository.deleteById(id);
   }
 }

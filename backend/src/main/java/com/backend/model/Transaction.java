@@ -9,6 +9,8 @@ import java.time.Instant;
 import java.util.Set;
 import java.util.UUID;
 
+import com.backend.utils.UUIDBinaryConverter;
+
 @Getter
 @Setter
 @Entity
@@ -17,6 +19,7 @@ public class Transaction {
 
   @Id
   @Column(name = "transaction_id", nullable = false, updatable = false, columnDefinition = "BINARY(16)")
+  @Convert(converter = UUIDBinaryConverter.class)
   private UUID transactionId;
 
   @ManyToOne(fetch = FetchType.LAZY, optional = false)

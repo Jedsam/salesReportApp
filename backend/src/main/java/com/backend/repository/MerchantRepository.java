@@ -1,10 +1,12 @@
 package com.backend.repository;
 
+import java.util.UUID;
+
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import com.backend.model.Merchant;
 
 @Repository
-public interface MerchantRepository extends CrudRepository<Merchant, Integer> {
+public interface MerchantRepository extends CrudRepository<Merchant, UUID> {
 }

@@ -7,6 +7,8 @@ import lombok.Setter;
 import java.math.BigDecimal;
 import java.util.UUID;
 
+import com.backend.utils.UUIDBinaryConverter;
+
 @Getter
 @Setter
 @Entity
@@ -15,6 +17,7 @@ public class TransactionItem {
 
   @Id
   @Column(name = "transaction_item_id", nullable = false, updatable = false, columnDefinition = "BINARY(16)")
+  @Convert(converter = UUIDBinaryConverter.class)
   private UUID transactionItemId;
 
   @ManyToOne(fetch = FetchType.LAZY, optional = false)
