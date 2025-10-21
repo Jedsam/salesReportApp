@@ -2,8 +2,11 @@ package com.backend.controller.authentication;
 
 import java.util.Optional;
 
-import com.auth.grpc.AuthRequestGrpc;
 import com.backend.security.AuthService;
+
+import com.auth.grpc.TokenAuthResponse;
+import com.auth.grpc.LoginAuthRequest;
+import com.auth.grpc.TokenAuthRequest;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,9 +29,9 @@ public class AuthApiController {
 
   @PreAuthorize("isAnonymous()")
   @PostMapping("/login")
-  public TokenDto login(@RequestBody AuthRequestGrpc authRequestGrpc) {
+  public LoginAuthResponse login(@RequestBody LoginAuthRequest authRequestGrpc) {
 
-    return authService.login(authRequestGrpc);
+    return authService.loginWithEmail(authRequestGrpc);
   }
 
   @PreAuthorize("isAuthenticated()")

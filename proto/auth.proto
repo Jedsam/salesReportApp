@@ -4,15 +4,24 @@ option java_multiple_files = true;
 option java_outer_classname = "UserProto";
 option java_package = "com.auth.grpc";
 
-message AuthRequestGrpc {
+message LoginAuthRequest {
   string email = 1;
   string password = 2;
 }
 
-message AuthResponseGrpc {
+message LoginAuthResponse {
   bool success = 1;
   string token = 2;
   string message = 3;
 }
+message TokenAuthRequest { string token = 1; }
 
-service AuthService { rpc Login(AuthRequestGrpc) returns (AuthResponseGrpc); }
+message TokenAuthResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+service AuthService {
+  rpc LoginWithEmail(LoginAuthRequest) returns (LoginAuthResponse);
+  rpc LoginWithToken(TokenAuthRequest) returns (TokenAuthResponse);
+}

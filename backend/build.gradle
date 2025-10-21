@@ -38,11 +38,16 @@ dependencies {
   testCompileOnly 'org.projectlombok:lombok'
   testAnnotationProcessor 'org.projectlombok:lombok'
   compileOnly 'com.google.protobuf:protobuf-java:3.25.2'
+  compileOnly 'jakarta.annotation:jakarta.annotation-api:2.1.1'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+  implementation 'io.grpc:grpc-netty-shaded:1.64.0' 
+  implementation 'io.grpc:grpc-protobuf:1.64.0'
+  implementation 'io.grpc:grpc-stub:1.64.0'
+  implementation 'com.auth0:java-jwt:4.4.0'
 }
 
 protobuf {
@@ -58,7 +63,9 @@ protobuf {
     generateProtoTasks {
         all().each { task ->
             task.plugins {
-                grpc {}
+                grpc {
+          outputSubDir = 'java'
+                }
             }
         }
     }

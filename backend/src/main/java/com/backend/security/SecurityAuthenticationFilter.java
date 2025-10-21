@@ -5,6 +5,7 @@ import java.io.IOException;
 import com.backend.security.authentication.UserAuthentication;
 import com.backend.security.exception.TokenAuthenticationException;
 import com.backend.security.user.AuthUser;
+import com.backend.service.JwtService;
 
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,10 +20,10 @@ import jakarta.servlet.http.HttpServletResponse;
 @Component
 public class SecurityAuthenticationFilter extends OncePerRequestFilter {
 
-  private final AuthUserCache authUserCache;
+  private final JwtService jwtService;
 
-  public SecurityAuthenticationFilter(AuthUserCache authUserCache) {
-    this.authUserCache = authUserCache;
+  public SecurityAuthenticationFilter(JwtService jwtService) {
+    this.jwtService = jwtService;
   }
 
   @Override
@@ -38,9 +39,8 @@ public class SecurityAuthenticationFilter extends OncePerRequestFilter {
       return;
     }
 
-    AuthUser authUser = authUserCache
-        .getByToken(authenticationHeader)
-        .orElseThrow(() -> new TokenAuthenticationException("Token is not valid"));
+    String jwtToken = stripBearerPrefix(authenticationHeader);
+    AuthUser authUser = jwtService.resolveJwtToken(jwtToken);
 
     UserAuthentication authentication = new UserAuthentication(authUser);
 
@@ -49,5 +49,14 @@ public class SecurityAuthenticationFilter extends OncePerRequestFilter {
     SecurityContextHolder.setContext(securityContext);
 
     filterChain.doFilter(request, response);
+  }
+
+  String stripBearerPrefix(String token) {
+
+    if (!token.startsWith("Bearer")) {
+      throw new TokenAuthenticationException("Unsupported authentication scheme");
+    }
+
+    return token.substring(7);
   }
 }
