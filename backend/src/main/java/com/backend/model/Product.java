@@ -7,6 +7,7 @@ import lombok.Setter;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Set;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -15,9 +16,8 @@ import java.util.Set;
 public class Product {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "product_id", nullable = false, updatable = false)
-  private Long productId;
+  @Column(name = "product_id", nullable = false, updatable = false, columnDefinition = "BINARY(16)")
+  private UUID productId;
 
   @Column(name = "name", nullable = false, length = 255)
   private String name;

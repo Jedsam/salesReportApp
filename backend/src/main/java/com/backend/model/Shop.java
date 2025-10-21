@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import java.time.Instant;
 import java.util.Set;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -14,9 +15,8 @@ import java.util.Set;
 public class Shop {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "shop_id", nullable = false, updatable = false)
-  private Long shopId;
+  @Column(name = "shop_id", nullable = false, updatable = false, columnDefinition = "BINARY(16)")
+  private UUID shopId;
 
   @ManyToOne(fetch = FetchType.LAZY, optional = false)
   @JoinColumn(name = "merchant_id", nullable = false)

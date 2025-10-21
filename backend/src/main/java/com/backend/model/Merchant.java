@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import java.time.Instant;
 import java.util.Set;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -14,9 +15,8 @@ import java.util.Set;
 public class Merchant {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "merchant_id", nullable = false, updatable = false)
-  private Long merchantId;
+  @Column(name = "merchant_id", nullable = false, updatable = false, columnDefinition = "BINARY(16)")
+  private UUID merchantId;
 
   @Column(name = "name", nullable = false, length = 255)
   private String name;

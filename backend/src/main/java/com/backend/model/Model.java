@@ -1,5 +1,7 @@
 package com.backend.model;
 
+import java.util.UUID;
+
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,9 +13,8 @@ import lombok.Setter;
 public class Model {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "model_id", nullable = false, updatable = false)
-  private Long modelId;
+  @Column(name = "model_id", nullable = false, updatable = false, columnDefinition = "BINARY(16)")
+  private UUID modelId;
 
   @Column(name = "model_name", nullable = false, unique = true, length = 50)
   private String modelName;

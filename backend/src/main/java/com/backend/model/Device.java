@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import java.time.Instant;
 import java.util.Set;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -14,9 +15,8 @@ import java.util.Set;
 public class Device {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "device_id", nullable = false, updatable = false)
-  private Long deviceId;
+  @Column(name = "device_id", nullable = false, updatable = false, columnDefinition = "BINARY(16)")
+  private UUID deviceId;
 
   @ManyToOne(fetch = FetchType.LAZY, optional = false)
   @JoinColumn(name = "shop_id", nullable = false)
