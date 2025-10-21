@@ -2,7 +2,11 @@ package com.backend.security;
 
 import java.util.UUID;
 
+import com.auth.grpc.AuthRequestGrpc;
+import com.auth.grpc.AuthResponseGrpc;
+
 import com.backend.security.exception.ApplicationAuthenticationException;
+import com.backend.security.user.AuthUser;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -23,11 +27,11 @@ public class AuthService {
     this.passwordEncoder = passwordEncoder;
   }
 
-  public TokenDto login(LoginDto loginDto) {
+  public TokenDto login(AuthRequestGrpc authRequest) {
 
-    UserResponseWithCredentials userCredentials = userService.getUserCredentialsByUsername(loginDto.username());
+    UserResponseWithCredentials userCredentials = userService.getUserCredentialsByUsername(authRequest.getEmail());
 
-    if (!passwordEncoder.matches(loginDto.password(), userCredentials.passwordHash())) {
+    if (!passwordEncoder.matches(authRequest.getPassword(), userCredentials.passwordHash())) {
       throw new ApplicationAuthenticationException("Password is incorrect");
     }
 

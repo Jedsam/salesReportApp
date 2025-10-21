@@ -65,23 +65,14 @@ protobuf {
 }
 sourceSets {
     main {
-        java {
-            // Include both main Java and generated sources
-            srcDirs = [
-                'src/main/java',
-                "$projectDir/src/generated/main/java",
-                "$projectDir/src/generated/main/grpc"
-            ]
-            // Don't try to treat .proto files as Java
-            exclude '**/*.proto'
-        }
         proto {
-            // Keep your proto directory definition
-            srcDir 'src/main/proto'
+            srcDirs = ['src/main/proto', '../proto']
+        }
+        java {
+            srcDirs = ['src/main/java', "$projectDir/src/generated/main/java"]
         }
         resources {
-            // Keep resources intact
-            srcDir 'src/main/resources'
+            srcDirs = ['src/main/resources']
         }
     }
 }

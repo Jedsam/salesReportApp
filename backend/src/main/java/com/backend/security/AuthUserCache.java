@@ -6,6 +6,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.stereotype.Component;
 
+import com.backend.security.user.AuthUser;
+
 // Decentralized cache (e.g. Redis) or key-value database will be, most likely, used in production
 // scenario
 @Component

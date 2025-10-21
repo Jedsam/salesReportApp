@@ -73,10 +73,11 @@ public class SecurityConfig {
     return authentication -> null;
   }
 
-  @Bean
-  static GrantedAuthorityDefaults grantedAuthorityDefaults() {
-    return new GrantedAuthorityDefaults("");
-  }
+  // The prefix string before the role name
+  // @Bean
+  // static GrantedAuthorityDefaults grantedAuthorityDefaults() {
+  // return new GrantedAuthorityDefaults("");
+  // }
 
   @Bean
   public PasswordEncoder encoder() {

@@ -1,7 +1,10 @@
 package com.backend.security;
 
 import java.io.IOException;
+
+import com.backend.security.authentication.UserAuthentication;
 import com.backend.security.exception.TokenAuthenticationException;
+import com.backend.security.user.AuthUser;
 
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;

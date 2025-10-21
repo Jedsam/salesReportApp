@@ -1,10 +1,12 @@
-package com.backend.security;
+package com.backend.security.authentication;
 
 import java.util.Collection;
 import java.util.stream.Collectors;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
+import com.backend.security.user.AuthUser;
 
 public record UserAuthentication(AuthUser authUser) implements Authentication {
 
