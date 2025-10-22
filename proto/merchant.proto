@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_outer_classname = "MerchantProto";
+option java_package = "com.backend.proto.merchant";
+
+message MerchantGetRequest {}
+
+message MerchantGetResponse {
+  string name = 1;
+  string business_name = 2;
+  string address = 3;
+}
+
+service MerchantService {
+  rpc GetMerchantInfo(MerchantGetRequest) returns (MerchantGetResponse);
+}
