@@ -1,8 +1,8 @@
-package com.backend.service;
+package com.backend.common.exceptions;
 
 public class TokenAuthenticationException extends RuntimeException {
 
-  TokenAuthenticationException(String error) {
+  public TokenAuthenticationException(String error) {
     super(error);
   }
 
