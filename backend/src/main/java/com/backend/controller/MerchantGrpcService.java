@@ -1,61 +1,49 @@
 package com.backend.controller;
 
-import java.util.Collections;
+import java.util.UUID;
 
 import org.springframework.grpc.server.service.GrpcService;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
-import com.backend.model.User;
-import com.backend.proto.user.AuthServiceGrpc.AuthServiceImplBase;
+import com.backend.model.Merchant;
+import com.backend.proto.merchant.MerchantGetRequest;
+import com.backend.proto.merchant.MerchantGetResponse;
 import com.backend.proto.merchant.MerchantServiceGrpc.MerchantServiceImplBase;
-import com.backend.proto.user.LoginAuthRequest;
-import com.backend.proto.user.LoginAuthResponse;
 import com.backend.security.user.AuthUser;
-import com.backend.service.JwtService;
-import com.backend.service.UserService;
+import com.backend.service.MerchantService;
 
 import io.grpc.stub.StreamObserver;
-import io.grpc.Status;
 
 @GrpcService
 public class MerchantGrpcService extends MerchantServiceImplBase {
 
-  private final UserService userService;
-
-  private final PasswordEncoder passwordEncoder;
-
-  private final JwtService jwtService;
+  private final MerchantService merchantService;
 
   public MerchantGrpcService(
-      UserService userService, PasswordEncoder passwordEncoder, JwtService jwtService) {
-    this.userService = userService;
-    this.passwordEncoder = passwordEncoder;
-    this.jwtService = jwtService;
+      MerchantService merchantService) {
+    this.merchantService = merchantService;
   }
 
   @Override
-  public void login(LoginAuthRequest loginAuthRequest, StreamObserver<LoginAuthResponse> responseObserver) {
-    User user = userService.getUserCredentialsByEmail(loginAuthRequest.getEmail());
+  @PreAuthorize("hasRole('MERCHANT')")
+  public void getMerchantInfo(MerchantGetRequest loginAuthRequest,
+      StreamObserver<MerchantGetResponse> responseObserver) {
 
-    if (user == null || !passwordEncoder.matches(loginAuthRequest.getPassword(), user.getPasswordHash())) {
-      responseObserver.onError(Status.UNAUTHENTICATED
-          .withDescription("Invalid credentials")
-          .asRuntimeException());
-    }
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-    AuthUser authUser = new AuthUser(
-        user.getUserId().toString(),
-        Collections.singletonList(user.getRole()));
+    AuthUser authUser = (AuthUser) authentication.getPrincipal();
+    UUID merchantId = authUser.userId();
 
-    String jwtToken = jwtService.createJwtToken(authUser);
+    Merchant merchant = merchantService.getMerchantById(merchantId);
 
-    responseObserver
-        .onNext(
-            LoginAuthResponse.newBuilder()
-                .setToken(jwtToken)
-                .setMessage("Successfully created the token!")
-                .build());
-
+    responseObserver.onNext(
+        MerchantGetResponse.newBuilder()
+            .setName(merchant.getName())
+            .setBusinessName(merchant.getBusinessName())
+            .setAddress(merchant.getAddress())
+            .build());
     responseObserver.onCompleted();
   }
 }

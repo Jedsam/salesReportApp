@@ -2,6 +2,7 @@ package com.backend.service;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -36,7 +37,9 @@ public class JwtService {
       JWTVerifier verifier = JWT.require(signingAlgorithm).build();
       DecodedJWT decodedJWT = verifier.verify(token);
 
-      String userId = decodedJWT.getSubject();
+      String userIdString = decodedJWT.getSubject();
+      UUID userId = UUID.fromString(userIdString);
+
       List<Role> roles = decodedJWT.getClaim(ROLES_CLAIM).asList(Role.class);
 
       return new AuthUser(userId, roles);
@@ -54,7 +57,7 @@ public class JwtService {
     List<String> roles = authUser.roles().stream().map(Role::name).toList();
 
     return JWT.create()
-        .withSubject(authUser.userId())
+        .withSubject(authUser.userId().toString())
         .withClaim(ROLES_CLAIM, roles)
         .withIssuedAt(now)
         .withExpiresAt(exp)

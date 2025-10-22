@@ -43,7 +43,7 @@ public class AuthGrpcService extends AuthServiceImplBase {
     }
 
     AuthUser authUser = new AuthUser(
-        user.getUserId().toString(),
+        user.getUserId(),
         Collections.singletonList(user.getRole()));
 
     String jwtToken = jwtService.createJwtToken(authUser);
