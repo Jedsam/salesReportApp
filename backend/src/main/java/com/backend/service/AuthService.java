@@ -15,7 +15,7 @@ import io.grpc.stub.StreamObserver;
 
 import com.auth.grpc.AuthServiceGrpc.AuthServiceImplBase;
 
-@Service
+@GrpcService
 public class AuthService extends AuthServiceImplBase {
 
   private final UserService userService;

@@ -4,7 +4,7 @@ import java.time.Instant;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
+import org.springframework.grpc.server.service.GrpcService;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
@@ -15,11 +15,10 @@ import com.backend.common.enums.Role;
 import com.backend.security.exception.TokenAuthenticationException;
 import com.backend.security.user.AuthUser;
 
-@Service
+@GrpcService
 public class JwtService {
 
   private static final String ROLES_CLAIM = "roles";
-
   private final Algorithm signingAlgorithm;
 
   public JwtService(@Value("${jwt.signing-secret}") String signingSecret) {

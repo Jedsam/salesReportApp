@@ -2,10 +2,10 @@ package com.backend.controller.authentication;
 
 import java.util.Optional;
 
-import com.backend.security.AuthService;
-
 import com.auth.grpc.TokenAuthResponse;
+import com.backend.service.AuthService;
 import com.auth.grpc.LoginAuthRequest;
+import com.auth.grpc.LoginAuthResponse;
 import com.auth.grpc.TokenAuthRequest;
 
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.grpc.stub.StreamObserver;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.servlet.http.HttpServletRequest;
@@ -31,7 +32,9 @@ public class AuthApiController {
   @PostMapping("/login")
   public LoginAuthResponse login(@RequestBody LoginAuthRequest authRequestGrpc) {
 
-    return authService.loginWithEmail(authRequestGrpc);
+    StreamObserver<LoginAuthResponse> myResponse = new StreamObserver<LoginAuthResponse>();
+    authService.loginWithEmail(authRequestGrpc, myResponse);
+    return myResponse;
   }
 
   @PreAuthorize("isAuthenticated()")
