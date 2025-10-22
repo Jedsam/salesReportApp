@@ -2,17 +2,26 @@
 CREATE DATABASE IF NOT EXISTS `payment_system`;
 USE `payment_system`;
 
+-- Table: USERS
+CREATE TABLE IF NOT EXISTS `USERS` (
+    `user_id`       BINARY(16)      NOT NULL PRIMARY KEY,
+    `email`         VARCHAR(255)    NOT NULL UNIQUE,
+    `password_hash` VARCHAR(255)    NOT NULL,
+    `role`          ENUM('USER','ADMIN') NOT NULL DEFAULT 'USER'
+);
+
 -- Table: MERCHANTS
 CREATE TABLE IF NOT EXISTS `MERCHANTS` (
     `merchant_id`   BINARY(16)      NOT NULL PRIMARY KEY,
+    `user_id`       BINARY(16)      NOT NULL,
     `name`          VARCHAR(255)    NOT NULL,
     `business_name` VARCHAR(255)    NOT NULL,
-    `email`         VARCHAR(255)    NOT NULL UNIQUE COMMENT 'Login information',
-    `password_hash` CHAR(64)        NOT NULL COMMENT 'hash + salt (assuming SHA-256 hash output)',
     `phone`         VARCHAR(30)     COMMENT 'Contact information',
     `address`       VARCHAR(255)    COMMENT 'Contact address',
     `created_at`    TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `status`        ENUM('active', 'suspended', 'closed') NOT NULL DEFAULT 'active'
+    `status`        ENUM('active', 'suspended', 'closed') NOT NULL DEFAULT 'active',
+    FOREIGN KEY (`user_id`) REFERENCES `USERS`(`user_id`)
+        ON DELETE CASCADE
 );
 
 ---

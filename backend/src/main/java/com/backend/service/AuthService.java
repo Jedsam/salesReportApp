@@ -2,8 +2,8 @@ package com.backend.service;
 
 import java.io.Serializable;
 
+import org.springframework.grpc.server.service.GrpcService;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
 
 import com.auth.grpc.LoginAuthRequest;
 import com.auth.grpc.LoginAuthResponse;
