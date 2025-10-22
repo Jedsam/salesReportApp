@@ -5,17 +5,16 @@ import java.util.Collections;
 import org.springframework.grpc.server.service.GrpcService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.auth.grpc.LoginAuthRequest;
-import com.auth.grpc.LoginAuthResponse;
 import com.backend.model.User;
+import com.backend.proto.user.AuthServiceGrpc.AuthServiceImplBase;
+import com.backend.proto.user.LoginAuthRequest;
+import com.backend.proto.user.LoginAuthResponse;
 import com.backend.security.user.AuthUser;
 import com.backend.service.JwtService;
 import com.backend.service.UserService;
 
 import io.grpc.stub.StreamObserver;
 import io.grpc.Status;
-
-import com.auth.grpc.AuthServiceGrpc.AuthServiceImplBase;
 
 @GrpcService
 public class AuthGrpcService extends AuthServiceImplBase {
