@@ -9,7 +9,8 @@ message MerchantGetRequest {}
 message MerchantGetResponse {
   string name = 1;
   string business_name = 2;
-  string address = 3;
+  string phone = 3;
+  string address = 4;
 }
 
 service MerchantService {

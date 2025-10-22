@@ -15,4 +15,22 @@ message LoginAuthResponse {
   string message = 3;
 }
 
-service AuthService { rpc Login(LoginAuthRequest) returns (LoginAuthResponse); }
+message MerchantRegisterRequest {
+  string email = 1;
+  string password = 2;
+  string name = 3;
+  string business_name = 4;
+  string phone = 5;
+  string address = 6;
+}
+
+message MerchantRegisterResponse {
+  string token = 1;
+  string message = 2;
+}
+
+service AuthService {
+  rpc Login(LoginAuthRequest) returns (LoginAuthResponse);
+  rpc RegisterMerchant(MerchantRegisterRequest)
+      returns (MerchantRegisterResponse);
+}

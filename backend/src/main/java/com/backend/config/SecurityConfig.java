@@ -23,6 +23,7 @@ public class SecurityConfig {
     return new AuthenticationInterceptor(jwtService);
   }
 
+  // I dont think this uses salting
   @Bean
   public PasswordEncoder encoder() {
     return new BCryptPasswordEncoder();

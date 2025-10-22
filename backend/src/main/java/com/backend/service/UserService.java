@@ -3,6 +3,7 @@ package com.backend.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.backend.model.Merchant;
 import com.backend.model.User;
 import com.backend.repository.UserRepository;
 
@@ -14,6 +15,10 @@ public class UserService {
 
   public User getUserCredentialsByEmail(String email) {
     return repository.findByEmail(email).orElse(null);
+  }
+
+  public User registerUser(User user) {
+    return repository.save(user);
   }
 
 }

@@ -29,8 +29,8 @@ public class MerchantService {
     return merchants;
   }
 
-  // create or update an merchant
-  public void saveOrUpdate(Merchant merchant) {
+  // registers a merchant
+  public void registerMerchant(Merchant merchant) {
     repository.save(merchant);
   }
 
