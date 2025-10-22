@@ -9,6 +9,8 @@ import java.time.Instant;
 import java.util.Set;
 import java.util.UUID;
 
+import com.backend.common.enums.PaymentType;
+import com.backend.common.enums.TransactionStatus;
 import com.backend.utils.UUIDBinaryConverter;
 
 @Getter
@@ -43,7 +45,7 @@ public class Transaction {
 
   @Enumerated(EnumType.STRING)
   @Column(name = "status", nullable = false, length = 10)
-  private Status status = Status.active;
+  private TransactionStatus status = TransactionStatus.active;
 
   @Enumerated(EnumType.STRING)
   @Column(name = "payment_type", nullable = false, length = 10)
@@ -51,18 +53,6 @@ public class Transaction {
 
   @OneToMany(mappedBy = "transaction", cascade = CascadeType.ALL, orphanRemoval = true)
   private Set<TransactionItem> items;
-
-  public enum Status {
-    active,
-    suspended,
-    closed
-  }
-
-  public enum PaymentType {
-    cash,
-    credit,
-    coupon
-  }
 
   public Transaction() {
     this.createdAt = Instant.now();

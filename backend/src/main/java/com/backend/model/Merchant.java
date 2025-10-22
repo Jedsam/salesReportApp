@@ -27,12 +27,6 @@ public class Merchant {
   @Column(name = "business_name", nullable = false, length = 255)
   private String businessName;
 
-  @Column(name = "email", nullable = false, length = 255, unique = true)
-  private String email;
-
-  @Column(name = "password_hash", nullable = false, length = 64)
-  private String passwordHash;
-
   @Column(name = "phone", length = 30)
   private String phone;
 

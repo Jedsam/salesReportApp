@@ -4,7 +4,7 @@ import java.time.Instant;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.grpc.server.service.GrpcService;
+import org.springframework.stereotype.Service;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
@@ -15,7 +15,7 @@ import com.backend.common.enums.Role;
 import com.backend.security.exception.TokenAuthenticationException;
 import com.backend.security.user.AuthUser;
 
-@GrpcService
+@Service
 public class JwtService {
 
   private static final String ROLES_CLAIM = "roles";

@@ -14,14 +14,5 @@ message LoginAuthResponse {
   string token = 2;
   string message = 3;
 }
-message TokenAuthRequest { string token = 1; }
 
-message TokenAuthResponse {
-  bool success = 1;
-  string message = 2;
-}
-
-service AuthService {
-  rpc LoginWithEmail(LoginAuthRequest) returns (LoginAuthResponse);
-  rpc LoginWithToken(TokenAuthRequest) returns (TokenAuthResponse);
-}
+service AuthService { rpc Login(LoginAuthRequest) returns (LoginAuthResponse); }
