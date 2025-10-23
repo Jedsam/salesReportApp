@@ -6,18 +6,22 @@ import java.util.List;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.ProviderManager;
 
-import com.backend.service.JwtService;
+import com.backend.security.authentication.JwtAuthenticationProvider;
 
-import io.grpc.ServerInterceptor;
 import net.devh.boot.grpc.server.security.authentication.BearerAuthenticationReader;
+import net.devh.boot.grpc.server.security.authentication.CompositeGrpcAuthenticationReader;
+
+import org.springframework.security.oauth2.server.resource.BearerTokenAuthenticationToken;
 import net.devh.boot.grpc.server.security.authentication.GrpcAuthenticationReader;
 
 @Configuration
-@EnableMethodSecurity
+@EnableGlobalMethodSecurity(securedEnabled = true, proxyTargetClass = true)
 public class SecurityConfig {
 
   public SecurityConfig() {
@@ -33,11 +37,11 @@ public class SecurityConfig {
   }
 
   @Bean
-  AuthenticationManager authenticationManager() {
+  AuthenticationManager authenticationManager(JwtAuthenticationProvider jwtAuthenticationProvider) {
     final List<AuthenticationProvider> providers = new ArrayList<>();
-    providers.add(...); // Possibly JwtAuthenticationProvider
+    providers.add(jwtAuthenticationProvider); // Possibly JwtAuthenticationProvider
     return new ProviderManager(providers);
-}
+  }
 
   @Bean
   public PasswordEncoder encoder() {

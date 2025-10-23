@@ -2,7 +2,6 @@ package com.backend.controller;
 
 import java.util.UUID;
 
-import org.springframework.grpc.server.service.GrpcService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,6 +14,7 @@ import com.backend.security.user.AuthUser;
 import com.backend.service.MerchantService;
 
 import io.grpc.stub.StreamObserver;
+import net.devh.boot.grpc.server.service.GrpcService;
 
 @GrpcService
 public class MerchantGrpcService extends MerchantServiceImplBase {

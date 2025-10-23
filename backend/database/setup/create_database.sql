@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS `USERS` (
     `user_id`       BINARY(16)      NOT NULL PRIMARY KEY,
     `email`         VARCHAR(255)    NOT NULL UNIQUE,
     `password_hash` VARCHAR(255)    NOT NULL,
-    `role`          ENUM('USER','ADMIN') NOT NULL DEFAULT 'USER'
+    `role`          ENUM('ROLE_MERCHANT','ROLE_ADMIN') NOT NULL DEFAULT 'ROLE_MERCHANT'
 );
 
 -- Table: MERCHANTS
