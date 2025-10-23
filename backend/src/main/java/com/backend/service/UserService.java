@@ -3,7 +3,6 @@ package com.backend.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.backend.model.Merchant;
 import com.backend.model.User;
 import com.backend.repository.UserRepository;
 

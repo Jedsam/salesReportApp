@@ -3,7 +3,6 @@ package com.backend.controller;
 import java.util.Collections;
 import java.util.UUID;
 
-import org.springframework.grpc.server.service.GrpcService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -21,6 +20,7 @@ import com.backend.service.MerchantService;
 import com.backend.service.UserService;
 
 import io.grpc.stub.StreamObserver;
+import net.devh.boot.grpc.server.service.GrpcService;
 import io.grpc.Status;
 
 @GrpcService
