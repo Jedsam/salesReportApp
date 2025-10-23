@@ -41,5 +41,8 @@ Thumbs.db
 
 # environment file
 .env
+# certificate and key files
+*.key
+*.crt
 
 .factorypath

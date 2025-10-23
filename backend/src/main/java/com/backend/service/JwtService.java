@@ -22,7 +22,7 @@ public class JwtService {
   private static final String ROLES_CLAIM = "roles";
   private final Algorithm signingAlgorithm;
 
-  public JwtService(@Value("${jwt.signing/secret}") String signingSecret) {
+  public JwtService(@Value("${jwt.signing.secret}") String signingSecret) {
 
     // this example uses a symmetric signature of the JWT token, but if you want the
     // issuer and the

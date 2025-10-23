@@ -54,6 +54,8 @@ dependencies {
   implementation 'com.auth0:java-jwt:4.4.0'
    
   implementation 'io.grpc:grpc-services'
+  implementation 'io.grpc:grpc-netty' 
+implementation 'io.grpc:grpc-context'
   implementation 'org.springframework.grpc:spring-grpc-spring-boot-starter'
   testImplementation 'org.springframework.boot:spring-boot-starter-test'
   testImplementation 'org.springframework.grpc:spring-grpc-test'

@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.UUID;
 
 import org.springframework.grpc.server.service.GrpcService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.backend.common.enums.Role;
@@ -45,6 +46,7 @@ public class AuthGrpcService extends AuthServiceImplBase {
   }
 
   @Override
+  @PreAuthorize("isAnonymous()")
   public void login(LoginAuthRequest loginAuthRequest, StreamObserver<LoginAuthResponse> responseObserver) {
     User user = userService.getUserCredentialsByEmail(loginAuthRequest.getEmail());
 
@@ -71,6 +73,7 @@ public class AuthGrpcService extends AuthServiceImplBase {
   }
 
   @Override
+  @PreAuthorize("isAnonymous()")
   public void registerMerchant(MerchantRegisterRequest merchantRegisterRequest,
       StreamObserver<MerchantRegisterResponse> responseObserver) {
     // Check the validity of the information
