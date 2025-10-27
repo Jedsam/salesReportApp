@@ -36,7 +36,7 @@ public class MerchantGrpcService extends MerchantServiceImplBase {
     AuthUser authUser = (AuthUser) authentication.getPrincipal();
     UUID merchantId = authUser.userId();
 
-    Merchant merchant = merchantService.getMerchantById(merchantId);
+    Merchant merchant = merchantService.getMerchantByUserId(merchantId);
 
     responseObserver.onNext(
         MerchantGetResponse.newBuilder()

@@ -1,14 +1,9 @@
 package com.backend.security.authentication;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.server.resource.BearerTokenAuthenticationToken;
 import org.springframework.stereotype.Component;
 
@@ -36,18 +31,16 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
       AuthUser authUser = jwtService.resolveJwtToken(token);
 
       // Convert AuthUser roles to Spring Security Granted Authorities
-      List<SimpleGrantedAuthority> authorities = authUser.roles().stream()
-          .map(role -> new SimpleGrantedAuthority(role.name()))
-          .collect(Collectors.toList());
+      // List<SimpleGrantedAuthority> authorities = authUser.roles().stream()
+      // .map(role -> new SimpleGrantedAuthority(role.name()))
+      // .collect(Collectors.toList());
 
       // Return a fully authenticated token.
       // principal: the user object (AuthUser)
       // credentials: the JWT token (or null/empty string)
       // authorities: the granted roles
-      return new UsernamePasswordAuthenticationToken(
-          authUser,
-          token,
-          authorities);
+      return new UserAuthentication(
+          authUser);
     } catch (TokenAuthenticationException e) {
       // Re-throw a Spring Security exception for invalid token
       throw new BadCredentialsException("Invalid JWT token", e);

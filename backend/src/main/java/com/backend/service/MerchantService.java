@@ -22,6 +22,10 @@ public class MerchantService {
     return repository.findById(id).get();
   }
 
+  public Merchant getMerchantByUserId(UUID id) {
+    return repository.findByUser_UserId(id).get();
+  }
+
   // get all merchants
   public List<Merchant> getAllMerchants() {
     List<Merchant> merchants = new ArrayList<Merchant>();
