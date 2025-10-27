@@ -1,7 +1,6 @@
 package com.backend.controller;
 
 import java.util.Collections;
-import java.util.UUID;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -82,11 +81,10 @@ public class AuthGrpcService extends AuthServiceImplBase {
     user.setEmail(merchantRegisterRequest.getEmail());
     user.setPasswordHash(passwordEncoder.encode(merchantRegisterRequest.getPassword()));
     user.setRole(Role.ROLE_MERCHANT);
-    user.setUserId(UUID.randomUUID());
-    userService.registerUser(user);
+    User registeredUser = userService.registerUser(user);
 
     Merchant merchant = new Merchant();
-    merchant.setMerchantId(user.getUserId());
+    merchant.setUser(registeredUser);
     merchant.setName(merchantRegisterRequest.getName());
     merchant.setBusinessName(merchantRegisterRequest.getBusinessName());
     merchant.setPhone(merchantRegisterRequest.getPhone());

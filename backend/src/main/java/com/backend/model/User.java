@@ -6,10 +6,10 @@ import lombok.Setter;
 
 import java.util.UUID;
 
-import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import com.backend.common.enums.Role;
-import com.backend.utils.UUIDBinaryConverter;
 
 @Getter
 @Setter
@@ -17,10 +17,9 @@ import com.backend.utils.UUIDBinaryConverter;
 @Table(name = "USERS")
 public class User {
   @Id
-  @GeneratedValue(generator = "uuid2")
-  @GenericGenerator(name = "uuid2", strategy = "uuid2")
+  @GeneratedValue
   @Column(name = "user_id", nullable = false, updatable = false, columnDefinition = "BINARY(16)")
-  @Convert(converter = UUIDBinaryConverter.class)
+  @JdbcTypeCode(SqlTypes.BINARY)
   private UUID userId;
 
   @Column(name = "email", nullable = false, length = 255, unique = true)
