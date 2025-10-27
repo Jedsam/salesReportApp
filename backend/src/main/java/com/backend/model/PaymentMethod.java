@@ -1,9 +1,9 @@
-
 package com.backend.model;
 
-import java.util.UUID;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
-import com.backend.utils.UUIDBinaryConverter;
+import java.util.UUID;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -15,8 +15,9 @@ import lombok.Setter;
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class PaymentMethod {
   @Id
+  @GeneratedValue
   @Column(name = "transaction_id", nullable = false, updatable = false, columnDefinition = "BINARY(16)")
-  @Convert(converter = UUIDBinaryConverter.class)
+  @JdbcTypeCode(SqlTypes.BINARY)
   private UUID transactionId;
 
   @OneToOne

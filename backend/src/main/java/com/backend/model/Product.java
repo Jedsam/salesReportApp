@@ -9,7 +9,8 @@ import java.time.Instant;
 import java.util.Set;
 import java.util.UUID;
 
-import com.backend.utils.UUIDBinaryConverter;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 @Getter
 @Setter
@@ -18,8 +19,9 @@ import com.backend.utils.UUIDBinaryConverter;
 public class Product {
 
   @Id
+  @GeneratedValue
   @Column(name = "product_id", nullable = false, updatable = false, columnDefinition = "BINARY(16)")
-  @Convert(converter = UUIDBinaryConverter.class)
+  @JdbcTypeCode(SqlTypes.BINARY)
   private UUID productId;
 
   @Column(name = "name", nullable = false, length = 255)

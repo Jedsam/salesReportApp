@@ -1,5 +1,8 @@
 package com.backend.model;
 
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,7 +14,6 @@ import java.util.UUID;
 
 import com.backend.common.enums.PaymentType;
 import com.backend.common.enums.TransactionStatus;
-import com.backend.utils.UUIDBinaryConverter;
 
 @Getter
 @Setter
@@ -20,8 +22,9 @@ import com.backend.utils.UUIDBinaryConverter;
 public class Transaction {
 
   @Id
+  @GeneratedValue
   @Column(name = "transaction_id", nullable = false, updatable = false, columnDefinition = "BINARY(16)")
-  @Convert(converter = UUIDBinaryConverter.class)
+  @JdbcTypeCode(SqlTypes.BINARY)
   private UUID transactionId;
 
   @ManyToOne(fetch = FetchType.LAZY, optional = false)

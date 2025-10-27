@@ -8,7 +8,8 @@ import java.time.Instant;
 import java.util.Set;
 import java.util.UUID;
 
-import com.backend.utils.UUIDBinaryConverter;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 @Getter
 @Setter
@@ -17,8 +18,9 @@ import com.backend.utils.UUIDBinaryConverter;
 public class Device {
 
   @Id
+  @GeneratedValue
   @Column(name = "device_id", nullable = false, updatable = false, columnDefinition = "BINARY(16)")
-  @Convert(converter = UUIDBinaryConverter.class)
+  @JdbcTypeCode(SqlTypes.BINARY)
   private UUID deviceId;
 
   @ManyToOne(fetch = FetchType.LAZY, optional = false)
