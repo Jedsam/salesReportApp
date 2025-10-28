@@ -46,6 +46,7 @@ dependencies {
 
     implementation libs.androidx.paging.common
     implementation libs.androidx.compose.runtime
+    implementation libs.androidx.compose.foundation.layout
     ksp(libs.androidx.room.compiler)
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.androidx.room.runtime)

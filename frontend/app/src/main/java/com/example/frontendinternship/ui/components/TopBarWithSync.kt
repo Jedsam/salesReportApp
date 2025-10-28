@@ -1,9 +1,11 @@
 package com.example.frontendinternship.ui.components
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
@@ -29,52 +31,59 @@ fun TopBarWithSync(
     isConnected: Boolean,
     onSyncButtonPressed: () -> Unit
 ) {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceAround,
-        verticalAlignment = Alignment.CenterVertically
+    Box(
+        modifier = Modifier.fillMaxWidth()
     ) {
-        if (isConnected) {
-            Icon(
-                imageVector = Icons.Sharp.Wifi,
-                contentDescription = "WifiOn",
-                tint = Color.Gray
-            )
-        } else {
-            Icon(
-                imageVector = Icons.Sharp.WifiOff,
-                contentDescription = "WifiOff",
-                tint = Color.Gray
-            )
-        }
         Text(
             text = currentScreenText,
-            fontSize = LocalTextFormat.current.sizeMain,
+            modifier = Modifier.align(Alignment.Center),
+            fontSize = LocalTextFormat.current.sizeLarge,
             color = Color.Black
         )
-        Button(
-            onClick = { onSyncButtonPressed() },
+        Row(
             modifier = Modifier
-                .size(
-                    width = LocalDimensions.current.viewLarge,
-                    height = LocalDimensions.current.viewBig
-                ),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = MaterialTheme.colorScheme.background,
-                contentColor = MaterialTheme.colorScheme.primary,
-                disabledContainerColor = MaterialTheme.colorScheme.background,
-                disabledContentColor = MaterialTheme.colorScheme.background,
-            ),
-            contentPadding = PaddingValues(
-                horizontal = LocalPadding.current.VeryTiny,
-                vertical = LocalPadding.current.Mini
-            )
+                .fillMaxWidth()
+                .padding(LocalPadding.current.Small),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
         ) {
-            Text(
-                text = "Sync",
-                fontSize = LocalTextFormat.current.sizeMain,
-                color = MaterialTheme.colorScheme.primary
-            )
+            if (isConnected) {
+                Icon(
+                    imageVector = Icons.Sharp.Wifi,
+                    contentDescription = "WifiOn",
+                    tint = Color.Gray
+                )
+            } else {
+                Icon(
+                    imageVector = Icons.Sharp.WifiOff,
+                    contentDescription = "WifiOff",
+                    tint = Color.Gray
+                )
+            }
+            Button(
+                onClick = { onSyncButtonPressed() },
+                modifier = Modifier
+                    .size(
+                        width = LocalDimensions.current.viewBig,
+                        height = LocalDimensions.current.viewBig
+                    ),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.background,
+                    contentColor = MaterialTheme.colorScheme.primary,
+                    disabledContainerColor = MaterialTheme.colorScheme.background,
+                    disabledContentColor = MaterialTheme.colorScheme.background,
+                ),
+                contentPadding = PaddingValues(
+                    horizontal = LocalPadding.current.VeryTiny,
+                    vertical = LocalPadding.current.Mini
+                )
+            ) {
+                Text(
+                    text = "Sync",
+                    fontSize = LocalTextFormat.current.sizeBig,
+                    color = MaterialTheme.colorScheme.primary
+                )
+            }
         }
     }
 }

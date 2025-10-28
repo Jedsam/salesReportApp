@@ -1,6 +1,8 @@
 package com.example.frontendinternship.ui.screens.catalog
 
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.systemBars
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -21,6 +23,7 @@ fun NewCatalogScreen(
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
         modifier = Modifier.fillMaxSize(),
+        contentWindowInsets = WindowInsets.systemBars,
         topBar = {
             TopBarWithSync(
                 onSyncButtonPressed = {},
@@ -28,7 +31,8 @@ fun NewCatalogScreen(
                 currentScreenText = "Products"
             )
         },
-        bottomBar = {}) { innerPadding ->
+        bottomBar = {},
+    ) { innerPadding ->
         ProductList(
             onProductSelected = {},
             productList = uiState.productList,

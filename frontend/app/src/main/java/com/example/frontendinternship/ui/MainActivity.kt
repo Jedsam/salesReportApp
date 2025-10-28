@@ -6,7 +6,6 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.navigation.compose.rememberNavController
 import com.example.frontendinternship.ui.navigation.Navigation
-import com.example.frontendinternship.ui.screens.catalog.CatalogScreen
 import com.example.frontendinternship.ui.theme.FrontendInternshipTheme
 import dagger.hilt.android.AndroidEntryPoint
 

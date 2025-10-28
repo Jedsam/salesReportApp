@@ -34,7 +34,11 @@ fun ProductList(
     onProductSelected: (Product) -> Unit,
     paddingValue: PaddingValues
 ) {
-    LazyColumn(verticalArrangement = Arrangement.spacedBy(LocalPadding.current.Normal)) {
+    LazyColumn(
+        verticalArrangement = Arrangement.spacedBy(LocalPadding.current.Normal),
+        modifier = Modifier
+            .padding(paddingValue),
+    ) {
         items(productList) { product ->
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -47,7 +51,8 @@ fun ProductList(
                 ) {
                     Text(
                         text = product.productName,
-                        fontSize = LocalTextFormat.current.sizeNormal
+                        fontSize = LocalTextFormat.current.sizeNormal,
+                        color = Color.Black
                     )
                     Text(
                         text = String.format(" %.2f", product.price) + "TL",
