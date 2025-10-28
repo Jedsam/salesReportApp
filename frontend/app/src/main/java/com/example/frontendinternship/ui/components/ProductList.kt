@@ -3,6 +3,7 @@ package com.example.frontendinternship.ui.components
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -30,7 +31,8 @@ import com.example.frontendinternship.ui.theme.LocalTextFormat
 @Composable
 fun ProductList(
     productList: List<Product>,
-    onProductSelected: (Product) -> Unit
+    onProductSelected: (Product) -> Unit,
+    paddingValue: PaddingValues
 ) {
     LazyColumn(verticalArrangement = Arrangement.spacedBy(LocalPadding.current.Normal)) {
         items(productList) { product ->
@@ -86,7 +88,8 @@ fun ProductListPreview() {
                 Product(productName = "mp2", vatRate = 20, price = 0.00f),
                 Product(productName = "$*^($@!*@#", vatRate = 5, price = 5.49812940f),
             ),
-            onProductSelected = {}
+            onProductSelected = {},
+            paddingValue = PaddingValues(all = 0.dp)
         )
     }
 }

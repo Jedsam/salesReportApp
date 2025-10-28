@@ -14,6 +14,14 @@ class ProductRepositoryImpl @Inject constructor(
         val productEntities: List<ProductEntity> = productDao.loadAllByVat(vat)
         return productEntities.map { productEntity: ProductEntity ->
             productEntity.toDomain()
-        } }
+        }
+    }
+
+    override fun loadProducts(): List<Product> {
+        val productEntities: List<ProductEntity> = productDao.getAll()
+        return productEntities.map { productEntity: ProductEntity ->
+            productEntity.toDomain()
+        }
+    }
 }
 

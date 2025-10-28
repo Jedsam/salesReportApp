@@ -4,5 +4,6 @@ import com.example.frontendinternship.domain.model.Product
 
 
 interface ProductRepository {
-    fun loadProductsByVat(vat: Int) : List<Product>
+    fun loadProductsByVat(vat: Int): List<Product>
+    fun loadProducts(): List<Product>
 }
