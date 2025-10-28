@@ -1,0 +1,111 @@
+package com.example.frontendinternship.ui.components
+
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.sharp.Wifi
+import androidx.compose.material.icons.sharp.WifiOff
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import com.example.frontendinternship.ui.navigation.Screen
+import com.example.frontendinternship.ui.theme.FrontendInternshipTheme
+import com.example.frontendinternship.ui.theme.LocalDimensions
+import com.example.frontendinternship.ui.theme.LocalPadding
+import com.example.frontendinternship.ui.theme.LocalTextFormat
+
+@Composable
+fun TopBarWithReturn(
+    navController: NavController,
+    screenToGoBackTo: Screen,
+    currentScreenText: String,
+    isConnected: Boolean
+) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceAround,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Button(
+            onClick = { navController.navigate(screenToGoBackTo.route) },
+            modifier = Modifier
+                .size(
+                    width = LocalDimensions.current.viewLarge,
+                    height = LocalDimensions.current.viewBig
+                ),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = MaterialTheme.colorScheme.background,
+                contentColor = Color.Gray,
+                disabledContainerColor = MaterialTheme.colorScheme.background,
+                disabledContentColor = MaterialTheme.colorScheme.background,
+            ),
+            contentPadding = PaddingValues(
+                horizontal = LocalPadding.current.VeryTiny,
+                vertical = LocalPadding.current.Mini
+            )
+        ) {
+            Icon(
+                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                contentDescription = "Arrow",
+                tint = Color.Gray
+            )
+        }
+        Text(
+            text = currentScreenText,
+            fontSize = LocalTextFormat.current.sizeMain,
+            color = Color.Black
+        )
+        if (isConnected) {
+            Icon(
+                imageVector = Icons.Sharp.Wifi,
+                contentDescription = "WifiOn",
+                tint = Color.Gray
+            )
+        } else {
+            Icon(
+                imageVector = Icons.Sharp.WifiOff,
+                contentDescription = "WifiOff",
+                tint = Color.Gray
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
+fun TopBarWithReturnPreviewWifiOn() {
+    FrontendInternshipTheme {
+        TopBarWithReturn(
+            navController = rememberNavController(),
+            screenToGoBackTo = Screen.Catalog,
+            currentScreenText = "TopBar",
+            isConnected = true
+        )
+    }
+}
+
+@Preview
+@Composable
+fun TopBarWithReturnPreviewWifiOff() {
+    FrontendInternshipTheme {
+        TopBarWithReturn(
+            navController = rememberNavController(),
+            screenToGoBackTo = Screen.Catalog,
+            currentScreenText = "TopBar",
+            isConnected = false
+        )
+    }
+}
