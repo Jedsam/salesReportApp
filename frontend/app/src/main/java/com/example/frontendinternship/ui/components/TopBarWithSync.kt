@@ -53,7 +53,7 @@ fun TopBarWithSync(
             color = Color.Black
         )
         Button(
-            onClick = { onSyncButtonPressed },
+            onClick = { onSyncButtonPressed() },
             modifier = Modifier
                 .size(
                     width = LocalDimensions.current.viewLarge,
