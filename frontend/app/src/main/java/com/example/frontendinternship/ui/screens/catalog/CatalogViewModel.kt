@@ -1,4 +1,4 @@
-package com.example.frontendinternship.ui.product
+package com.example.frontendinternship.ui.screens.catalog
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -24,14 +24,14 @@ import javax.inject.Inject
 import kotlin.String
 
 @HiltViewModel
-class ProductViewModel @Inject constructor(
+class CatalogViewModel @Inject constructor(
     private val loadProductsByVatUseCase: LoadProductsByVatUseCase,
     private val finalizeOrderUseCase: FinalizeOrderUseCase,
     private val postXmlReportUseCase: PostXmlReportUseCase,
     private val loadReceiptByDateUseCase: LoadReceiptByDateUseCase
 ) :
     ViewModel() {
-    data class ProductUiState(
+    data class CatalogUiState(
         val plu0: List<Product> = emptyList(),
         val plu1: List<Product> = emptyList(),
         val plu10: List<Product> = emptyList(),
@@ -303,8 +303,8 @@ class ProductViewModel @Inject constructor(
         return xml
     }
 
-    private val _uiState = MutableStateFlow(ProductUiState())
-    val uiState: StateFlow<ProductUiState> = _uiState.asStateFlow()
+    private val _uiState = MutableStateFlow(CatalogUiState())
+    val uiState: StateFlow<CatalogUiState> = _uiState.asStateFlow()
 
     init {
         loadAllProducts()

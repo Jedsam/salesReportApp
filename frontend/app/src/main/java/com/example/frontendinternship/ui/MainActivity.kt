@@ -4,7 +4,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import com.example.frontendinternship.ui.product.ProductScreen
+import androidx.navigation.compose.rememberNavController
+import com.example.frontendinternship.ui.navigation.Navigation
+import com.example.frontendinternship.ui.screens.catalog.CatalogScreen
 import com.example.frontendinternship.ui.theme.FrontendInternshipTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -15,7 +17,8 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             FrontendInternshipTheme {
-                ProductScreen() // entry composable
+                val navController = rememberNavController()
+                Navigation(navController = navController)
             }
         }
     }

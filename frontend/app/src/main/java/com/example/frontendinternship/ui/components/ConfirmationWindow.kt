@@ -1,4 +1,4 @@
-package com.example.frontendinternship.ui.product.components
+package com.example.frontendinternship.ui.components
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement

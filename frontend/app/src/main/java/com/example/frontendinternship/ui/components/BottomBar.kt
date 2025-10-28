@@ -1,4 +1,4 @@
-package com.example.frontendinternship.ui.product.components
+package com.example.frontendinternship.ui.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -14,11 +14,13 @@ import com.example.frontendinternship.ui.theme.LocalTextFormat
 @Composable
 fun BottomBar(string: String) {
     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
-        Text(text = "SERVER: ",fontSize = LocalTextFormat.current.sizeMain, color = Color.Black)
-        Text(text = string, maxLines = 2, autoSize = TextAutoSize.StepBased(
-            minFontSize = LocalTextFormat.current.sizeLarge,
-            maxFontSize = LocalTextFormat.current.sizeMain,
-            stepSize = 1.sp
-        ), color = Color.Black)
+        Text(text = "SERVER: ", fontSize = LocalTextFormat.current.sizeMain, color = Color.Black)
+        Text(
+            text = string, maxLines = 2, autoSize = TextAutoSize.StepBased(
+                minFontSize = LocalTextFormat.current.sizeLarge,
+                maxFontSize = LocalTextFormat.current.sizeMain,
+                stepSize = 1.sp
+            ), color = Color.Black
+        )
     }
 }

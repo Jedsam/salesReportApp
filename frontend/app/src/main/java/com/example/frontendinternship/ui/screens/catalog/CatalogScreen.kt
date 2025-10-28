@@ -1,4 +1,4 @@
-package com.example.frontendinternship.ui.product
+package com.example.frontendinternship.ui.screens.catalog
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -18,16 +19,18 @@ import com.example.frontendinternship.domain.model.ProductWithCount
 import com.example.frontendinternship.ui.theme.LocalPadding
 import com.example.frontendinternship.ui.theme.LocalTextFormat
 import androidx.compose.runtime.collectAsState
+import androidx.navigation.NavHostController
 import com.example.frontendinternship.domain.model.PAYMENT_METHOD
 import com.example.frontendinternship.domain.model.getCost
 import com.example.frontendinternship.ui.components.GetActionButton
-import com.example.frontendinternship.ui.product.components.BottomBar
-import com.example.frontendinternship.ui.product.components.ConfirmationWindow
-import com.example.frontendinternship.ui.product.components.ProductButtons
-import com.example.frontendinternship.ui.product.components.TopBar
+import com.example.frontendinternship.ui.components.BottomBar
+import com.example.frontendinternship.ui.components.ConfirmationWindow
+import com.example.frontendinternship.ui.components.ProductButtons
+import com.example.frontendinternship.ui.components.TopBar
+import com.example.frontendinternship.ui.navigation.Screen
 
 @Composable
-fun ProductScreen(viewModel: ProductViewModel = hiltViewModel()) {
+fun CatalogScreen(navController: NavHostController, viewModel: CatalogViewModel = hiltViewModel()) {
 
     val uiState by viewModel.uiState.collectAsState()
     Scaffold(
@@ -40,6 +43,9 @@ fun ProductScreen(viewModel: ProductViewModel = hiltViewModel()) {
                 .padding(innerPadding),
             verticalArrangement = Arrangement.spacedBy(LocalPadding.current.Normal),
         ) {
+            Button(onClick = { navController.navigate(Screen.Product.route) }) {
+                Text("Go to product")
+            }
             // Product boxes
             Column(
                 modifier = Modifier
