@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.frontendinternship.ui.screens.catalog.CatalogScreen
+import com.example.frontendinternship.ui.screens.catalog.NewCatalogScreen
 import com.example.frontendinternship.ui.screens.product.ProductScreen
 
 
@@ -14,7 +14,7 @@ fun Navigation(
 ) {
     NavHost(navController = navController, startDestination = Screen.Catalog.route) {
         composable(Screen.Catalog.route) {
-            CatalogScreen(navController)
+            NewCatalogScreen(navController)
         }
         composable(Screen.Product.route) {
             ProductScreen(navController)
