@@ -1,9 +1,11 @@
 package com.example.frontendinternship.ui.components
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
@@ -34,52 +36,59 @@ fun TopBarWithReturn(
     currentScreenText: String,
     isConnected: Boolean
 ) {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceAround,
-        verticalAlignment = Alignment.CenterVertically
+    Box(
+        modifier = Modifier.fillMaxWidth()
     ) {
-        Button(
-            onClick = { navController.navigate(screenToGoBackTo.route) },
-            modifier = Modifier
-                .size(
-                    width = LocalDimensions.current.viewLarge,
-                    height = LocalDimensions.current.viewBig
-                ),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = MaterialTheme.colorScheme.background,
-                contentColor = Color.Gray,
-                disabledContainerColor = MaterialTheme.colorScheme.background,
-                disabledContentColor = MaterialTheme.colorScheme.background,
-            ),
-            contentPadding = PaddingValues(
-                horizontal = LocalPadding.current.VeryTiny,
-                vertical = LocalPadding.current.Mini
-            )
-        ) {
-            Icon(
-                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                contentDescription = "Arrow",
-                tint = Color.Gray
-            )
-        }
         Text(
             text = currentScreenText,
             fontSize = LocalTextFormat.current.sizeMain,
+            modifier = Modifier.align(Alignment.Center),
             color = Color.Black
         )
-        if (isConnected) {
-            Icon(
-                imageVector = Icons.Sharp.Wifi,
-                contentDescription = "WifiOn",
-                tint = Color.Gray
-            )
-        } else {
-            Icon(
-                imageVector = Icons.Sharp.WifiOff,
-                contentDescription = "WifiOff",
-                tint = Color.Gray
-            )
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(LocalPadding.current.Small),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Button(
+                onClick = { navController.navigate(screenToGoBackTo.route) },
+                modifier = Modifier
+                    .size(
+                        width = LocalDimensions.current.viewLarge,
+                        height = LocalDimensions.current.viewBig
+                    ),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.background,
+                    contentColor = Color.Gray,
+                    disabledContainerColor = MaterialTheme.colorScheme.background,
+                    disabledContentColor = MaterialTheme.colorScheme.background,
+                ),
+                contentPadding = PaddingValues(
+                    horizontal = LocalPadding.current.VeryTiny,
+                    vertical = LocalPadding.current.Mini
+                )
+            ) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                    contentDescription = "Arrow",
+                    tint = Color.Gray
+                )
+            }
+            if (isConnected) {
+                Icon(
+                    imageVector = Icons.Sharp.Wifi,
+                    contentDescription = "WifiOn",
+                    tint = Color.Gray
+                )
+            } else {
+                Icon(
+                    imageVector = Icons.Sharp.WifiOff,
+                    contentDescription = "WifiOff",
+                    tint = Color.Gray
+                )
+            }
         }
     }
 }
