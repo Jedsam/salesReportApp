@@ -16,6 +16,7 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.frontendinternship.ui.components.BottomBar
 import com.example.frontendinternship.ui.components.TopBar
+import com.example.frontendinternship.ui.components.TopBarWithSync
 import com.example.frontendinternship.ui.navigation.Screen
 import com.example.frontendinternship.ui.theme.LocalPadding
 
@@ -25,8 +26,14 @@ fun ProductScreen(navController: NavController, viewModel: ProductViewModel = hi
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
         modifier = Modifier.fillMaxSize(),
-        topBar = { TopBar() },
-        bottomBar = { BottomBar(string = uiState.switchCounter.toString()) }) { innerPadding ->
+        topBar = {
+            TopBarWithSync(
+                onSyncButtonPressed = {},
+                isConnected = true,
+                currentScreenText = "Products"
+            )
+        },
+        bottomBar = {}) { innerPadding ->
         Column(
             modifier = Modifier
                 .padding(innerPadding),
