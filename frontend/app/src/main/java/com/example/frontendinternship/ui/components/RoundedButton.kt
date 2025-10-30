@@ -31,10 +31,8 @@ fun RoundedButton(
     borderColor: Color = Color.Blue,
     containerColor: Color = Color.Blue,
     contentColor: Color = Color.White,
-    content: @Composable RowScope.() -> Unit,
 ) {
     Row() {
-        content
         Button(
             onClick = onButtonPress,
             modifier = modifier,
@@ -61,7 +59,7 @@ fun RoundedButtonPreview() {
             buttonText = "ABC",
             onButtonPress = {},
             modifier = Modifier,
-        ) {}
+        )
     }
 }
 
@@ -76,6 +74,6 @@ fun RoundedButtonPreviewWithBorder() {
             borderColor = Color.Red,
             containerColor = MaterialTheme.colorScheme.background,
             contentColor = Color.Red
-        ) {}
+        )
     }
 }

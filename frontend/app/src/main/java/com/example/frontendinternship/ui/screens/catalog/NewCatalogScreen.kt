@@ -28,6 +28,7 @@ import com.example.frontendinternship.ui.components.ProductList
 import com.example.frontendinternship.ui.components.RoundedButton
 import com.example.frontendinternship.ui.components.TopBarWithSync
 import com.example.frontendinternship.ui.theme.FrontendInternshipTheme
+import com.example.frontendinternship.ui.theme.LocalColors
 import com.example.frontendinternship.ui.theme.LocalDimensions
 import com.example.frontendinternship.ui.theme.LocalPadding
 import com.example.frontendinternship.ui.theme.LocalTextFormat
@@ -61,16 +62,9 @@ fun NewCatalogScreen(
                         .fillMaxWidth(0.8f)
                         .padding(horizontal = LocalPadding.current.Small)
                         .height(LocalDimensions.current.viewNormalPlus),
-                    borderColor = Color.Red,
-                    containerColor = MaterialTheme.colorScheme.background,
-                    contentColor = Color.Red
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.ShoppingBasket,
-                        contentDescription = "AddIcon",
-                        tint = MaterialTheme.colorScheme.secondary
-                    )
-                }
+                    borderColor = LocalColors.current.darkGreen,
+                    containerColor = LocalColors.current.darkGreen,
+                )
                 RoundedButton(
                     buttonText = "+",
                     textSize = LocalTextFormat.current.sizeLarge,
@@ -80,7 +74,7 @@ fun NewCatalogScreen(
                         .height(LocalDimensions.current.viewNormalPlus),
                     borderColor = MaterialTheme.colorScheme.primary,
                     containerColor = MaterialTheme.colorScheme.primary,
-                ) { }
+                )
             }
         },
     ) { innerPadding ->
