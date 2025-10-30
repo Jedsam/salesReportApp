@@ -32,7 +32,6 @@ import com.example.frontendinternship.ui.theme.LocalTextFormat
 @Composable
 fun TopBarWithReturn(
     navController: NavController,
-    screenToGoBackTo: Screen,
     currentScreenText: String,
     isConnected: Boolean
 ) {
@@ -53,7 +52,7 @@ fun TopBarWithReturn(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Button(
-                onClick = { navController.navigate(screenToGoBackTo.route) },
+                onClick = { navController.popBackStack() },
                 modifier = Modifier
                     .size(
                         width = LocalDimensions.current.viewLarge,
@@ -99,7 +98,6 @@ fun TopBarWithReturnPreviewWifiOn() {
     FrontendInternshipTheme {
         TopBarWithReturn(
             navController = rememberNavController(),
-            screenToGoBackTo = Screen.Catalog,
             currentScreenText = "TopBar",
             isConnected = true
         )
@@ -112,7 +110,6 @@ fun TopBarWithReturnPreviewWifiOff() {
     FrontendInternshipTheme {
         TopBarWithReturn(
             navController = rememberNavController(),
-            screenToGoBackTo = Screen.Catalog,
             currentScreenText = "TopBar",
             isConnected = false
         )
