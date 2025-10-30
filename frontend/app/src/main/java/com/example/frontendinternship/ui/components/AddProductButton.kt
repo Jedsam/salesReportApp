@@ -1,6 +1,7 @@
 package com.example.frontendinternship.ui.components
 
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -16,7 +17,7 @@ fun AddProductButton(
     FloatingActionButton(
         onClick = { onButtonPressed() },
         containerColor = MaterialTheme.colorScheme.secondary,
-        shape = CircleShape
+        shape = RoundedCornerShape(10)
     ) {
         Text(
             text = "+",
