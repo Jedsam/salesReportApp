@@ -36,11 +36,11 @@ fun RoundedButton(
             containerColor = containerColor,
             contentColor = contentColor
         ),
-        border = BorderStroke(LocalPadding.current.Mini, borderColor)
+        border = BorderStroke(LocalPadding.current.VeryMini, borderColor)
     ) {
         Text(
             text = buttonText,
-            fontSize = LocalTextFormat.current.sizeLarge,
+            fontSize = LocalTextFormat.current.sizeNormal,
         )
     }
 }

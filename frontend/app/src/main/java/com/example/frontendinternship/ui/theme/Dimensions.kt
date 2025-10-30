@@ -8,6 +8,7 @@ data class Dimensions(
     val viewTiny: Dp = 20.dp,
     val viewSmall: Dp = 30.dp,
     val viewNormal: Dp = 40.dp,
+    val viewNormalPlus: Dp = 50.dp,
     val viewBig: Dp = 60.dp,
     val viewLarge: Dp = 80.dp,
     val viewLargePlus: Dp = 90.dp,

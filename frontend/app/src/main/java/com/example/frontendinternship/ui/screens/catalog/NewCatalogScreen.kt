@@ -10,11 +10,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.frontendinternship.ui.components.AddProductButton
 import com.example.frontendinternship.ui.components.ProductList
 import com.example.frontendinternship.ui.components.TopBarWithSync
+import com.example.frontendinternship.ui.theme.FrontendInternshipTheme
 
 @Composable
 fun NewCatalogScreen(
@@ -45,3 +48,11 @@ fun NewCatalogScreen(
     }
 }
 
+
+@Preview
+@Composable
+fun NewCatalogScreenPreview() {
+    FrontendInternshipTheme {
+        NewCatalogScreen(navController = rememberNavController())
+    }
+}
