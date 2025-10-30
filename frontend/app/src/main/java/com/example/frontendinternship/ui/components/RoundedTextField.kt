@@ -19,12 +19,12 @@ import com.example.frontendinternship.ui.theme.LocalPadding
 
 @Composable
 fun RoundedTextField(
-    startingValue: String,
+    textValue: String,
     onFieldValueChange: (String) -> Unit,
     keyboardType: KeyboardType,
 ) {
     BasicTextField(
-        value = startingValue,
+        value = textValue,
         onValueChange = { newText: String -> onFieldValueChange(newText) },
         modifier = Modifier
             .size(
@@ -46,7 +46,7 @@ fun RoundedTextField(
 fun RoundedTextFieldPreview() {
     FrontendInternshipTheme {
         RoundedTextField(
-            startingValue = "ABC",
+            textValue = "ABC",
             onFieldValueChange = {},
             KeyboardType.Number,
         )
