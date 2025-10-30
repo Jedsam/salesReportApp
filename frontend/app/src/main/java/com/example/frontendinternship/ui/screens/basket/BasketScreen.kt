@@ -18,14 +18,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.frontendinternship.ui.components.OrderProductList
 import com.example.frontendinternship.ui.components.RoundedButton
-import com.example.frontendinternship.ui.components.RoundedTextField
 import com.example.frontendinternship.ui.components.TopBarWithReturn
 import com.example.frontendinternship.ui.navigation.Screen
 import com.example.frontendinternship.ui.screens.product.ProductViewModel
@@ -90,69 +89,56 @@ fun BasketScreen(navController: NavController, viewModel: ProductViewModel = hil
                 }
             }
         }) { innerPadding ->
-        Column(
-            modifier = Modifier
-                .padding(innerPadding),
-            verticalArrangement = Arrangement.spacedBy(LocalPadding.current.Normal),
-            horizontalAlignment = Alignment.CenterHorizontally,
+        OrderProductList(
+            productList = emptyList(),
+            paddingValue = innerPadding,
         ) {
-            RoundedTextField(
-                textFieldInformation = "Product Name",
-                textColor = Color.Gray,
-                textValue = uiState.currentProduct.productName,
-                onFieldValueChange = {},
-                keyboardType = KeyboardType.Text,
-                textFieldModifier = Modifier.fillMaxWidth(0.9f)
-            )
-            Row(
-                modifier = Modifier
-                    .padding(horizontal = LocalPadding.current.Normal)
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(LocalPadding.current.Normal)
-            ) {
-                RoundedTextField(
-                    textFieldInformation = "Price",
-                    textColor = Color.Gray,
-                    textValue = uiState.currentProduct.price.toString(),
-                    onFieldValueChange = {},
-                    keyboardType = KeyboardType.Decimal,
-                    textFieldModifier = Modifier.fillMaxWidth(0.45f)
-                )
-                RoundedTextField(
-                    textFieldInformation = "VAT Rate (%)",
-                    textColor = Color.Gray,
-                    textValue = uiState.currentProduct.vatRate.toString(),
-                    onFieldValueChange = {},
-                    keyboardType = KeyboardType.Number,
-                    textFieldModifier = Modifier.fillMaxWidth()
-                )
-            }
             HorizontalDivider(
                 modifier = Modifier.padding(vertical = LocalPadding.current.VeryTiny),
                 thickness = 0.5.dp,
                 color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.2f)
             )
-            RoundedButton(
-                buttonText = "Save",
-                onButtonPress = {},
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = LocalPadding.current.Small)
-                    .height(LocalDimensions.current.viewNormalPlus),
-                borderColor = MaterialTheme.colorScheme.primary,
-                containerColor = MaterialTheme.colorScheme.primary,
-            )
-            RoundedButton(
-                buttonText = "Delete",
-                onButtonPress = {},
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = LocalPadding.current.Small)
-                    .height(LocalDimensions.current.viewNormalPlus),
-                borderColor = Color.Red,
-                containerColor = MaterialTheme.colorScheme.background,
-                contentColor = Color.Red
-            )
+            Column() {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(LocalPadding.current.Tiny),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(
+                        text = "Subtotal",
+                        color = Color.Gray,
+                    )
+                    Text(text = "20.00TL")
+                }
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(LocalPadding.current.Tiny),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(
+                        text = "Tax",
+                        color = Color.Gray,
+                    )
+                    Text(text = "40.00TL")
+                }
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(LocalPadding.current.Tiny),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(
+                        text = "Discount",
+                        color = Color.Gray,
+                    )
+                    Text(
+                        text = "-10.00TL",
+                        color = Color.Red
+                    )
+                }
+            }
         }
     }
 }
