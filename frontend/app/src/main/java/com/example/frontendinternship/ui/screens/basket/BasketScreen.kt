@@ -1,4 +1,4 @@
-package com.example.frontendinternship.ui.screens.product
+package com.example.frontendinternship.ui.screens.basket
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -26,12 +26,13 @@ import com.example.frontendinternship.ui.components.RoundedButton
 import com.example.frontendinternship.ui.components.RoundedTextField
 import com.example.frontendinternship.ui.components.TopBarWithReturn
 import com.example.frontendinternship.ui.navigation.Screen
+import com.example.frontendinternship.ui.screens.product.ProductViewModel
 import com.example.frontendinternship.ui.theme.FrontendInternshipTheme
 import com.example.frontendinternship.ui.theme.LocalDimensions
 import com.example.frontendinternship.ui.theme.LocalPadding
 
 @Composable
-fun ProductScreen(navController: NavController, viewModel: ProductViewModel = hiltViewModel()) {
+fun BasketScreen(navController: NavController, viewModel: ProductViewModel = hiltViewModel()) {
     val uiState by viewModel.uiState.collectAsState()
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
@@ -40,7 +41,7 @@ fun ProductScreen(navController: NavController, viewModel: ProductViewModel = hi
             TopBarWithReturn(
                 navController = navController,
                 screenToGoBackTo = Screen.Catalog,
-                currentScreenText = "Edit Product",
+                currentScreenText = "Current Order",
                 isConnected = true,
             )
         },
@@ -114,9 +115,9 @@ fun ProductScreen(navController: NavController, viewModel: ProductViewModel = hi
 
 @Preview
 @Composable
-fun ProductScreenPreview() {
+fun BasketScreenPreview() {
     FrontendInternshipTheme {
-        ProductScreen(navController = rememberNavController())
+        BasketScreen(navController = rememberNavController())
     }
 }
 

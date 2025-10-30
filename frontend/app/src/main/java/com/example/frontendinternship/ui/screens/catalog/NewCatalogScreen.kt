@@ -1,5 +1,6 @@
 package com.example.frontendinternship.ui.screens.catalog
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,6 +13,7 @@ import androidx.compose.material.icons.filled.ShoppingBasket
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -51,30 +53,33 @@ fun NewCatalogScreen(
             )
         },
         bottomBar = {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.padding(LocalPadding.current.Small)
-            ) {
-                RoundedButton(
-                    buttonText = "Go to Basket (0)",
-                    onButtonPress = {},
-                    modifier = Modifier
-                        .fillMaxWidth(0.8f)
-                        .padding(horizontal = LocalPadding.current.Small)
-                        .height(LocalDimensions.current.viewNormalPlus),
-                    borderColor = LocalColors.current.darkGreen,
-                    containerColor = LocalColors.current.darkGreen,
-                )
-                RoundedButton(
-                    buttonText = "+",
-                    textSize = LocalTextFormat.current.sizeLarge,
-                    onButtonPress = {},
-                    modifier = Modifier
-                        .fillMaxWidth(0.8f)
-                        .height(LocalDimensions.current.viewNormalPlus),
-                    borderColor = MaterialTheme.colorScheme.primary,
-                    containerColor = MaterialTheme.colorScheme.primary,
-                )
+            Column() {
+                Text(text = "Product x 5 : 10.00TL | 100.00TL")
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.padding(LocalPadding.current.Small)
+                ) {
+                    RoundedButton(
+                        buttonText = "Go to Basket (0)",
+                        onButtonPress = {},
+                        modifier = Modifier
+                            .fillMaxWidth(0.8f)
+                            .padding(horizontal = LocalPadding.current.Small)
+                            .height(LocalDimensions.current.viewNormalPlus),
+                        borderColor = LocalColors.current.darkGreen,
+                        containerColor = LocalColors.current.darkGreen,
+                    )
+                    RoundedButton(
+                        buttonText = "+",
+                        textSize = LocalTextFormat.current.sizeLarge,
+                        onButtonPress = {},
+                        modifier = Modifier
+                            .fillMaxWidth(0.8f)
+                            .height(LocalDimensions.current.viewNormalPlus),
+                        borderColor = MaterialTheme.colorScheme.primary,
+                        containerColor = MaterialTheme.colorScheme.primary,
+                    )
+                }
             }
         },
     ) { innerPadding ->
