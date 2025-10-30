@@ -10,12 +10,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -30,6 +32,7 @@ import com.example.frontendinternship.ui.screens.product.ProductViewModel
 import com.example.frontendinternship.ui.theme.FrontendInternshipTheme
 import com.example.frontendinternship.ui.theme.LocalDimensions
 import com.example.frontendinternship.ui.theme.LocalPadding
+import com.example.frontendinternship.ui.theme.LocalTextFormat
 
 @Composable
 fun BasketScreen(navController: NavController, viewModel: ProductViewModel = hiltViewModel()) {
@@ -45,7 +48,48 @@ fun BasketScreen(navController: NavController, viewModel: ProductViewModel = hil
                 isConnected = true,
             )
         },
-        bottomBar = {}) { innerPadding ->
+        bottomBar = {
+            Column() {
+                HorizontalDivider(
+                    modifier = Modifier.padding(vertical = LocalPadding.current.VeryTiny),
+                    thickness = 0.5.dp,
+                    color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.2f)
+                )
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(LocalPadding.current.TinyPlus),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                ) {
+                    Text(
+                        text = "Total",
+                        fontWeight = FontWeight.Bold,
+                        fontSize = LocalTextFormat.current.sizeBig,
+                    )
+                    Text(
+                        text = "100.00TL",
+                        fontWeight = FontWeight.Bold,
+                        fontSize = LocalTextFormat.current.sizeBig,
+                        color = MaterialTheme.colorScheme.secondary
+                    )
+                }
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.padding(LocalPadding.current.Small)
+                ) {
+                    RoundedButton(
+                        buttonText = "Proceed to Payment",
+                        onButtonPress = {},
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = LocalPadding.current.Small)
+                            .height(LocalDimensions.current.viewNormalPlus),
+                        borderColor = MaterialTheme.colorScheme.secondary,
+                        containerColor = MaterialTheme.colorScheme.secondary,
+                    )
+                }
+            }
+        }) { innerPadding ->
         Column(
             modifier = Modifier
                 .padding(innerPadding),

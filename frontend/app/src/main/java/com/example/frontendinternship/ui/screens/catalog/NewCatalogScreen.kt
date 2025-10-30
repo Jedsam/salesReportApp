@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ShoppingBasket
 import androidx.compose.material3.Icon
@@ -63,7 +64,7 @@ fun NewCatalogScreen(
                         buttonText = "Go to Basket (0)",
                         onButtonPress = {},
                         modifier = Modifier
-                            .fillMaxWidth(0.8f)
+                            .fillMaxWidth(0.7f)
                             .padding(horizontal = LocalPadding.current.Small)
                             .height(LocalDimensions.current.viewNormalPlus),
                         borderColor = LocalColors.current.darkGreen,
@@ -74,8 +75,9 @@ fun NewCatalogScreen(
                         textSize = LocalTextFormat.current.sizeLarge,
                         onButtonPress = {},
                         modifier = Modifier
-                            .fillMaxWidth(0.8f)
-                            .height(LocalDimensions.current.viewNormalPlus),
+                            .width(LocalDimensions.current.viewNormalPlus)
+                            .height(LocalDimensions.current.viewNormalPlus)
+                        ,
                         borderColor = MaterialTheme.colorScheme.primary,
                         containerColor = MaterialTheme.colorScheme.primary,
                     )

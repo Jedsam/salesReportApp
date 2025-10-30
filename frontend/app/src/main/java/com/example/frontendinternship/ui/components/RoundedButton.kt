@@ -2,8 +2,10 @@ package com.example.frontendinternship.ui.components
 
 import android.R
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
@@ -11,6 +13,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
@@ -32,8 +35,7 @@ fun RoundedButton(
     containerColor: Color = Color.Blue,
     contentColor: Color = Color.White,
 ) {
-    Row() {
-        Button(
+    Button(
             onClick = onButtonPress,
             modifier = modifier,
             shape = RoundedCornerShape(roundness),
@@ -41,13 +43,12 @@ fun RoundedButton(
                 containerColor = containerColor,
                 contentColor = contentColor
             ),
-            border = BorderStroke(LocalPadding.current.VeryMini, borderColor)
-        ) {
-            Text(
-                text = buttonText,
-                fontSize = textSize,
-            )
-        }
+            border = BorderStroke(width = LocalPadding.current.VeryMini, borderColor)
+    ) {
+        Text(
+            text = buttonText,
+            fontSize = textSize
+        )
     }
 }
 
