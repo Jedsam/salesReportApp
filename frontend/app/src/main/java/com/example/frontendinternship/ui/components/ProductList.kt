@@ -27,6 +27,7 @@ import com.example.frontendinternship.ui.theme.FrontendInternshipTheme
 import com.example.frontendinternship.ui.theme.LocalPadding
 import com.example.frontendinternship.ui.theme.LocalTextFormat
 
+// Add vat rates maybe?
 @SuppressLint("DefaultLocale")
 @Composable
 fun ProductList(

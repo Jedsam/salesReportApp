@@ -95,7 +95,7 @@ fun ProductScreen(navController: NavController, viewModel: ProductViewModel = hi
                     .height(LocalDimensions.current.viewNormalPlus),
                 borderColor = MaterialTheme.colorScheme.primary,
                 containerColor = MaterialTheme.colorScheme.primary,
-            )
+            ) {}
             RoundedButton(
                 buttonText = "Delete",
                 onButtonPress = {},
@@ -106,7 +106,7 @@ fun ProductScreen(navController: NavController, viewModel: ProductViewModel = hi
                 borderColor = Color.Red,
                 containerColor = MaterialTheme.colorScheme.background,
                 contentColor = Color.Red
-            )
+            ) {}
         }
     }
 }
