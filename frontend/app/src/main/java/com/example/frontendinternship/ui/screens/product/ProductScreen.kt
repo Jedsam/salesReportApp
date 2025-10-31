@@ -13,6 +13,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -26,17 +28,20 @@ import com.example.frontendinternship.domain.model.Product
 import com.example.frontendinternship.ui.components.RoundedButton
 import com.example.frontendinternship.ui.components.RoundedTextField
 import com.example.frontendinternship.ui.components.TopBarWithReturn
+import com.example.frontendinternship.ui.screens.catalog.ProductTransferViewModel
 import com.example.frontendinternship.ui.theme.FrontendInternshipTheme
 import com.example.frontendinternship.ui.theme.LocalDimensions
 import com.example.frontendinternship.ui.theme.LocalPadding
+import kotlinx.serialization.StringFormat
 
 @Composable
 fun ProductScreen(
     navController: NavController,
     viewModel: ProductViewModel = hiltViewModel(),
-    currentProduct: Product
+    productTransferViewModel: ProductTransferViewModel
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    val sharedState by productTransferViewModel.uiState.collectAsState()
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
         modifier = Modifier.fillMaxSize(),
@@ -57,7 +62,7 @@ fun ProductScreen(
             RoundedTextField(
                 textFieldInformation = "Product Name",
                 textColor = Color.Gray,
-                textValue = uiState.currentProduct.productName,
+                textValue = sharedState.currentProduct.productName,
                 onFieldValueChange = {},
                 keyboardType = KeyboardType.Text,
                 textFieldModifier = Modifier.fillMaxWidth(0.9f)
@@ -71,7 +76,7 @@ fun ProductScreen(
                 RoundedTextField(
                     textFieldInformation = "Price",
                     textColor = Color.Gray,
-                    textValue = uiState.currentProduct.price.toString(),
+                    textValue = String.format("%.2f",sharedState.currentProduct.price),
                     onFieldValueChange = {},
                     keyboardType = KeyboardType.Decimal,
                     textFieldModifier = Modifier.fillMaxWidth(0.45f)
@@ -79,7 +84,7 @@ fun ProductScreen(
                 RoundedTextField(
                     textFieldInformation = "VAT Rate (%)",
                     textColor = Color.Gray,
-                    textValue = uiState.currentProduct.vatRate.toString(),
+                    textValue = sharedState.currentProduct.vatRate.toString(),
                     onFieldValueChange = {},
                     keyboardType = KeyboardType.Number,
                     textFieldModifier = Modifier.fillMaxWidth()
@@ -118,10 +123,18 @@ fun ProductScreen(
 @Preview
 @Composable
 fun ProductScreenPreview() {
+    val productTransferViewModel = remember { mutableStateOf(ProductTransferViewModel()) }
+    productTransferViewModel.value.updateProduct(
+        Product(
+            productName = "MyProduct1",
+            vatRate = 10,
+            price = 30.0f
+        )
+    )
     FrontendInternshipTheme {
         ProductScreen(
             navController = rememberNavController(),
-            currentProduct = Product(productName = "MyProduct1", vatRate = 10, price = 30.0f)
+            productTransferViewModel = productTransferViewModel.value
         )
     }
 }

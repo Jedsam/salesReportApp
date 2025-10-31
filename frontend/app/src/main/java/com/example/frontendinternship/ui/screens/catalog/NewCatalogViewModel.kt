@@ -2,6 +2,7 @@ package com.example.frontendinternship.ui.screens.catalog
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.room.util.copy
 import com.example.frontendinternship.domain.model.Product
 import com.example.frontendinternship.domain.usecase.iface.ILoadProductsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -26,6 +27,7 @@ class NewCatalogViewModel @Inject constructor(
         loadAllProducts()
         // startReportCheckLoop()
     }
+
 
     private fun loadAllProducts() {
         viewModelScope.launch {

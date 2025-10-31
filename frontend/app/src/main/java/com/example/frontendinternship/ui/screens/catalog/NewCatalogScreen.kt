@@ -9,18 +9,16 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ShoppingBasket
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -30,6 +28,7 @@ import com.example.frontendinternship.domain.usecase.iface.ILoadProductsUseCase
 import com.example.frontendinternship.ui.components.ProductList
 import com.example.frontendinternship.ui.components.RoundedButton
 import com.example.frontendinternship.ui.components.TopBarWithSync
+import com.example.frontendinternship.ui.navigation.Screen
 import com.example.frontendinternship.ui.theme.FrontendInternshipTheme
 import com.example.frontendinternship.ui.theme.LocalColors
 import com.example.frontendinternship.ui.theme.LocalDimensions
@@ -39,7 +38,8 @@ import com.example.frontendinternship.ui.theme.LocalTextFormat
 @Composable
 fun NewCatalogScreen(
     navController: NavController,
-    viewModel: NewCatalogViewModel = hiltViewModel()
+    viewModel: NewCatalogViewModel = hiltViewModel(),
+    productTransferViewModel: ProductTransferViewModel
 ) {
     val uiState by viewModel.uiState.collectAsState()
     Scaffold(
@@ -54,7 +54,7 @@ fun NewCatalogScreen(
             )
         },
         bottomBar = {
-            Column() {
+            Column{
                 Text(text = "Product x 5 : 10.00TL | 100.00TL")
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
@@ -76,8 +76,7 @@ fun NewCatalogScreen(
                         onButtonPress = {},
                         modifier = Modifier
                             .width(LocalDimensions.current.viewNormalPlus)
-                            .height(LocalDimensions.current.viewNormalPlus)
-                        ,
+                            .height(LocalDimensions.current.viewNormalPlus),
                         borderColor = MaterialTheme.colorScheme.primary,
                         containerColor = MaterialTheme.colorScheme.primary,
                     )
@@ -86,6 +85,10 @@ fun NewCatalogScreen(
         },
     ) { innerPadding ->
         ProductList(
+            onProductAdded = { product: Product ->
+                productTransferViewModel.updateProduct(product.copy())
+                navController.navigate(Screen.Product.route)
+            },
             onProductSelected = {},
             productList = uiState.productList,
             paddingValue = innerPadding
@@ -97,12 +100,20 @@ fun NewCatalogScreen(
 @Preview
 @Composable
 fun NewCatalogScreenPreview() {
+    val productTransferViewModel = remember { mutableStateOf(ProductTransferViewModel()) }
+    productTransferViewModel.value.updateProduct(
+        Product(
+            productName = "MyProduct1",
+            vatRate = 10,
+            price = 30.0f
+        )
+    )
     FrontendInternshipTheme {
         NewCatalogScreen(
             navController = rememberNavController(),
             viewModel = NewCatalogViewModel_Factory.newInstance(
                 FakeLoadProductsUseCase()
-            )
+            ), productTransferViewModel = productTransferViewModel.value
         )
     }
 }

@@ -1,6 +1,7 @@
 package com.example.frontendinternship.ui.components
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -34,6 +35,7 @@ import com.example.frontendinternship.ui.theme.LocalTextFormat
 fun ProductList(
     productList: List<Product>,
     onProductSelected: (Product) -> Unit,
+    onProductAdded: (Product) -> Unit,
     paddingValue: PaddingValues
 ) {
     LazyColumn(
@@ -45,6 +47,7 @@ fun ProductList(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
+                    //.clickable { onProductSelected(product) }
                     .padding(horizontal = LocalPadding.current.Tiny),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
@@ -64,7 +67,7 @@ fun ProductList(
                         color = Color.Gray
                     )
                 }
-                IconButton(onClick = { onProductSelected(product) }) {
+                IconButton(onClick = { onProductAdded(product) }) {
                     Icon(
                         imageVector = Icons.Default.AddCircleOutline,
                         contentDescription = "AddIcon",
@@ -86,7 +89,7 @@ fun ProductList(
 @Composable
 fun ProductListPreview() {
     FrontendInternshipTheme {
-        Scaffold() { innerPadding ->
+        Scaffold{ innerPadding ->
             ProductList(
                 productList = listOf(
                     Product(productName = "MyProduct1", vatRate = 10, price = 30.0f),
@@ -99,6 +102,7 @@ fun ProductListPreview() {
                     Product(productName = "$*^($@!*@#", vatRate = 5, price = 5.49812940f),
                 ),
                 onProductSelected = {},
+                onProductAdded = {},
                 paddingValue = innerPadding
             )
         }
