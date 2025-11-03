@@ -85,11 +85,11 @@ fun NewCatalogScreen(
         },
     ) { innerPadding ->
         ProductList(
-            onProductAdded = { product: Product ->
+            onProductSelected = { product: Product ->
                 productTransferViewModel.updateProduct(product.copy())
                 navController.navigate(Screen.Product.route)
             },
-            onProductSelected = {},
+            onProductAdded = {},
             productList = uiState.productList,
             paddingValue = innerPadding
         )

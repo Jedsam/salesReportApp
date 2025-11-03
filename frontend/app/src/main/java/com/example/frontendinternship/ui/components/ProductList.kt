@@ -47,7 +47,7 @@ fun ProductList(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    //.clickable { onProductSelected(product) }
+                    .clickable { onProductSelected(product) }
                     .padding(horizontal = LocalPadding.current.Tiny),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
