@@ -10,12 +10,6 @@ import jakarta.inject.Inject
 class ProductRepositoryImpl @Inject constructor(
     private val productDao: ProductDao
 ) : ProductRepository {
-    override fun loadProductsByVat(vat: Int): List<Product> {
-        val productEntities: List<ProductEntity> = productDao.loadAllByVat(vat)
-        return productEntities.map { productEntity: ProductEntity ->
-            productEntity.toDomain()
-        }
-    }
 
     override fun loadProducts(): List<Product> {
         val productEntities: List<ProductEntity> = productDao.getAll()

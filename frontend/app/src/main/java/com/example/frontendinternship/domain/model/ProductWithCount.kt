@@ -9,6 +9,6 @@ data class ProductWithCount(
 ) {
 }
 
-fun ProductWithCount.getCost(): Float {
+fun ProductWithCount.getCost(): Double {
     return product.price * count
 }

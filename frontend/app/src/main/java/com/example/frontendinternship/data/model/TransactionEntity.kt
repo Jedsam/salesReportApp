@@ -25,7 +25,7 @@ data class TransactionEntity(
     @ColumnInfo(name = "total") val total: Double,
     @ColumnInfo(name = "currency") val currency: String,
     @ColumnInfo(name = "auth_code") val authCode: String?,
-    @ColumnInfo(name = "created_at") val createdAt: Long,
+    @ColumnInfo(name = "created_at") val createdAt: String,
     @ColumnInfo(name = "status") val status: String,
     @ColumnInfo(name = "payment_type") val paymentType: String
 )

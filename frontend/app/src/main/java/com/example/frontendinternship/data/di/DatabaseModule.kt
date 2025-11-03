@@ -23,9 +23,9 @@ class DatabaseModule {
             // --- Your database setup code goes here ---
             return Room.databaseBuilder(
                 applicationContext,
-                SalesAppDatabase.AppDatabase::class.java, "product"
+                SalesAppDatabase.AppDatabase::class.java, "PRODUCTS"
             )
-                .createFromAsset("retail_2.db")
+                .createFromAsset("retail.db")
                 // WARNING: Generally avoid allowMainThreadQueries() in production
                 .allowMainThreadQueries()
                 .build()

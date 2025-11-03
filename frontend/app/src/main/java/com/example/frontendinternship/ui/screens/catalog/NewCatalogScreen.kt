@@ -104,8 +104,8 @@ fun NewCatalogScreenPreview() {
     productTransferViewModel.value.updateProduct(
         Product(
             productName = "MyProduct1",
-            vatRate = 10,
-            price = 30.0f
+            vatRate = 10.0,
+            price = 30.0
         )
     )
     FrontendInternshipTheme {
@@ -121,26 +121,26 @@ fun NewCatalogScreenPreview() {
 class FakeLoadProductsUseCase : ILoadProductsUseCase {
     override suspend fun invoke(): List<Product> {
         return listOf(
-            Product(productName = "MyProduct1", vatRate = 10, price = 30.0f),
-            Product(productName = "MyProduct2", vatRate = 15, price = 12.3450f),
-            Product(productName = "MyProduct3", vatRate = 18, price = 30.40f),
+            Product(productName = "MyProduct1", vatRate = 10.0, price = 30.0),
+            Product(productName = "MyProduct2", vatRate = 15.0, price = 12.3450),
+            Product(productName = "MyProduct3", vatRate = 18.0, price = 30.40),
             Product(
                 productName = "MyBigProductNameItsBigItsVeryBig",
-                vatRate = 0,
-                price = 15.25f
+                vatRate = 0.0,
+                price = 15.25
             ),
-            Product(productName = "mp2", vatRate = 20, price = 0.00f),
-            Product(productName = "$*^($@!*@#", vatRate = 5, price = 5.49812940f),
-            Product(productName = "m", vatRate = 20, price = 0.00f),
+            Product(productName = "mp2", vatRate = 20.0, price = 0.00),
+            Product(productName = "$*^($@!*@#", vatRate = 5.0, price = 5.49812940),
+            Product(productName = "m", vatRate = 20.0, price = 0.00),
             Product(
                 productName = "油売ってる自動販売機に重要な機材の欠片",
-                vatRate = 5,
-                price = 5.49812940f
+                vatRate = 5.0,
+                price = 5.49812940
             ),
             Product(
                 productName = "DenemDenemDenemDenemeeeeDeneme",
-                vatRate = 5,
-                price = 5.49812940f
+                vatRate = 5.0,
+                price = 5.49812940
             ),
         )
     }

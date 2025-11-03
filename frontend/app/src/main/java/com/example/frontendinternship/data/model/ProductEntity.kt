@@ -13,6 +13,6 @@ data class ProductEntity(
     @ColumnInfo(name = "price") val price: Double,
     @ColumnInfo(name = "vat_rate") val vatRate: Double,
     @ColumnInfo(name = "is_deleted") val isDeleted: Boolean,
-    @ColumnInfo(name = "created") val created: Long
+    @ColumnInfo(name = "created") val created: String
 )
 

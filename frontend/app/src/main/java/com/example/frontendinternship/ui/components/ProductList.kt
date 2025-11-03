@@ -92,14 +92,14 @@ fun ProductListPreview() {
         Scaffold{ innerPadding ->
             ProductList(
                 productList = listOf(
-                    Product(productName = "MyProduct1", vatRate = 10, price = 30.0f),
+                    Product(productName = "MyProduct1", vatRate = 10.0, price = 30.0),
                     Product(
                         productName = "MyBigProductNameItsBigItsVeryBig",
-                        vatRate = 0,
-                        price = 15.25f
+                        vatRate = 0.0,
+                        price = 15.25
                     ),
-                    Product(productName = "mp2", vatRate = 20, price = 0.00f),
-                    Product(productName = "$*^($@!*@#", vatRate = 5, price = 5.49812940f),
+                    Product(productName = "mp2", vatRate = 20.0, price = 0.00),
+                    Product(productName = "$*^($@!*@#", vatRate = 5.0, price = 5.49812940),
                 ),
                 onProductSelected = {},
                 onProductAdded = {},

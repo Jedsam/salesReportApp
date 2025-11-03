@@ -14,14 +14,14 @@ class FinalizeOrderUseCase @Inject constructor(
     private val receiptRepository: ReceiptRepository
 ) {
 
-    operator fun invoke(basketList: List<ProductWithCount>, paymentMethod: PAYMENT_METHOD){
+    operator fun invoke(basketList: List<ProductWithCount>, paymentMethod: PAYMENT_METHOD) {
         var totalAmounts = VatTotalAmounts()
         for (productWithCount in basketList) {
             when (productWithCount.product.vatRate) {
-                0 -> totalAmounts.amountVat0 += productWithCount.getCost()
-                1 -> totalAmounts.amountVat1 += productWithCount.getCost()
-                10 -> totalAmounts.amountVat10 += productWithCount.getCost()
-                20 -> totalAmounts.amountVat20 += productWithCount.getCost()
+                0.0 -> totalAmounts.amountVat0 += productWithCount.getCost()
+                1.0 -> totalAmounts.amountVat1 += productWithCount.getCost()
+                10.0 -> totalAmounts.amountVat10 += productWithCount.getCost()
+                20.0 -> totalAmounts.amountVat20 += productWithCount.getCost()
             }
         }
         receiptRepository.insert(totalAmounts, paymentMethod)

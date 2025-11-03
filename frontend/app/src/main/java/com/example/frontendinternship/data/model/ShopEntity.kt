@@ -26,6 +26,6 @@ data class ShopEntity(
     @ColumnInfo(name = "address") val address: String,
     @ColumnInfo(name = "phone") val phone: String?,
     @ColumnInfo(name = "email") val email: String?,
-    @ColumnInfo(name = "created_at") val createdAt: Long,
+    @ColumnInfo(name = "created_at") val createdAt: String,
     @ColumnInfo(name = "status") val status: String
 )

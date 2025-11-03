@@ -133,23 +133,23 @@ fun OrderProductListPreview() {
                     ProductWithCount(
                         Product(
                             productName = "MyProduct1",
-                            vatRate = 10,
-                            price = 30.0f
+                            vatRate = 10.0,
+                            price = 30.0
                         ), 4
                     ),
                     ProductWithCount(
                         Product(
                             productName = "MyBigProductNameItsBigItsVeryBig",
-                            vatRate = 0,
-                            price = 15.25f
+                            vatRate = 0.0,
+                            price = 15.25
                         ), 10
                     ),
-                    ProductWithCount(Product(productName = "mp2", vatRate = 20, price = 0.00f), 1),
+                    ProductWithCount(Product(productName = "mp2", vatRate = 20.0, price = 0.00), 1),
                     ProductWithCount(
                         Product(
                             productName = "$*^($@!*@#",
-                            vatRate = 5,
-                            price = 5.49812940f
+                            vatRate = 5.0,
+                            price = 5.49812940
                         ), 594
                     ),
                 ),

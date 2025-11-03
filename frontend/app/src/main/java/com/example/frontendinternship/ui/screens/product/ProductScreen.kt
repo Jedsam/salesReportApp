@@ -127,8 +127,8 @@ fun ProductScreenPreview() {
     productTransferViewModel.value.updateProduct(
         Product(
             productName = "MyProduct1",
-            vatRate = 10,
-            price = 30.0f
+            vatRate = 10.0,
+            price = 30.0
         )
     )
     FrontendInternshipTheme {

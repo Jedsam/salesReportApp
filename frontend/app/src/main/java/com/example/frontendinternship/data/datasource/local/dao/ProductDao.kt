@@ -8,15 +8,13 @@ import com.example.frontendinternship.data.model.ProductEntity
 
 @Dao
 interface ProductDao {
-    @Query("SELECT * FROM product")
+    @Query("SELECT * FROM PRODUCTS")
     fun getAll(): List<ProductEntity>
 
-    @Query("SELECT * FROM product WHERE vatrate = (:vatValue)")
-    fun loadAllByVat(vatValue:Int ): List<ProductEntity>
 
-    @Insert
-    fun insertAll(vararg products: ProductEntity)
+    //@Insert
+    //fun insertAll(vararg PRODUCTSs: ProductEntity)
 
-    @Delete
-    fun delete(product: ProductEntity)
+    //@Delete
+    //fun delete(PRODUCTS: ProductEntity)
 }
