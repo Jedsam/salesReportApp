@@ -81,6 +81,7 @@ CREATE TABLE IF NOT EXISTS `PRODUCTS` (
     `name`          VARCHAR(255)    NOT NULL,
     `price`         DECIMAL(10, 2)  NOT NULL,
     `vat_rate`      DECIMAL(4, 2)   NOT NULL,
+    `is_deleted`    TINYINT(1)      NOT NULL DEFAULT 0,
     `created`       TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 

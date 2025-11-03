@@ -33,6 +33,9 @@ public class Product {
   @Column(name = "vat_rate", nullable = false, precision = 4, scale = 2)
   private BigDecimal vatRate;
 
+  @Column(name = "deleted", nullable = false)
+  private boolean deleted;
+
   @Column(name = "created", nullable = false, updatable = false)
   private Instant created;
 
