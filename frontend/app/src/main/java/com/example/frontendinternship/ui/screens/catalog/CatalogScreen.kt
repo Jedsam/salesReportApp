@@ -36,9 +36,9 @@ import com.example.frontendinternship.ui.theme.LocalPadding
 import com.example.frontendinternship.ui.theme.LocalTextFormat
 
 @Composable
-fun NewCatalogScreen(
+fun CatalogScreen(
     navController: NavController,
-    viewModel: NewCatalogViewModel = hiltViewModel(),
+    viewModel: CatalogViewModel = hiltViewModel(),
     productTransferViewModel: ProductTransferViewModel
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -54,7 +54,7 @@ fun NewCatalogScreen(
             )
         },
         bottomBar = {
-            Column{
+            Column {
                 Text(text = "Product x 5 : 10.00TL | 100.00TL")
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
@@ -109,7 +109,7 @@ fun NewCatalogScreenPreview() {
         )
     )
     FrontendInternshipTheme {
-        NewCatalogScreen(
+        CatalogScreen(
             navController = rememberNavController(),
             viewModel = NewCatalogViewModel_Factory.newInstance(
                 FakeLoadProductsUseCase()

@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class NewCatalogViewModel @Inject constructor(
+class CatalogViewModel @Inject constructor(
     private val loadProductsUseCase: ILoadProductsUseCase
 ) :
     ViewModel() {
