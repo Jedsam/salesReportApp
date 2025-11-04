@@ -58,12 +58,20 @@ android {
             all().forEach {
                 it.group = 'protobuf'
                 it.plugins {
-
-                    grpc {}
-                    grpckt {}
+                    grpc {
+                        option 'lite'
+                    }
+                    grpckt {
+                        option 'lite'
+                    }
                 }
                 it.builtins {
-                    kotlin {}
+                    kotlin {
+                        option 'lite'
+                    }
+                    java {
+                        option 'lite'
+                    }
                 }
             }
         }

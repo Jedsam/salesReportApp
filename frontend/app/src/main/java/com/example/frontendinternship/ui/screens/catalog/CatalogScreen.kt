@@ -111,7 +111,7 @@ fun NewCatalogScreenPreview() {
     FrontendInternshipTheme {
         CatalogScreen(
             navController = rememberNavController(),
-            viewModel = NewCatalogViewModel_Factory.newInstance(
+            viewModel = CatalogViewModel_Factory.newInstance(
                 FakeLoadProductsUseCase()
             ), productTransferViewModel = productTransferViewModel.value
         )
