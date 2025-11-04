@@ -50,8 +50,10 @@ fun CatalogScreen(
         topBar = {
             TopBarWithSync(
                 onSyncButtonPressed = {},
+                onLoginButtonPressed = {},
+                isLoggedIn = uiState.isLoggedIn,
                 isConnected = true,
-                currentScreenText = "Products"
+                currentScreenText = "Products",
             )
         },
         bottomBar = {

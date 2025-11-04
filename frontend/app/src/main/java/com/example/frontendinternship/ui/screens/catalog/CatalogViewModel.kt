@@ -17,16 +17,27 @@ class CatalogViewModel @Inject constructor(
     private val loadProductsUseCase: ILoadProductsUseCase
 ) :
     ViewModel() {
-    data class ProductUiState(var productList: List<Product> = emptyList())
+    data class ProductUiState(
+        var productList: List<Product> = emptyList(),
+        var isLoggedIn: Boolean = false,
+    )
 
     private val _uiState = MutableStateFlow(ProductUiState())
     val uiState: StateFlow<ProductUiState> = _uiState.asStateFlow()
 
     init {
         loadAllProducts()
+        updateLoginState()
         // startReportCheckLoop()
     }
 
+    fun updateLoginState() {
+        _uiState.update { currentState ->
+            currentState.copy(
+                isLoggedIn = Math.random() > 0.5
+            )
+        }
+    }
 
     private fun loadAllProducts() {
         viewModelScope.launch {

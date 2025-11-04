@@ -22,6 +22,7 @@ class ProductTransferViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(ProductUiState())
     val uiState: StateFlow<ProductUiState> = _uiState.asStateFlow()
 
+
     fun updateProduct(product: Product) {
         _uiState.update { currentState ->
             currentState.copy(currentProduct = product)
