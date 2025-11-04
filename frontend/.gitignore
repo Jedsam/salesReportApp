@@ -106,4 +106,7 @@ frontend/gradle/wrapper/gradle-wrapper.properties
 # Mapping file generated after R8/Proguard optimization
 */mapping.txt
 
+# error log folder
+**/.kotlin/
+
 *.orig
