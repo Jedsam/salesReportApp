@@ -2,6 +2,8 @@ package com.example.frontendinternship.ui.components
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
@@ -24,12 +26,14 @@ fun RoundedTextField(
     keyboardType: KeyboardType,
     textFieldModifier: Modifier = Modifier,
     textColor: Color = Color.Black,
+    placeholderText: String = "Enter your value",
 ) {
     Column {
         Text(
             text = textFieldInformation,
             color = textColor,
         )
+        Spacer(modifier = Modifier.height(LocalPadding.current.VeryTiny))
         BasicTextField(
             value = textValue,
             onValueChange = { newText: String -> onFieldValueChange(newText) },
@@ -40,6 +44,12 @@ fun RoundedTextField(
                     color = Color.Black
                 )
                 .padding(LocalPadding.current.Small),
+            decorationBox = { innerTextField ->
+                if (textValue.isEmpty()) {
+                    Text(text = placeholderText, color = Color.Gray)
+                }
+                innerTextField()
+            },
             keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
         )
     }

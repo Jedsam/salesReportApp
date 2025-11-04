@@ -6,11 +6,11 @@ import java.util.Locale
 import java.util.UUID
 
 data class ProductModel(
-    val id: UUID? = UUID.randomUUID(),
-    val productName: String = "NONAME",
+    val productId: UUID? = UUID.randomUUID(),
+    val productName: String = "NO_NAME",
     var price: Double = 0.0,
     val vatRate: Double = 0.0,
-    val created: String = SimpleDateFormat(
+    val createdAt: String = SimpleDateFormat(
         "yyyy-MM-dd HH:mm:ss",
         Locale.getDefault()
     ).format(Date(System.currentTimeMillis())),

@@ -1,8 +1,7 @@
-package com.example.frontendinternship.ui.screens.product
+package com.example.frontendinternship.ui.screens.register
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,41 +13,34 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.frontendinternship.domain.model.ProductModel
 import com.example.frontendinternship.ui.components.RoundedButton
 import com.example.frontendinternship.ui.components.RoundedTextField
 import com.example.frontendinternship.ui.components.TopBarWithReturn
-import com.example.frontendinternship.ui.common.viewmodel.ProductTransferViewModel
 import com.example.frontendinternship.ui.theme.FrontendInternshipTheme
 import com.example.frontendinternship.ui.theme.LocalDimensions
 import com.example.frontendinternship.ui.theme.LocalPadding
 
 @Composable
-fun ProductScreen(
+fun RegisterScreen(
     navController: NavController,
-    viewModel: ProductViewModel = hiltViewModel(),
-    productTransferViewModel: ProductTransferViewModel
+    viewModel: RegisterViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsState()
-    val sharedState by productTransferViewModel.uiState.collectAsState()
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
         modifier = Modifier.fillMaxSize(),
         topBar = {
             TopBarWithReturn(
                 navController = navController,
-                currentScreenText = "Edit Product",
+                currentScreenText = "Register",
                 isConnected = true,
             )
         },
@@ -59,14 +51,13 @@ fun ProductScreen(
                     .height(LocalDimensions.current.viewExtrasLargePlus),
                 verticalArrangement = Arrangement.spacedBy(LocalPadding.current.Normal),
             ) {
-
                 HorizontalDivider(
                     modifier = Modifier.padding(vertical = LocalPadding.current.VeryTiny),
                     thickness = 0.5.dp,
                     color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.8f)
                 )
                 RoundedButton(
-                    buttonText = "Save",
+                    buttonText = "Login",
                     onButtonPress = {},
                     modifier = Modifier
                         .fillMaxWidth()
@@ -75,64 +66,71 @@ fun ProductScreen(
                     borderColor = MaterialTheme.colorScheme.primary,
                     containerColor = MaterialTheme.colorScheme.primary,
                 )
+
                 RoundedButton(
-                    buttonText = "Delete",
+                    buttonText = "Register",
                     onButtonPress = {},
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = LocalPadding.current.Small)
                         .height(LocalDimensions.current.viewNormalPlus),
-                    borderColor = Color.Red,
+                    borderColor = MaterialTheme.colorScheme.primary,
                     containerColor = MaterialTheme.colorScheme.background,
-                    contentColor = Color.Red
+                    contentColor = MaterialTheme.colorScheme.primary
                 )
             }
         }) { innerPadding ->
         Column(
             modifier = Modifier
-                .padding(innerPadding),
+                .padding(innerPadding)
+                .fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(LocalPadding.current.Normal),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Spacer(
-                modifier = Modifier
-                    .height(LocalDimensions.current.viewBig)
-            )
+            Spacer(modifier = Modifier.height(LocalPadding.current.Big))
             RoundedTextField(
-                textFieldInformation = "Product Name",
-                textColor = Color.Gray,
-                textValue = sharedState.currentProduct.productName,
+                textFieldInformation = "Full Name",
+                textValue = uiState.currentUser.username,
                 onFieldValueChange = {},
                 keyboardType = KeyboardType.Text,
-                textFieldModifier = Modifier.fillMaxWidth(0.9f)
+                textFieldModifier = Modifier.fillMaxWidth(0.8f)
             )
-            Spacer(
-                modifier = Modifier
-                    .height(LocalDimensions.current.viewTiny)
+            RoundedTextField(
+                textFieldInformation = "Business Name",
+                textValue = uiState.currentUser.username,
+                onFieldValueChange = {},
+                keyboardType = KeyboardType.Text,
+                textFieldModifier = Modifier.fillMaxWidth(0.8f)
             )
-            Row(
-                modifier = Modifier
-                    .padding(horizontal = LocalPadding.current.Normal)
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(LocalPadding.current.Normal)
-            ) {
-                RoundedTextField(
-                    textFieldInformation = "Price",
-                    textColor = Color.Gray,
-                    textValue = String.format("%.2f", sharedState.currentProduct.price),
-                    onFieldValueChange = {},
-                    keyboardType = KeyboardType.Decimal,
-                    textFieldModifier = Modifier.fillMaxWidth(0.45f)
-                )
-                RoundedTextField(
-                    textFieldInformation = "VAT Rate (%)",
-                    textColor = Color.Gray,
-                    textValue = sharedState.currentProduct.vatRate.toString(),
-                    onFieldValueChange = {},
-                    keyboardType = KeyboardType.Number,
-                    textFieldModifier = Modifier.fillMaxWidth()
-                )
-            }
+            RoundedTextField(
+                textFieldInformation = "Phone",
+                textValue = uiState.currentUser.username,
+                onFieldValueChange = {},
+                keyboardType = KeyboardType.Text,
+                textFieldModifier = Modifier.fillMaxWidth(0.8f)
+            )
+            RoundedTextField(
+                textFieldInformation = "Business Address",
+                textValue = uiState.currentUser.username,
+                onFieldValueChange = {},
+                keyboardType = KeyboardType.Text,
+                textFieldModifier = Modifier.fillMaxWidth(0.8f)
+            )
+            RoundedTextField(
+                textFieldInformation = "Username",
+                textValue = uiState.currentUser.username,
+                onFieldValueChange = {},
+                keyboardType = KeyboardType.Text,
+                textFieldModifier = Modifier.fillMaxWidth(0.8f)
+            )
+            RoundedTextField(
+                textFieldInformation = "Password",
+                textValue = "*".repeat(uiState.currentUser.password.length),
+                onFieldValueChange = {},
+                keyboardType = KeyboardType.Decimal,
+                textFieldModifier = Modifier.fillMaxWidth(0.8f)
+            )
+            Spacer(modifier = Modifier.height(LocalPadding.current.Big))
         }
     }
 }
@@ -140,18 +138,9 @@ fun ProductScreen(
 @Preview
 @Composable
 fun ProductScreenPreview() {
-    val productTransferViewModel = remember { mutableStateOf(ProductTransferViewModel()) }
-    productTransferViewModel.value.updateProduct(
-        ProductModel(
-            productName = "MyProduct1",
-            vatRate = 10.0,
-            price = 30.0
-        )
-    )
     FrontendInternshipTheme {
-        ProductScreen(
+        RegisterScreen(
             navController = rememberNavController(),
-            productTransferViewModel = productTransferViewModel.value
         )
     }
 }
