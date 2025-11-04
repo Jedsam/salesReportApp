@@ -3,6 +3,7 @@ package com.example.frontendinternship.ui.screens.product
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -51,13 +52,53 @@ fun ProductScreen(
                 isConnected = true,
             )
         },
-        bottomBar = {}) { innerPadding ->
+        bottomBar = {
+
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(LocalDimensions.current.viewExtrasLargePlus),
+                verticalArrangement = Arrangement.spacedBy(LocalPadding.current.Normal),
+            ) {
+
+                HorizontalDivider(
+                    modifier = Modifier.padding(vertical = LocalPadding.current.VeryTiny),
+                    thickness = 0.5.dp,
+                    color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.8f)
+                )
+                RoundedButton(
+                    buttonText = "Save",
+                    onButtonPress = {},
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = LocalPadding.current.Small)
+                        .height(LocalDimensions.current.viewNormalPlus),
+                    borderColor = MaterialTheme.colorScheme.primary,
+                    containerColor = MaterialTheme.colorScheme.primary,
+                )
+                RoundedButton(
+                    buttonText = "Delete",
+                    onButtonPress = {},
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = LocalPadding.current.Small)
+                        .height(LocalDimensions.current.viewNormalPlus),
+                    borderColor = Color.Red,
+                    containerColor = MaterialTheme.colorScheme.background,
+                    contentColor = Color.Red
+                )
+            }
+        }) { innerPadding ->
         Column(
             modifier = Modifier
                 .padding(innerPadding),
             verticalArrangement = Arrangement.spacedBy(LocalPadding.current.Normal),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
+            Spacer(
+                modifier = Modifier
+                    .height(LocalDimensions.current.viewBig)
+            )
             RoundedTextField(
                 textFieldInformation = "Product Name",
                 textColor = Color.Gray,
@@ -65,6 +106,10 @@ fun ProductScreen(
                 onFieldValueChange = {},
                 keyboardType = KeyboardType.Text,
                 textFieldModifier = Modifier.fillMaxWidth(0.9f)
+            )
+            Spacer(
+                modifier = Modifier
+                    .height(LocalDimensions.current.viewTiny)
             )
             Row(
                 modifier = Modifier
@@ -75,7 +120,7 @@ fun ProductScreen(
                 RoundedTextField(
                     textFieldInformation = "Price",
                     textColor = Color.Gray,
-                    textValue = String.format("%.2f",sharedState.currentProduct.price),
+                    textValue = String.format("%.2f", sharedState.currentProduct.price),
                     onFieldValueChange = {},
                     keyboardType = KeyboardType.Decimal,
                     textFieldModifier = Modifier.fillMaxWidth(0.45f)
@@ -89,32 +134,6 @@ fun ProductScreen(
                     textFieldModifier = Modifier.fillMaxWidth()
                 )
             }
-            HorizontalDivider(
-                modifier = Modifier.padding(vertical = LocalPadding.current.VeryTiny),
-                thickness = 0.5.dp,
-                color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.2f)
-            )
-            RoundedButton(
-                buttonText = "Save",
-                onButtonPress = {},
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = LocalPadding.current.Small)
-                    .height(LocalDimensions.current.viewNormalPlus),
-                borderColor = MaterialTheme.colorScheme.primary,
-                containerColor = MaterialTheme.colorScheme.primary,
-            )
-            RoundedButton(
-                buttonText = "Delete",
-                onButtonPress = {},
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = LocalPadding.current.Small)
-                    .height(LocalDimensions.current.viewNormalPlus),
-                borderColor = Color.Red,
-                containerColor = MaterialTheme.colorScheme.background,
-                contentColor = Color.Red
-            )
         }
     }
 }

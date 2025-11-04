@@ -50,7 +50,7 @@ fun LoginScreen(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(LocalDimensions.current.viewExtrasLarge),
+                    .height(LocalDimensions.current.viewExtrasLargePlus),
                 verticalArrangement = Arrangement.spacedBy(LocalPadding.current.Normal),
             ) {
                 HorizontalDivider(
@@ -85,6 +85,7 @@ fun LoginScreen(
         Column(
             modifier = Modifier
                 .padding(innerPadding)
+                .fillMaxWidth()
                 .fillMaxHeight(0.8f),
             verticalArrangement = Arrangement.spacedBy(LocalPadding.current.Normal),
             horizontalAlignment = Alignment.CenterHorizontally,
