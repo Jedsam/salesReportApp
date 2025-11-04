@@ -4,7 +4,7 @@ import com.example.frontendinternship.data.datasource.local.dao.ReceiptDao
 import com.example.frontendinternship.data.mapper.toDomain
 import com.example.frontendinternship.data.model.ReceiptEntity
 import com.example.frontendinternship.domain.model.PAYMENT_METHOD
-import com.example.frontendinternship.domain.model.Receipt
+import com.example.frontendinternship.domain.model.ReceiptModel
 import com.example.frontendinternship.domain.model.VatTotalAmounts
 import com.example.frontendinternship.domain.repository.ReceiptRepository
 import jakarta.inject.Inject
@@ -34,7 +34,7 @@ class ReceiptRepositoryImpl @Inject constructor(
         )
     }
 
-    override fun getFromDate(dateTime: String): List<Receipt> {
+    override fun getFromDate(dateTime: String): List<ReceiptModel> {
         return receiptDao.getFromDate(dateTime).map { it.toDomain() }
     }
 }

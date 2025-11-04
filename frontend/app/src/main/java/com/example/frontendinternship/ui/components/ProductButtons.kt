@@ -19,15 +19,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.frontendinternship.domain.model.Product
+import com.example.frontendinternship.domain.model.ProductModel
 import com.example.frontendinternship.ui.theme.LocalDimensions
 import com.example.frontendinternship.ui.theme.LocalPadding
 import com.example.frontendinternship.ui.theme.LocalTextFormat
 
 @Composable
 fun ProductButtons(
-    productList: List<Product>,
-    onProductSelected: (Product) -> Unit
+    productList: List<ProductModel>,
+    onProductSelected: (ProductModel) -> Unit
 ) {
     LazyRow(horizontalArrangement = Arrangement.spacedBy(LocalPadding.current.Normal)) {
         items(productList) { product ->

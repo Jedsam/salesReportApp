@@ -1,8 +1,8 @@
 package com.example.frontendinternship.domain.repository
 
-import com.example.frontendinternship.domain.model.Product
+import com.example.frontendinternship.domain.model.ProductModel
 
 
 interface ProductRepository {
-    fun loadProducts(): List<Product>
+    fun loadProducts(): List<ProductModel>
 }

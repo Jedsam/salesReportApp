@@ -1,14 +1,13 @@
 package com.example.frontendinternship.data.mapper
 
 import com.example.frontendinternship.data.model.ReceiptEntity
-import com.example.frontendinternship.domain.model.Product
-import com.example.frontendinternship.domain.model.Receipt
+import com.example.frontendinternship.domain.model.ReceiptModel
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-fun ReceiptEntity.toDomain(): Receipt {
-    return Receipt(
+fun ReceiptEntity.toDomain(): ReceiptModel {
+    return ReceiptModel(
         this.receiptNumber ?: -1,
         SimpleDateFormat("yyyy-MM-dd HH", Locale.getDefault()).parse(
             this?.receiptDateTime ?: "0-01-1"

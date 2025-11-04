@@ -2,7 +2,7 @@ package com.example.frontendinternship.ui.screens.catalog
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.frontendinternship.domain.model.Product
+import com.example.frontendinternship.domain.model.ProductModel
 import com.example.frontendinternship.domain.usecase.iface.ILoadProductsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,7 +18,7 @@ class CatalogViewModel @Inject constructor(
 ) :
     ViewModel() {
     data class ProductUiState(
-        var productList: List<Product> = emptyList(),
+        var productList: List<ProductModel> = emptyList(),
         var isLoggedIn: Boolean = false,
     )
 

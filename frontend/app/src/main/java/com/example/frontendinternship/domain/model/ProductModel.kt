@@ -5,7 +5,7 @@ import java.util.Date
 import java.util.Locale
 import java.util.UUID
 
-data class Product(
+data class ProductModel(
     val id: UUID? = UUID.randomUUID(),
     val productName: String = "NONAME",
     var price: Double = 0.0,

@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.frontendinternship.domain.model.Product
+import com.example.frontendinternship.domain.model.ProductModel
 import com.example.frontendinternship.ui.components.RoundedButton
 import com.example.frontendinternship.ui.components.RoundedTextField
 import com.example.frontendinternship.ui.components.TopBarWithReturn
@@ -32,7 +32,6 @@ import com.example.frontendinternship.ui.common.viewmodel.ProductTransferViewMod
 import com.example.frontendinternship.ui.theme.FrontendInternshipTheme
 import com.example.frontendinternship.ui.theme.LocalDimensions
 import com.example.frontendinternship.ui.theme.LocalPadding
-import kotlinx.serialization.StringFormat
 
 @Composable
 fun ProductScreen(
@@ -125,7 +124,7 @@ fun ProductScreen(
 fun ProductScreenPreview() {
     val productTransferViewModel = remember { mutableStateOf(ProductTransferViewModel()) }
     productTransferViewModel.value.updateProduct(
-        Product(
+        ProductModel(
             productName = "MyProduct1",
             vatRate = 10.0,
             price = 30.0

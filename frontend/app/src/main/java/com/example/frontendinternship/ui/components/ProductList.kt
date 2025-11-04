@@ -24,7 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.frontendinternship.domain.model.Product
+import com.example.frontendinternship.domain.model.ProductModel
 import com.example.frontendinternship.ui.theme.FrontendInternshipTheme
 import com.example.frontendinternship.ui.theme.LocalPadding
 import com.example.frontendinternship.ui.theme.LocalTextFormat
@@ -33,9 +33,9 @@ import com.example.frontendinternship.ui.theme.LocalTextFormat
 @SuppressLint("DefaultLocale")
 @Composable
 fun ProductList(
-    productList: List<Product>,
-    onProductSelected: (Product) -> Unit,
-    onProductAdded: (Product) -> Unit,
+    productList: List<ProductModel>,
+    onProductSelected: (ProductModel) -> Unit,
+    onProductAdded: (ProductModel) -> Unit,
     paddingValue: PaddingValues
 ) {
     LazyColumn(
@@ -92,14 +92,14 @@ fun ProductListPreview() {
         Scaffold{ innerPadding ->
             ProductList(
                 productList = listOf(
-                    Product(productName = "MyProduct1", vatRate = 10.0, price = 30.0),
-                    Product(
+                    ProductModel(productName = "MyProduct1", vatRate = 10.0, price = 30.0),
+                    ProductModel(
                         productName = "MyBigProductNameItsBigItsVeryBig",
                         vatRate = 0.0,
                         price = 15.25
                     ),
-                    Product(productName = "mp2", vatRate = 20.0, price = 0.00),
-                    Product(productName = "$*^($@!*@#", vatRate = 5.0, price = 5.49812940),
+                    ProductModel(productName = "mp2", vatRate = 20.0, price = 0.00),
+                    ProductModel(productName = "$*^($@!*@#", vatRate = 5.0, price = 5.49812940),
                 ),
                 onProductSelected = {},
                 onProductAdded = {},

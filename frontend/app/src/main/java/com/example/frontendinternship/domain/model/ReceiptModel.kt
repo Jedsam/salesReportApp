@@ -1,9 +1,6 @@
 package com.example.frontendinternship.domain.model
 
-import androidx.room.ColumnInfo
-import androidx.room.PrimaryKey
-
-data class Receipt(
+data class ReceiptModel(
     val receiptNumber: Int,
     val receiptDateTime: java.util.Date,
     val amountVat0: Float,

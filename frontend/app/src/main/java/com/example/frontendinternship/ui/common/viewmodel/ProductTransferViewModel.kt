@@ -1,7 +1,7 @@
 package com.example.frontendinternship.ui.common.viewmodel
 
 import androidx.lifecycle.ViewModel
-import com.example.frontendinternship.domain.model.Product
+import com.example.frontendinternship.domain.model.ProductModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -15,7 +15,7 @@ class ProductTransferViewModel @Inject constructor(
 ) :
     ViewModel() {
     data class ProductUiState(
-        var currentProduct: Product = Product(),
+        var currentProduct: ProductModel = ProductModel(),
         // var catalogProductList: List<ProductWithCount> = emptyList(),
     )
 
@@ -23,7 +23,7 @@ class ProductTransferViewModel @Inject constructor(
     val uiState: StateFlow<ProductUiState> = _uiState.asStateFlow()
 
 
-    fun updateProduct(product: Product) {
+    fun updateProduct(product: ProductModel) {
         _uiState.update { currentState ->
             currentState.copy(currentProduct = product)
         }

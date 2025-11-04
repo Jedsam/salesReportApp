@@ -23,7 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.frontendinternship.domain.model.Product
+import com.example.frontendinternship.domain.model.ProductModel
 import com.example.frontendinternship.domain.usecase.iface.ILoadProductsUseCase
 import com.example.frontendinternship.ui.common.viewmodel.ProductTransferViewModel
 import com.example.frontendinternship.ui.components.ProductList
@@ -88,7 +88,7 @@ fun CatalogScreen(
         },
     ) { innerPadding ->
         ProductList(
-            onProductSelected = { product: Product ->
+            onProductSelected = { product: ProductModel ->
                 productTransferViewModel.updateProduct(product.copy())
                 navController.navigate(Screen.Product.route)
             },
@@ -105,7 +105,7 @@ fun CatalogScreen(
 fun NewCatalogScreenPreview() {
     val productTransferViewModel = remember { mutableStateOf(ProductTransferViewModel()) }
     productTransferViewModel.value.updateProduct(
-        Product(
+        ProductModel(
             productName = "MyProduct1",
             vatRate = 10.0,
             price = 30.0
@@ -122,25 +122,25 @@ fun NewCatalogScreenPreview() {
 }
 
 class FakeLoadProductsUseCase : ILoadProductsUseCase {
-    override suspend fun invoke(): List<Product> {
+    override suspend fun invoke(): List<ProductModel> {
         return listOf(
-            Product(productName = "MyProduct1", vatRate = 10.0, price = 30.0),
-            Product(productName = "MyProduct2", vatRate = 15.0, price = 12.3450),
-            Product(productName = "MyProduct3", vatRate = 18.0, price = 30.40),
-            Product(
+            ProductModel(productName = "MyProduct1", vatRate = 10.0, price = 30.0),
+            ProductModel(productName = "MyProduct2", vatRate = 15.0, price = 12.3450),
+            ProductModel(productName = "MyProduct3", vatRate = 18.0, price = 30.40),
+            ProductModel(
                 productName = "MyBigProductNameItsBigItsVeryBig",
                 vatRate = 0.0,
                 price = 15.25
             ),
-            Product(productName = "mp2", vatRate = 20.0, price = 0.00),
-            Product(productName = "$*^($@!*@#", vatRate = 5.0, price = 5.49812940),
-            Product(productName = "m", vatRate = 20.0, price = 0.00),
-            Product(
+            ProductModel(productName = "mp2", vatRate = 20.0, price = 0.00),
+            ProductModel(productName = "$*^($@!*@#", vatRate = 5.0, price = 5.49812940),
+            ProductModel(productName = "m", vatRate = 20.0, price = 0.00),
+            ProductModel(
                 productName = "油売ってる自動販売機に重要な機材の欠片",
                 vatRate = 5.0,
                 price = 5.49812940
             ),
-            Product(
+            ProductModel(
                 productName = "DenemDenemDenemDenemeeeeDeneme",
                 vatRate = 5.0,
                 price = 5.49812940

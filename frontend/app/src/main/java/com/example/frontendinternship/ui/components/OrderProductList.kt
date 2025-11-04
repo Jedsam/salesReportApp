@@ -27,7 +27,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.frontendinternship.domain.model.Product
+import com.example.frontendinternship.domain.model.ProductModel
 import com.example.frontendinternship.domain.model.ProductWithCount
 import com.example.frontendinternship.ui.theme.FrontendInternshipTheme
 import com.example.frontendinternship.ui.theme.LocalColors
@@ -131,22 +131,22 @@ fun OrderProductListPreview() {
             OrderProductList(
                 productList = listOf(
                     ProductWithCount(
-                        Product(
+                        ProductModel(
                             productName = "MyProduct1",
                             vatRate = 10.0,
                             price = 30.0
                         ), 4
                     ),
                     ProductWithCount(
-                        Product(
+                        ProductModel(
                             productName = "MyBigProductNameItsBigItsVeryBig",
                             vatRate = 0.0,
                             price = 15.25
                         ), 10
                     ),
-                    ProductWithCount(Product(productName = "mp2", vatRate = 20.0, price = 0.00), 1),
+                    ProductWithCount(ProductModel(productName = "mp2", vatRate = 20.0, price = 0.00), 1),
                     ProductWithCount(
-                        Product(
+                        ProductModel(
                             productName = "$*^($@!*@#",
                             vatRate = 5.0,
                             price = 5.49812940
