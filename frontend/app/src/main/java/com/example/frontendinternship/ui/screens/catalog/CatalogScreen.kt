@@ -25,6 +25,8 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.frontendinternship.domain.model.Product
 import com.example.frontendinternship.domain.usecase.iface.ILoadProductsUseCase
+import com.example.frontendinternship.ui.common.viewmodel.LoginCredentialsTransferViewModel
+import com.example.frontendinternship.ui.common.viewmodel.ProductTransferViewModel
 import com.example.frontendinternship.ui.components.ProductList
 import com.example.frontendinternship.ui.components.RoundedButton
 import com.example.frontendinternship.ui.components.TopBarWithSync
@@ -39,7 +41,8 @@ import com.example.frontendinternship.ui.theme.LocalTextFormat
 fun CatalogScreen(
     navController: NavController,
     viewModel: CatalogViewModel = hiltViewModel(),
-    productTransferViewModel: ProductTransferViewModel
+    productTransferViewModel: ProductTransferViewModel,
+    loginCredentialsViewModel: LoginCredentialsTransferViewModel
 ) {
     val uiState by viewModel.uiState.collectAsState()
     Scaffold(

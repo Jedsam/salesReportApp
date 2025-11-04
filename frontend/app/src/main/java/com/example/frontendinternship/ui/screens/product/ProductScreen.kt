@@ -28,7 +28,7 @@ import com.example.frontendinternship.domain.model.Product
 import com.example.frontendinternship.ui.components.RoundedButton
 import com.example.frontendinternship.ui.components.RoundedTextField
 import com.example.frontendinternship.ui.components.TopBarWithReturn
-import com.example.frontendinternship.ui.screens.catalog.ProductTransferViewModel
+import com.example.frontendinternship.ui.common.viewmodel.ProductTransferViewModel
 import com.example.frontendinternship.ui.theme.FrontendInternshipTheme
 import com.example.frontendinternship.ui.theme.LocalDimensions
 import com.example.frontendinternship.ui.theme.LocalPadding
