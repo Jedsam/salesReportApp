@@ -1,104 +1,38 @@
 package com.example.frontendinternship.data.di
 
-import com.example.frontendinternship.data.datasource.remote.ApiService
-import com.example.frontendinternship.data.datasource.remote.ApiURL
+import com.backend.proto.merchant.MerchantServiceGrpcKt
+import com.backend.proto.user.AuthServiceGrpcKt
+import com.example.frontendinternship.data.network.ApiURL
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Converter
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import java.util.concurrent.TimeUnit
+import io.grpc.ManagedChannel
+import io.grpc.okhttp.OkHttpChannelBuilder
 import javax.inject.Singleton
 
 
 @Module
 @InstallIn(SingletonComponent::class)
-object NetworkModule {
-    /**
-     * Provides BaseUrl as string
-     */
-    @Singleton
+object GrpcModule {
+
     @Provides
-    fun provideBaseURL(): String {
-        return ApiURL.BASE_URL
-    }
-
-    /**
-     * Provides LoggingInterceptor for api information
-     */
     @Singleton
-    @Provides
-    fun provideLoggingInterceptor(): HttpLoggingInterceptor {
-        return HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
-    }
-
-    /**
-     * Provides API Key Interceptor
-     */
-    //@Singleton
-    //@Provides
-    //fun provideApiKeyInterceptor(): ApiKeyInterceptor {
-    //return ApiKeyInterceptor()
-    //}
-
-    /**
-     * Provides custom OkkHttp
-     */
-    @Singleton
-    @Provides
-    fun provideOkHttpClient(
-        loggingInterceptor: HttpLoggingInterceptor,
-        //apiKeyInterceptor: ApiKeyInterceptor,
-    ): OkHttpClient {
-        val okHttpClient = OkHttpClient().newBuilder()
-
-        okHttpClient.callTimeout(40, TimeUnit.SECONDS)
-        okHttpClient.connectTimeout(40, TimeUnit.SECONDS)
-        okHttpClient.readTimeout(40, TimeUnit.SECONDS)
-        okHttpClient.writeTimeout(40, TimeUnit.SECONDS)
-        okHttpClient.addInterceptor(loggingInterceptor)
-        //okHttpClient.addInterceptor(apiKeyInterceptor)
-        okHttpClient.build()
-        return okHttpClient.build()
-    }
-
-    /**
-     * Provides converter factory for retrofit
-     */
-    @Singleton
-    @Provides
-    fun provideConverterFactory(): Converter.Factory {
-        return GsonConverterFactory.create()
-    }
-
-    /**
-     * Provides ApiServices client for Retrofit
-     */
-    @Singleton
-    @Provides
-    fun provideRetrofitClient(
-        baseUrl: String,
-        okHttpClient: OkHttpClient,
-        converterFactory: Converter.Factory,
-    ): Retrofit {
-        return Retrofit.Builder()
-            .baseUrl(baseUrl)
-            .client(okHttpClient)
-            .addConverterFactory(converterFactory)
+    fun provideManagedChannel(): ManagedChannel {
+        return OkHttpChannelBuilder.forAddress(ApiURL.BASE_URL, ApiURL.BASE_PORT)
+            .usePlaintext()
             .build()
     }
 
-    /**
-     * Provides Api Service using retrofit
-     */
-    @Singleton
     @Provides
-    fun provideRestApiService(retrofit: Retrofit): ApiService {
-        return retrofit.create(ApiService::class.java)
+    @Singleton
+    fun provideAuthServiceStub(channel: ManagedChannel): AuthServiceGrpcKt.AuthServiceCoroutineStub {
+        return AuthServiceGrpcKt.AuthServiceCoroutineStub(channel)
     }
 
+    @Provides
+    @Singleton
+    fun provideMerchantServiceStub(channel: ManagedChannel): MerchantServiceGrpcKt.MerchantServiceCoroutineStub {
+        return MerchantServiceGrpcKt.MerchantServiceCoroutineStub(channel)
+    }
 }

@@ -50,7 +50,9 @@ fun CatalogScreen(
         topBar = {
             TopBarWithSync(
                 onSyncButtonPressed = {},
-                onLoginButtonPressed = {},
+                onLoginButtonPressed = {
+                    navController.navigate(Screen.Login.route)
+                },
                 isLoggedIn = uiState.isLoggedIn,
                 isConnected = true,
                 currentScreenText = "Products",

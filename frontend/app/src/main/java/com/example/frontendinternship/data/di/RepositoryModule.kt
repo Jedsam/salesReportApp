@@ -2,7 +2,8 @@ package com.example.frontendinternship.data.di
 
 import com.example.frontendinternship.data.repository.local.ProductRepositoryImpl
 import com.example.frontendinternship.data.repository.local.ReceiptRepositoryImpl
-import com.example.frontendinternship.data.repository.remote.ReportRepositoryImpl
+import com.example.frontendinternship.data.repository.remote.AuthRepositoryImpl
+import com.example.frontendinternship.domain.repository.AuthRepository
 import com.example.frontendinternship.domain.repository.ProductRepository
 import com.example.frontendinternship.domain.repository.ReceiptRepository
 import com.example.frontendinternship.domain.repository.ReportRepository
@@ -30,7 +31,7 @@ abstract class RepositoryModule {
 
     @Binds
     @Singleton
-    abstract fun bindReportRepository(
-        reportRepositoryImpl: ReportRepositoryImpl
-    ): ReportRepository
+    abstract fun bindAuthRepository(
+        authRepositoryImpl: AuthRepositoryImpl
+    ): AuthRepository
 }

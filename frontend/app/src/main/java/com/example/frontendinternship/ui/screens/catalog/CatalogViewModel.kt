@@ -39,6 +39,10 @@ class CatalogViewModel @Inject constructor(
         }
     }
 
+    fun closeOperatingWindow() {
+
+    }
+
     private fun loadAllProducts() {
         viewModelScope.launch {
             val productList = loadProductsUseCase()

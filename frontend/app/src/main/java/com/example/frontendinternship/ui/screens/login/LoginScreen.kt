@@ -8,9 +8,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -26,9 +29,11 @@ import androidx.navigation.compose.rememberNavController
 import com.example.frontendinternship.ui.components.RoundedButton
 import com.example.frontendinternship.ui.components.RoundedTextField
 import com.example.frontendinternship.ui.components.TopBarWithReturn
+import com.example.frontendinternship.ui.navigation.Screen
 import com.example.frontendinternship.ui.theme.FrontendInternshipTheme
 import com.example.frontendinternship.ui.theme.LocalDimensions
 import com.example.frontendinternship.ui.theme.LocalPadding
+import com.example.frontendinternship.utils.OperationStateEnum
 
 @Composable
 fun LoginScreen(
@@ -60,7 +65,9 @@ fun LoginScreen(
                 )
                 RoundedButton(
                     buttonText = "Login",
-                    onButtonPress = {},
+                    onButtonPress = {
+                        viewModel.loginRequest()
+                    },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = LocalPadding.current.Small)
@@ -71,7 +78,9 @@ fun LoginScreen(
 
                 RoundedButton(
                     buttonText = "Register",
-                    onButtonPress = {},
+                    onButtonPress = {
+                        navController.navigate(Screen.Register.route)
+                    },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = LocalPadding.current.Small)
@@ -82,6 +91,40 @@ fun LoginScreen(
                 )
             }
         }) { innerPadding ->
+        if (
+            uiState.loginLoadingState == OperationStateEnum.FAILURE
+        ) {
+            AlertDialog(
+                onDismissRequest = { viewModel.closeOperatingWindow() },
+                title = { Text("Login unsuccessful") },
+                text = { Text("Invalid username or password") },
+                confirmButton = {
+                    TextButton(onClick = { viewModel.closeOperatingWindow() }) {
+                        Text("OK")
+                    }
+                },
+            )
+        }
+        if (
+            uiState.loginLoadingState == OperationStateEnum.SUCCESS
+        ) {
+            AlertDialog(
+                onDismissRequest = {
+                    viewModel.closeOperatingWindow()
+                    navController.navigate(Screen.Catalog)
+                },
+                title = { Text("Login successful") },
+                text = { Text("Returning back to the catalog") },
+                confirmButton = {
+                    TextButton(onClick = {
+                        viewModel.closeOperatingWindow()
+                        navController.navigate(Screen.Catalog) { popUpTo(0) }
+                    }) {
+                        Text("OK")
+                    }
+                },
+            )
+        }
         Column(
             modifier = Modifier
                 .padding(innerPadding)
