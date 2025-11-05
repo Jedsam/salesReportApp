@@ -26,6 +26,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.frontendinternship.domain.model.UserModel
+import com.example.frontendinternship.domain.usecase.iface.ILoginUseCase
 import com.example.frontendinternship.ui.components.RoundedButton
 import com.example.frontendinternship.ui.components.RoundedTextField
 import com.example.frontendinternship.ui.components.TopBarWithReturn
@@ -141,7 +143,10 @@ fun LoginScreen(
                 textFieldInformation = "Username",
                 textColor = Color.Gray,
                 textValue = uiState.currentUser.username,
-                onFieldValueChange = {},
+                onFieldValueChange = { newText ->
+                    if (newText.length < 20)
+                        viewModel.updateUsername(newText)
+                },
                 keyboardType = KeyboardType.Text,
                 textFieldModifier = Modifier.fillMaxWidth(0.8f)
             )
@@ -153,7 +158,10 @@ fun LoginScreen(
                 textFieldInformation = "Password",
                 textColor = Color.Gray,
                 textValue = "*".repeat(uiState.currentUser.password.length),
-                onFieldValueChange = {},
+                onFieldValueChange = { newText ->
+                    if (newText.length < 16)
+                        viewModel.updatePassword(newText)
+                },
                 keyboardType = KeyboardType.Decimal,
                 textFieldModifier = Modifier.fillMaxWidth(0.8f)
             )
@@ -167,7 +175,16 @@ fun ProductScreenPreview() {
     FrontendInternshipTheme {
         LoginScreen(
             navController = rememberNavController(),
+            viewModel = LoginViewModel_Factory.newInstance(
+                FakeLoginUseCase()
+            )
         )
+    }
+}
+
+class FakeLoginUseCase : ILoginUseCase {
+    override suspend fun invoke(userModel: UserModel): Boolean {
+        return true
     }
 }
 

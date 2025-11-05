@@ -1,6 +1,6 @@
 package com.example.frontendinternship.domain.model
 
-class UserModel(
+data class UserModel(
     val username: String = "",
     val password: String = "",
 )
