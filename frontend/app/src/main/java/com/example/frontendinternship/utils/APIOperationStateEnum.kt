@@ -1,5 +1,5 @@
 package com.example.frontendinternship.utils
 
-enum class OperationStateEnum {
+enum class APIOperationStateEnum {
     DISABLED, SUCCESS, FAILURE, EXECUTING
 }

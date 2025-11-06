@@ -26,14 +26,14 @@ import androidx.navigation.compose.rememberNavController
 import com.example.frontendinternship.ui.components.OrderProductList
 import com.example.frontendinternship.ui.components.RoundedButton
 import com.example.frontendinternship.ui.components.TopBarWithReturn
-import com.example.frontendinternship.ui.screens.product.ProductViewModel
+import com.example.frontendinternship.ui.screens.product.ProductAddViewModel
 import com.example.frontendinternship.ui.theme.FrontendInternshipTheme
 import com.example.frontendinternship.ui.theme.LocalDimensions
 import com.example.frontendinternship.ui.theme.LocalPadding
 import com.example.frontendinternship.ui.theme.LocalTextFormat
 
 @Composable
-fun BasketScreen(navController: NavController, viewModel: ProductViewModel = hiltViewModel()) {
+fun BasketScreen(navController: NavController, viewModel: ProductAddViewModel = hiltViewModel()) {
     val uiState by viewModel.uiState.collectAsState()
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,

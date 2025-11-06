@@ -13,6 +13,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -43,6 +44,14 @@ fun CatalogScreen(
     productTransferViewModel: ProductTransferViewModel,
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    val transferUiState by productTransferViewModel.uiState.collectAsState()
+    LaunchedEffect(Unit) {
+        viewModel.updateProductChanges(
+            transferUiState.currentProduct,
+            transferUiState.productOperation
+        )
+        productTransferViewModel.resetProduct()
+    }
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
         modifier = Modifier.fillMaxSize(),
@@ -77,8 +86,11 @@ fun CatalogScreen(
                     )
                     RoundedButton(
                         buttonText = "+",
-                        textSize = LocalTextFormat.current.sizeLarge,
-                        onButtonPress = {},
+                        textSize = LocalTextFormat.current.sizeMain,
+                        onButtonPress = {
+                            productTransferViewModel.updateProduct(ProductModel())
+                            navController.navigate(Screen.ProductAdd.route)
+                        },
                         modifier = Modifier
                             .width(LocalDimensions.current.viewNormalPlus)
                             .height(LocalDimensions.current.viewNormalPlus),
@@ -92,7 +104,7 @@ fun CatalogScreen(
         ProductList(
             onProductSelected = { product: ProductModel ->
                 productTransferViewModel.updateProduct(product.copy())
-                navController.navigate(Screen.Product.route)
+                navController.navigate(Screen.ProductEdit.route)
             },
             onProductAdded = {},
             productList = uiState.productList,

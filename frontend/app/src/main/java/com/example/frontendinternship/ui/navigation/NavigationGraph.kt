@@ -7,7 +7,8 @@ import androidx.navigation.compose.composable
 import com.example.frontendinternship.ui.screens.catalog.CatalogScreen
 import com.example.frontendinternship.ui.common.viewmodel.ProductTransferViewModel
 import com.example.frontendinternship.ui.screens.login.LoginScreen
-import com.example.frontendinternship.ui.screens.product.ProductScreen
+import com.example.frontendinternship.ui.screens.product.ProductAddScreen
+import com.example.frontendinternship.ui.screens.product.ProductEditScreen
 import com.example.frontendinternship.ui.screens.register.RegisterScreen
 
 
@@ -20,8 +21,14 @@ fun Navigation(
         composable(Screen.Catalog.route) {
             CatalogScreen(navController, productTransferViewModel = productTransferViewModel)
         }
-        composable(Screen.Product.route) {
-            ProductScreen(
+        composable(Screen.ProductEdit.route) {
+            ProductEditScreen(
+                navController,
+                productTransferViewModel = productTransferViewModel
+            )
+        }
+        composable(Screen.ProductAdd.route) {
+            ProductAddScreen(
                 navController,
                 productTransferViewModel = productTransferViewModel
             )

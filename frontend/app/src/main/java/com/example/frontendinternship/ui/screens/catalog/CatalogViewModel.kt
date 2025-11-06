@@ -2,8 +2,10 @@ package com.example.frontendinternship.ui.screens.catalog
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.room.util.copy
 import com.example.frontendinternship.domain.model.ProductModel
 import com.example.frontendinternship.domain.usecase.iface.ILoadProductsUseCase
+import com.example.frontendinternship.utils.ProductOperationEnum
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -52,6 +54,43 @@ class CatalogViewModel @Inject constructor(
                     productList = productList
                 )
             }
+        }
+    }
+
+    fun updateProductChanges(
+        currentProduct: ProductModel,
+        productOperation: ProductOperationEnum
+    ) {
+        if (productOperation == ProductOperationEnum.CANCELED) {
+            return
+        }
+        _uiState.update { currentState ->
+
+            val newProductList = currentState.productList.toMutableList()
+
+            when (productOperation) {
+                ProductOperationEnum.ADD -> {
+                    newProductList.add(currentProduct)
+                }
+
+                ProductOperationEnum.EDIT -> {
+                    val index =
+                        newProductList.indexOfFirst { it.productId == currentProduct.productId }
+                    if (index != -1) {
+                        newProductList[index] = currentProduct
+                    }
+                }
+
+                ProductOperationEnum.DELETE -> {
+                    newProductList.removeIf { it.productId == currentProduct.productId }
+                }
+
+                ProductOperationEnum.CANCELED -> {
+                }
+            }
+            currentState.copy(
+                productList = newProductList
+            )
         }
     }
 }

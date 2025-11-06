@@ -30,14 +30,15 @@ import com.example.frontendinternship.ui.components.RoundedButton
 import com.example.frontendinternship.ui.components.RoundedTextField
 import com.example.frontendinternship.ui.components.TopBarWithReturn
 import com.example.frontendinternship.ui.common.viewmodel.ProductTransferViewModel
+import com.example.frontendinternship.ui.navigation.Screen
 import com.example.frontendinternship.ui.theme.FrontendInternshipTheme
 import com.example.frontendinternship.ui.theme.LocalDimensions
 import com.example.frontendinternship.ui.theme.LocalPadding
 
 @Composable
-fun ProductScreen(
+fun ProductAddScreen(
     navController: NavController,
-    viewModel: ProductViewModel = hiltViewModel(),
+    viewModel: ProductAddViewModel = hiltViewModel(),
     productTransferViewModel: ProductTransferViewModel
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -48,7 +49,7 @@ fun ProductScreen(
         topBar = {
             TopBarWithReturn(
                 navController = navController,
-                currentScreenText = "Edit Product",
+                currentScreenText = "Add Product",
                 isConnected = true,
             )
         },
@@ -67,7 +68,14 @@ fun ProductScreen(
                 )
                 RoundedButton(
                     buttonText = "Save",
-                    onButtonPress = {},
+                    onButtonPress = {
+                        productTransferViewModel.chooseAddOperation()
+                        navController.navigate(Screen.Catalog.route) {
+                            popUpTo(Screen.Catalog.route) {
+                                inclusive = true
+                            }
+                        }
+                        },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = LocalPadding.current.Small)
@@ -76,8 +84,14 @@ fun ProductScreen(
                     containerColor = MaterialTheme.colorScheme.primary,
                 )
                 RoundedButton(
-                    buttonText = "Delete",
-                    onButtonPress = {},
+                    buttonText = "Cancel",
+                    onButtonPress = {
+                        navController.navigate(Screen.Catalog.route) {
+                            popUpTo(Screen.Catalog.route) {
+                                inclusive = true
+                            }
+                        }
+                    },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = LocalPadding.current.Small)
@@ -139,7 +153,7 @@ fun ProductScreen(
 
 @Preview
 @Composable
-fun ProductScreenPreview() {
+fun ProductAddScreenPreview() {
     val productTransferViewModel = remember { mutableStateOf(ProductTransferViewModel()) }
     productTransferViewModel.value.updateProduct(
         ProductModel(
@@ -149,7 +163,7 @@ fun ProductScreenPreview() {
         )
     )
     FrontendInternshipTheme {
-        ProductScreen(
+        ProductAddScreen(
             navController = rememberNavController(),
             productTransferViewModel = productTransferViewModel.value
         )

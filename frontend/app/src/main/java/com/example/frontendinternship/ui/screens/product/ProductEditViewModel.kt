@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ProductViewModel @Inject constructor() :
+class ProductEditViewModel @Inject constructor() :
     ViewModel() {
     data class ProductUiState(
         var switchCounter: Int = 0,

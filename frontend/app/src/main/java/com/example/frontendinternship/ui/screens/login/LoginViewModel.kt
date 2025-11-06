@@ -2,12 +2,9 @@ package com.example.frontendinternship.ui.screens.login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.frontendinternship.domain.model.ProductModel
 import com.example.frontendinternship.domain.model.UserModel
-import com.example.frontendinternship.domain.usecase.iface.ILoadProductsUseCase
 import com.example.frontendinternship.domain.usecase.iface.ILoginUseCase
-import com.example.frontendinternship.domain.usecase.implementation.LoginUseCase
-import com.example.frontendinternship.utils.OperationStateEnum
+import com.example.frontendinternship.utils.APIOperationStateEnum
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -23,7 +20,7 @@ class LoginViewModel @Inject constructor(
     ViewModel() {
     data class LoginUiState(
         val currentUser: UserModel = UserModel(),
-        val loginLoadingState: OperationStateEnum = OperationStateEnum.DISABLED,
+        val loginLoadingState: APIOperationStateEnum = APIOperationStateEnum.DISABLED,
     )
 
 
@@ -49,7 +46,7 @@ class LoginViewModel @Inject constructor(
     fun closeOperatingWindow() {
         _uiState.update { currentState ->
             currentState.copy(
-                loginLoadingState = OperationStateEnum.DISABLED
+                loginLoadingState = APIOperationStateEnum.DISABLED
             )
         }
     }
@@ -58,14 +55,14 @@ class LoginViewModel @Inject constructor(
         viewModelScope.launch {
             _uiState.update { currentState ->
                 currentState.copy(
-                    loginLoadingState = OperationStateEnum.EXECUTING
+                    loginLoadingState = APIOperationStateEnum.EXECUTING
                 )
             }
             val isConnected = loginUseCase(_uiState.value.currentUser)
             _uiState.update { currentState ->
                 currentState.copy(
                     loginLoadingState =
-                        if (isConnected) OperationStateEnum.SUCCESS else OperationStateEnum.FAILURE
+                        if (isConnected) APIOperationStateEnum.SUCCESS else APIOperationStateEnum.FAILURE
                 )
             }
             return@launch

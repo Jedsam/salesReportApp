@@ -3,6 +3,7 @@ package com.example.frontendinternship.ui.components
 import android.R
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,6 +20,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.dp
 import com.example.frontendinternship.ui.theme.FrontendInternshipTheme
 import com.example.frontendinternship.ui.theme.LocalDimensions
 import com.example.frontendinternship.ui.theme.LocalPadding
@@ -43,7 +45,8 @@ fun RoundedButton(
                 containerColor = containerColor,
                 contentColor = contentColor
             ),
-            border = BorderStroke(width = LocalPadding.current.VeryMini, borderColor)
+            border = BorderStroke(width = LocalPadding.current.VeryMini, borderColor),
+                    contentPadding = PaddingValues(0.dp)
     ) {
         Text(
             text = buttonText,
