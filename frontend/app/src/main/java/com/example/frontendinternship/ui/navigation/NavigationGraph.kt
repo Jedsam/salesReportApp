@@ -26,14 +26,14 @@ fun Navigation(
 ) {
     val defaultEnterAnimation: AnimatedContentTransitionScope<*>.() -> EnterTransition = {
         slideInHorizontally(
-            animationSpec = tween(300, easing = EaseInOut),
+            animationSpec = tween(0, easing = EaseInOut),
             initialOffsetX = { fullWidth -> fullWidth }  // from right
         )
     }
     val defaultExitAnimation: AnimatedContentTransitionScope<*>.() -> ExitTransition =
         {
             slideOutHorizontally(
-                animationSpec = tween(300, easing = EaseInOut),
+                animationSpec = tween(0, easing = EaseInOut),
                 targetOffsetX = { fullWidth -> fullWidth }  // to right
             )
         }
