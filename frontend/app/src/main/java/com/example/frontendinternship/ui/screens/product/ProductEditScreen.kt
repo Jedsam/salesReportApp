@@ -29,7 +29,7 @@ import com.example.frontendinternship.domain.model.ProductModel
 import com.example.frontendinternship.ui.components.RoundedButton
 import com.example.frontendinternship.ui.components.RoundedTextField
 import com.example.frontendinternship.ui.components.TopBarWithReturn
-import com.example.frontendinternship.ui.common.viewmodel.ProductTransferViewModel
+import com.example.frontendinternship.ui.common.viewmodel.ProductViewModel
 import com.example.frontendinternship.ui.navigation.Screen
 import com.example.frontendinternship.ui.theme.FrontendInternshipTheme
 import com.example.frontendinternship.ui.theme.LocalDimensions
@@ -38,11 +38,9 @@ import com.example.frontendinternship.ui.theme.LocalPadding
 @Composable
 fun ProductEditScreen(
     navController: NavController,
-    viewModel: ProductEditViewModel = hiltViewModel(),
-    productTransferViewModel: ProductTransferViewModel
+    viewModel: ProductViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsState()
-    val sharedState by productTransferViewModel.uiState.collectAsState()
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
         modifier = Modifier.fillMaxSize(),
@@ -69,8 +67,9 @@ fun ProductEditScreen(
                 RoundedButton(
                     buttonText = "Save",
                     onButtonPress = {
-                        productTransferViewModel.chooseEditOperation()
-                        navController.popBackStack(Screen.Catalog.route,
+                        viewModel.chooseEditOperation()
+                        navController.popBackStack(
+                            Screen.Catalog.route,
                             inclusive = false
                         )
                     },
@@ -84,8 +83,9 @@ fun ProductEditScreen(
                 RoundedButton(
                     buttonText = "Delete",
                     onButtonPress = {
-                        productTransferViewModel.chooseDeleteOperation()
-                        navController.popBackStack(Screen.Catalog.route,
+                        viewModel.chooseDeleteOperation()
+                        navController.popBackStack(
+                            Screen.Catalog.route,
                             inclusive = false
                         )
                     },
@@ -111,10 +111,10 @@ fun ProductEditScreen(
             )
             RoundedTextField(
                 textFieldInformation = "Product Name",
-                textValue = sharedState.currentProduct.productName,
+                textValue = uiState.currentProduct.productName,
                 onFieldValueChange = { newText ->
                     if (newText.length < 20)
-                        productTransferViewModel.updateProductName(newText)
+                        viewModel.updateProductName(newText)
                 },
                 keyboardType = KeyboardType.Text,
                 textFieldModifier = Modifier.fillMaxWidth(0.9f),
@@ -132,10 +132,10 @@ fun ProductEditScreen(
             ) {
                 RoundedTextField(
                     textFieldInformation = "Price",
-                    textValue = String.format("%.2f", sharedState.currentProduct.price),
+                    textValue = String.format("%.2f", uiState.currentProduct.price),
                     onFieldValueChange = { newText ->
                         if (newText.length < 20)
-                            productTransferViewModel.updatePrice(newText)
+                            viewModel.updatePrice(newText)
                     },
                     keyboardType = KeyboardType.Decimal,
                     textFieldModifier = Modifier.fillMaxWidth(0.45f),
@@ -143,10 +143,10 @@ fun ProductEditScreen(
                 )
                 RoundedTextField(
                     textFieldInformation = "VAT Rate (%)",
-                    textValue = sharedState.currentProduct.vatRate.toString(),
+                    textValue = uiState.currentProduct.vatRate.toString(),
                     onFieldValueChange = { newText ->
                         if (newText.length < 20)
-                            productTransferViewModel.updateVatRate(newText)
+                            viewModel.updateVatRate(newText)
                     },
                     keyboardType = KeyboardType.Number,
                     textFieldModifier = Modifier.fillMaxWidth(),
@@ -160,8 +160,8 @@ fun ProductEditScreen(
 @Preview
 @Composable
 fun ProductEditScreenPreview() {
-    val productTransferViewModel = remember { mutableStateOf(ProductTransferViewModel()) }
-    productTransferViewModel.value.updateProduct(
+    val productViewModel = remember { mutableStateOf(ProductViewModel()) }
+    productViewModel.value.updateProduct(
         ProductModel(
             productName = "MyProduct1",
             vatRate = 10.0,
@@ -171,7 +171,7 @@ fun ProductEditScreenPreview() {
     FrontendInternshipTheme {
         ProductEditScreen(
             navController = rememberNavController(),
-            productTransferViewModel = productTransferViewModel.value
+            viewModel = productViewModel.value
         )
     }
 }

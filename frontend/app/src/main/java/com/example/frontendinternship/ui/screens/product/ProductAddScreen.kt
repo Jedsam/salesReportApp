@@ -29,7 +29,7 @@ import com.example.frontendinternship.domain.model.ProductModel
 import com.example.frontendinternship.ui.components.RoundedButton
 import com.example.frontendinternship.ui.components.RoundedTextField
 import com.example.frontendinternship.ui.components.TopBarWithReturn
-import com.example.frontendinternship.ui.common.viewmodel.ProductTransferViewModel
+import com.example.frontendinternship.ui.common.viewmodel.ProductViewModel
 import com.example.frontendinternship.ui.navigation.Screen
 import com.example.frontendinternship.ui.theme.FrontendInternshipTheme
 import com.example.frontendinternship.ui.theme.LocalDimensions
@@ -38,11 +38,9 @@ import com.example.frontendinternship.ui.theme.LocalPadding
 @Composable
 fun ProductAddScreen(
     navController: NavController,
-    viewModel: ProductAddViewModel = hiltViewModel(),
-    productTransferViewModel: ProductTransferViewModel
+    viewModel: ProductViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsState()
-    val sharedState by productTransferViewModel.uiState.collectAsState()
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
         modifier = Modifier.fillMaxSize(),
@@ -69,7 +67,7 @@ fun ProductAddScreen(
                 RoundedButton(
                     buttonText = "Save",
                     onButtonPress = {
-                        productTransferViewModel.chooseAddOperation()
+                        viewModel.chooseAddOperation()
                         navController.popBackStack(
                             Screen.Catalog.route,
                             inclusive = false
@@ -112,10 +110,10 @@ fun ProductAddScreen(
             )
             RoundedTextField(
                 textFieldInformation = "Product Name",
-                textValue = sharedState.currentProduct.productName,
+                textValue = uiState.currentProduct.productName,
                 onFieldValueChange = { newText ->
                     if (newText.length < 20)
-                        productTransferViewModel.updateProductName(newText)
+                        viewModel.updateProductName(newText)
                 },
                 keyboardType = KeyboardType.Text,
                 textFieldModifier = Modifier.fillMaxWidth(0.9f),
@@ -133,10 +131,10 @@ fun ProductAddScreen(
             ) {
                 RoundedTextField(
                     textFieldInformation = "Price",
-                    textValue = String.format("%.2f", sharedState.currentProduct.price),
+                    textValue = String.format("%.2f", uiState.currentProduct.price),
                     onFieldValueChange = { newText ->
                         if (newText.length < 20)
-                            productTransferViewModel.updatePrice(newText)
+                            viewModel.updatePrice(newText)
                     },
                     keyboardType = KeyboardType.Decimal,
                     textFieldModifier = Modifier.fillMaxWidth(0.45f),
@@ -144,10 +142,10 @@ fun ProductAddScreen(
                 )
                 RoundedTextField(
                     textFieldInformation = "VAT Rate (%)",
-                    textValue = sharedState.currentProduct.vatRate.toString(),
+                    textValue = uiState.currentProduct.vatRate.toString(),
                     onFieldValueChange = { newText ->
                         if (newText.length < 20)
-                            productTransferViewModel.updateVatRate(newText)
+                            viewModel.updateVatRate(newText)
                     },
                     keyboardType = KeyboardType.Number,
                     textFieldModifier = Modifier.fillMaxWidth(),
@@ -161,8 +159,8 @@ fun ProductAddScreen(
 @Preview
 @Composable
 fun ProductAddScreenPreview() {
-    val productTransferViewModel = remember { mutableStateOf(ProductTransferViewModel()) }
-    productTransferViewModel.value.updateProduct(
+    val productViewModel = remember { mutableStateOf(ProductViewModel()) }
+    productViewModel.value.updateProduct(
         ProductModel(
             productName = "MyProduct1",
             vatRate = 10.0,
@@ -172,7 +170,7 @@ fun ProductAddScreenPreview() {
     FrontendInternshipTheme {
         ProductAddScreen(
             navController = rememberNavController(),
-            productTransferViewModel = productTransferViewModel.value
+            viewModel = productViewModel.value
         )
     }
 }

@@ -33,7 +33,7 @@ import com.example.frontendinternship.ui.theme.LocalPadding
 import com.example.frontendinternship.ui.theme.LocalTextFormat
 
 @Composable
-fun BasketScreen(navController: NavController, viewModel: ProductAddViewModel = hiltViewModel()) {
+fun BasketScreen(navController: NavController, viewModel: BasketViewModel = hiltViewModel()) {
     val uiState by viewModel.uiState.collectAsState()
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,

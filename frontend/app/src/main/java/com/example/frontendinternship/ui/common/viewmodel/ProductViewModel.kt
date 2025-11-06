@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 @HiltViewModel
-class ProductTransferViewModel @Inject constructor(
+class ProductViewModel @Inject constructor(
     // private val loadProductsUseCase: ILoadProductsUseCase
 ) :
     ViewModel() {

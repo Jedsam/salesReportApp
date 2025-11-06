@@ -8,10 +8,12 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.frontendinternship.ui.common.viewmodel.ProductTransferViewModel
+import com.example.frontendinternship.ui.common.viewmodel.ProductViewModel
+import com.example.frontendinternship.ui.screens.basket.BasketViewModel
 import com.example.frontendinternship.ui.screens.catalog.CatalogScreen
 import com.example.frontendinternship.ui.screens.login.LoginScreen
 import com.example.frontendinternship.ui.screens.product.ProductAddScreen
@@ -22,7 +24,8 @@ import com.example.frontendinternship.ui.screens.register.RegisterScreen
 @Composable
 fun Navigation(
     navController: NavHostController,
-    productTransferViewModel: ProductTransferViewModel
+    productViewModel: ProductViewModel = viewModel(),
+    basketViewModel: BasketViewModel = viewModel()
 ) {
     val defaultEnterAnimation: AnimatedContentTransitionScope<*>.() -> EnterTransition = {
         slideInHorizontally(
@@ -43,7 +46,11 @@ fun Navigation(
             enterTransition = defaultEnterAnimation,
             exitTransition = defaultExitAnimation
         ) {
-            CatalogScreen(navController, productTransferViewModel = productTransferViewModel)
+            CatalogScreen(
+                navController,
+                productViewModel = productViewModel,
+                basketViewModel = basketViewModel
+            )
         }
         composable(
             Screen.ProductEdit.route,
@@ -52,7 +59,7 @@ fun Navigation(
         ) {
             ProductEditScreen(
                 navController,
-                productTransferViewModel = productTransferViewModel
+                viewModel = productViewModel
             )
         }
         composable(
@@ -62,7 +69,7 @@ fun Navigation(
         ) {
             ProductAddScreen(
                 navController,
-                productTransferViewModel = productTransferViewModel
+                viewModel = productViewModel
             )
         }
         composable(

@@ -26,11 +26,12 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.frontendinternship.domain.model.ProductModel
 import com.example.frontendinternship.domain.usecase.iface.ILoadProductsUseCase
-import com.example.frontendinternship.ui.common.viewmodel.ProductTransferViewModel
+import com.example.frontendinternship.ui.common.viewmodel.ProductViewModel
 import com.example.frontendinternship.ui.components.ProductList
 import com.example.frontendinternship.ui.components.RoundedButton
 import com.example.frontendinternship.ui.components.TopBarWithSync
 import com.example.frontendinternship.ui.navigation.Screen
+import com.example.frontendinternship.ui.screens.basket.BasketViewModel
 import com.example.frontendinternship.ui.theme.FrontendInternshipTheme
 import com.example.frontendinternship.ui.theme.LocalColors
 import com.example.frontendinternship.ui.theme.LocalDimensions
@@ -41,16 +42,17 @@ import com.example.frontendinternship.ui.theme.LocalTextFormat
 fun CatalogScreen(
     navController: NavController,
     viewModel: CatalogViewModel = hiltViewModel(),
-    productTransferViewModel: ProductTransferViewModel,
+    productViewModel: ProductViewModel,
+    basketViewModel: BasketViewModel,
 ) {
     val uiState by viewModel.uiState.collectAsState()
-    val transferUiState by productTransferViewModel.uiState.collectAsState()
+    val transferUiState by productViewModel.uiState.collectAsState()
     LaunchedEffect(transferUiState.productOperation) {
         viewModel.updateProductChanges(
             transferUiState.currentProduct,
             transferUiState.productOperation
         )
-        productTransferViewModel.resetProduct()
+        productViewModel.resetProduct()
     }
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
@@ -88,7 +90,7 @@ fun CatalogScreen(
                         buttonText = "+",
                         textSize = LocalTextFormat.current.sizeMain,
                         onButtonPress = {
-                            productTransferViewModel.updateProduct(ProductModel())
+                            productViewModel.updateProduct(ProductModel())
                             navController.navigate(Screen.ProductAdd.route)
                         },
                         modifier = Modifier
@@ -103,7 +105,7 @@ fun CatalogScreen(
     ) { innerPadding ->
         ProductList(
             onProductSelected = { product: ProductModel ->
-                productTransferViewModel.updateProduct(product.copy())
+                productViewModel.updateProduct(product.copy())
                 navController.navigate(Screen.ProductEdit.route)
             },
             onProductAdded = {},
@@ -117,20 +119,21 @@ fun CatalogScreen(
 @Preview
 @Composable
 fun NewCatalogScreenPreview() {
-    val productTransferViewModel = remember { mutableStateOf(ProductTransferViewModel()) }
-    productTransferViewModel.value.updateProduct(
+    val productViewModel = remember { mutableStateOf(ProductViewModel()) }
+    productViewModel.value.updateProduct(
         ProductModel(
             productName = "MyProduct1",
             vatRate = 10.0,
             price = 30.0
         )
     )
+    val basketViewModel = remember { mutableStateOf(BasketViewModel()) }
     FrontendInternshipTheme {
         CatalogScreen(
             navController = rememberNavController(),
             viewModel = CatalogViewModel_Factory.newInstance(
                 FakeLoadProductsUseCase()
-            ), productTransferViewModel = productTransferViewModel.value
+            ), productViewModel = productViewModel.value, basketViewModel = basketViewModel.value
         )
     }
 }
