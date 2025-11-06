@@ -16,7 +16,6 @@ class ProductAddViewModel @Inject constructor() :
     ViewModel() {
     data class ProductUiState(
         var switchCounter: Int = 0,
-        val currentProduct: ProductModel = ProductModel()
     )
 
     private val _uiState = MutableStateFlow(ProductUiState())

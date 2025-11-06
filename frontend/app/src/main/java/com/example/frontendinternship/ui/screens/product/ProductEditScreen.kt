@@ -38,7 +38,7 @@ import com.example.frontendinternship.ui.theme.LocalPadding
 @Composable
 fun ProductEditScreen(
     navController: NavController,
-    viewModel: ProductAddViewModel = hiltViewModel(),
+    viewModel: ProductEditViewModel = hiltViewModel(),
     productTransferViewModel: ProductTransferViewModel
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -70,11 +70,9 @@ fun ProductEditScreen(
                     buttonText = "Save",
                     onButtonPress = {
                         productTransferViewModel.chooseEditOperation()
-                        navController.navigate(Screen.Catalog.route) {
-                            popUpTo(Screen.Catalog.route) {
-                                inclusive = true
-                            }
-                        }
+                        navController.popBackStack(Screen.Catalog.route,
+                            inclusive = false
+                        )
                     },
                     modifier = Modifier
                         .fillMaxWidth()
@@ -87,11 +85,9 @@ fun ProductEditScreen(
                     buttonText = "Delete",
                     onButtonPress = {
                         productTransferViewModel.chooseDeleteOperation()
-                        navController.navigate(Screen.Catalog.route) {
-                            popUpTo(Screen.Catalog.route) {
-                                inclusive = true
-                            }
-                        }
+                        navController.popBackStack(Screen.Catalog.route,
+                            inclusive = false
+                        )
                     },
                     modifier = Modifier
                         .fillMaxWidth()
@@ -116,7 +112,10 @@ fun ProductEditScreen(
             RoundedTextField(
                 textFieldInformation = "Product Name",
                 textValue = sharedState.currentProduct.productName,
-                onFieldValueChange = {},
+                onFieldValueChange = { newText ->
+                    if (newText.length < 20)
+                        productTransferViewModel.updateProductName(newText)
+                },
                 keyboardType = KeyboardType.Text,
                 textFieldModifier = Modifier.fillMaxWidth(0.9f),
                 textColor = Color.Gray,
@@ -134,7 +133,10 @@ fun ProductEditScreen(
                 RoundedTextField(
                     textFieldInformation = "Price",
                     textValue = String.format("%.2f", sharedState.currentProduct.price),
-                    onFieldValueChange = {},
+                    onFieldValueChange = { newText ->
+                        if (newText.length < 20)
+                            productTransferViewModel.updatePrice(newText)
+                    },
                     keyboardType = KeyboardType.Decimal,
                     textFieldModifier = Modifier.fillMaxWidth(0.45f),
                     textColor = Color.Gray,
@@ -142,7 +144,10 @@ fun ProductEditScreen(
                 RoundedTextField(
                     textFieldInformation = "VAT Rate (%)",
                     textValue = sharedState.currentProduct.vatRate.toString(),
-                    onFieldValueChange = {},
+                    onFieldValueChange = { newText ->
+                        if (newText.length < 20)
+                            productTransferViewModel.updateVatRate(newText)
+                    },
                     keyboardType = KeyboardType.Number,
                     textFieldModifier = Modifier.fillMaxWidth(),
                     textColor = Color.Gray,

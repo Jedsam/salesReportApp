@@ -45,7 +45,7 @@ fun CatalogScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val transferUiState by productTransferViewModel.uiState.collectAsState()
-    LaunchedEffect(Unit) {
+    LaunchedEffect(transferUiState.productOperation) {
         viewModel.updateProductChanges(
             transferUiState.currentProduct,
             transferUiState.productOperation

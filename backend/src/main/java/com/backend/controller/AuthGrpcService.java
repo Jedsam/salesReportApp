@@ -60,7 +60,7 @@ public class AuthGrpcService extends AuthServiceImplBase {
       responseObserver.onError(Status.UNAUTHENTICATED
           .withDescription("Invalid credentials")
           .asRuntimeException());
-      return; // Must stop execution!
+      return;
     }
 
     boolean passwordMatches = passwordEncoder.matches(

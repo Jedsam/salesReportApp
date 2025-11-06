@@ -62,4 +62,26 @@ class ProductTransferViewModel @Inject constructor(
             )
         }
     }
+
+    fun updateProductName(newName: String) {
+        _uiState.update { currentState ->
+            currentState.copy(
+                currentProduct = currentState.currentProduct.copy(productName = newName)
+            )
+        }
+    }
+    fun updatePrice(newPrice: String) {
+        _uiState.update { currentState ->
+            currentState.copy(
+                currentProduct = currentState.currentProduct.copy(price = newPrice.toDoubleOrNull() ?: 0.0)
+            )
+        }
+    }
+    fun updateVatRate(newVatRate: String) {
+        _uiState.update { currentState ->
+            currentState.copy(
+                currentProduct = currentState.currentProduct.copy(vatRate = newVatRate.toDoubleOrNull() ?: 0.0)
+            )
+        }
+    }
 }

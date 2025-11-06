@@ -121,11 +121,9 @@ fun LoginScreen(
                 confirmButton = {
                     TextButton(onClick = {
                         viewModel.closeOperatingWindow()
-                        navController.navigate(Screen.Catalog.route) {
-                            popUpTo(Screen.Catalog.route) {
-                                inclusive = true
-                            }
-                        }
+                        navController.popBackStack(Screen.Catalog.route,
+                            inclusive = false
+                        )
                     }) {
                         Text("OK")
                     }

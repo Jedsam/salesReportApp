@@ -65,19 +65,17 @@ class CatalogViewModel @Inject constructor(
             return
         }
         _uiState.update { currentState ->
-
             val newProductList = currentState.productList.toMutableList()
-
             when (productOperation) {
                 ProductOperationEnum.ADD -> {
-                    newProductList.add(currentProduct)
+                    newProductList.add(currentProduct.copy())
                 }
 
                 ProductOperationEnum.EDIT -> {
                     val index =
                         newProductList.indexOfFirst { it.productId == currentProduct.productId }
                     if (index != -1) {
-                        newProductList[index] = currentProduct
+                        newProductList[index] = currentProduct.copy()
                     }
                 }
 

@@ -15,7 +15,7 @@ import com.example.frontendinternship.ui.screens.register.RegisterScreen
 @Composable
 fun Navigation(
     navController: NavHostController,
-    productTransferViewModel: ProductTransferViewModel = ProductTransferViewModel()
+    productTransferViewModel: ProductTransferViewModel
 ) {
     NavHost(navController = navController, startDestination = Screen.Catalog.route) {
         composable(Screen.Catalog.route) {
