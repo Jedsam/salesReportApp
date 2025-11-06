@@ -21,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
@@ -120,7 +121,11 @@ fun LoginScreen(
                 confirmButton = {
                     TextButton(onClick = {
                         viewModel.closeOperatingWindow()
-                        navController.navigate(Screen.Catalog) { popUpTo(0) }
+                        navController.navigate(Screen.Catalog.route) {
+                            popUpTo(Screen.Catalog.route) {
+                                inclusive = true
+                            }
+                        }
                     }) {
                         Text("OK")
                     }
@@ -141,14 +146,14 @@ fun LoginScreen(
             )
             RoundedTextField(
                 textFieldInformation = "Username",
-                textColor = Color.Gray,
                 textValue = uiState.currentUser.username,
                 onFieldValueChange = { newText ->
                     if (newText.length < 20)
                         viewModel.updateUsername(newText)
                 },
                 keyboardType = KeyboardType.Text,
-                textFieldModifier = Modifier.fillMaxWidth(0.8f)
+                textFieldModifier = Modifier.fillMaxWidth(0.8f),
+                textColor = Color.Gray,
             )
             Spacer(
                 modifier = Modifier
@@ -156,14 +161,15 @@ fun LoginScreen(
             )
             RoundedTextField(
                 textFieldInformation = "Password",
-                textColor = Color.Gray,
-                textValue = "*".repeat(uiState.currentUser.password.length),
+                textValue = uiState.currentUser.password,
                 onFieldValueChange = { newText ->
                     if (newText.length < 16)
                         viewModel.updatePassword(newText)
                 },
                 keyboardType = KeyboardType.Decimal,
-                textFieldModifier = Modifier.fillMaxWidth(0.8f)
+                textFieldModifier = Modifier.fillMaxWidth(0.8f),
+                visualTransformation = PasswordVisualTransformation(),
+                textColor = Color.Gray,
             )
         }
     }

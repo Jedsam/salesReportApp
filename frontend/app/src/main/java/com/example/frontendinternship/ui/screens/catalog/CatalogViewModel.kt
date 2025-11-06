@@ -34,7 +34,8 @@ class CatalogViewModel @Inject constructor(
     fun updateLoginState() {
         _uiState.update { currentState ->
             currentState.copy(
-                isLoggedIn = Math.random() > 0.5
+                isLoggedIn = false
+                // isLoggedIn = Math.random() > 0.5
             )
         }
     }

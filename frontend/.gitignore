@@ -110,3 +110,7 @@ frontend/gradle/wrapper/gradle-wrapper.properties
 **/.kotlin/
 
 *.orig
+
+# certificate folder
+/app/src/main/res/raw/
+

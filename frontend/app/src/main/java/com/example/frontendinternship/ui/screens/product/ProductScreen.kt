@@ -100,11 +100,11 @@ fun ProductScreen(
             )
             RoundedTextField(
                 textFieldInformation = "Product Name",
-                textColor = Color.Gray,
                 textValue = sharedState.currentProduct.productName,
                 onFieldValueChange = {},
                 keyboardType = KeyboardType.Text,
-                textFieldModifier = Modifier.fillMaxWidth(0.9f)
+                textFieldModifier = Modifier.fillMaxWidth(0.9f),
+                textColor = Color.Gray,
             )
             Spacer(
                 modifier = Modifier
@@ -118,19 +118,19 @@ fun ProductScreen(
             ) {
                 RoundedTextField(
                     textFieldInformation = "Price",
-                    textColor = Color.Gray,
                     textValue = String.format("%.2f", sharedState.currentProduct.price),
                     onFieldValueChange = {},
                     keyboardType = KeyboardType.Decimal,
-                    textFieldModifier = Modifier.fillMaxWidth(0.45f)
+                    textFieldModifier = Modifier.fillMaxWidth(0.45f),
+                    textColor = Color.Gray,
                 )
                 RoundedTextField(
                     textFieldInformation = "VAT Rate (%)",
-                    textColor = Color.Gray,
                     textValue = sharedState.currentProduct.vatRate.toString(),
                     onFieldValueChange = {},
                     keyboardType = KeyboardType.Number,
-                    textFieldModifier = Modifier.fillMaxWidth()
+                    textFieldModifier = Modifier.fillMaxWidth(),
+                    textColor = Color.Gray,
                 )
             }
         }

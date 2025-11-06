@@ -2,6 +2,8 @@ package com.backend.controller;
 
 import java.util.Collections;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -44,15 +46,35 @@ public class AuthGrpcService extends AuthServiceImplBase {
     this.jwtService = jwtService;
   }
 
+  private static final Logger log = LoggerFactory.getLogger(AuthGrpcService.class);
+
   @Override
   @PreAuthorize("isAnonymous()")
   public void login(LoginAuthRequest loginAuthRequest, StreamObserver<LoginAuthResponse> responseObserver) {
     User user = userService.getUserCredentialsByEmail(loginAuthRequest.getEmail());
 
-    if (user == null || !passwordEncoder.matches(loginAuthRequest.getPassword(), user.getPasswordHash())) {
+    log.info("auth request:{} and {}", loginAuthRequest.getEmail(), loginAuthRequest.getPassword());
+
+    if (user == null) {
+      log.warn("Login attempt failed: User with email {} not found.", loginAuthRequest.getEmail());
       responseObserver.onError(Status.UNAUTHENTICATED
           .withDescription("Invalid credentials")
           .asRuntimeException());
+      return; // Must stop execution!
+    }
+
+    boolean passwordMatches = passwordEncoder.matches(
+        loginAuthRequest.getPassword(),
+        user.getPasswordHash());
+
+    log.info("Password match result for user {}: {}", user.getEmail(), passwordMatches);
+
+    if (!passwordMatches) {
+      log.warn("Login attempt failed: Invalid password for user {}.", user.getEmail());
+      responseObserver.onError(Status.UNAUTHENTICATED
+          .withDescription("Invalid credentials")
+          .asRuntimeException());
+      return; // Must stop execution!
     }
 
     AuthUser authUser = new AuthUser(

@@ -93,42 +93,42 @@ fun RegisterScreen(
                 textValue = uiState.currentUser.username,
                 onFieldValueChange = {},
                 keyboardType = KeyboardType.Text,
-                textFieldModifier = Modifier.fillMaxWidth(0.8f)
+                textFieldModifier = Modifier.fillMaxWidth(0.8f),
             )
             RoundedTextField(
                 textFieldInformation = "Business Name",
                 textValue = uiState.currentUser.username,
                 onFieldValueChange = {},
                 keyboardType = KeyboardType.Text,
-                textFieldModifier = Modifier.fillMaxWidth(0.8f)
+                textFieldModifier = Modifier.fillMaxWidth(0.8f),
             )
             RoundedTextField(
                 textFieldInformation = "Phone",
                 textValue = uiState.currentUser.username,
                 onFieldValueChange = {},
                 keyboardType = KeyboardType.Text,
-                textFieldModifier = Modifier.fillMaxWidth(0.8f)
+                textFieldModifier = Modifier.fillMaxWidth(0.8f),
             )
             RoundedTextField(
                 textFieldInformation = "Business Address",
                 textValue = uiState.currentUser.username,
                 onFieldValueChange = {},
                 keyboardType = KeyboardType.Text,
-                textFieldModifier = Modifier.fillMaxWidth(0.8f)
+                textFieldModifier = Modifier.fillMaxWidth(0.8f),
             )
             RoundedTextField(
                 textFieldInformation = "Username",
                 textValue = uiState.currentUser.username,
                 onFieldValueChange = {},
                 keyboardType = KeyboardType.Text,
-                textFieldModifier = Modifier.fillMaxWidth(0.8f)
+                textFieldModifier = Modifier.fillMaxWidth(0.8f),
             )
             RoundedTextField(
                 textFieldInformation = "Password",
                 textValue = "*".repeat(uiState.currentUser.password.length),
                 onFieldValueChange = {},
                 keyboardType = KeyboardType.Decimal,
-                textFieldModifier = Modifier.fillMaxWidth(0.8f)
+                textFieldModifier = Modifier.fillMaxWidth(0.8f),
             )
             Spacer(modifier = Modifier.height(LocalPadding.current.Big))
         }
