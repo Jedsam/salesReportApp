@@ -87,6 +87,7 @@ fun BasketScreen(navController: NavController, viewModel: BasketViewModel = hilt
                 ) {
                     RoundedButton(
                         buttonText = "Proceed to Payment",
+                        isButtonEnabled = !uiState.productBasket.isEmpty(),
                         onButtonPress = {},
                         modifier = Modifier
                             .fillMaxWidth()

@@ -46,15 +46,26 @@ class BasketViewModel @Inject constructor() :
             basket.indexOfFirst { it.product.productId == productToIncrement.product.productId }
 
         val decrementedValue = productToIncrement.count - 1
-        if (index != -1 && decrementedValue < 999 && decrementedValue > 0) {
-            _uiState.update { currentState ->
-                val newBasket = currentState.productBasket.toMutableList()
-                newBasket[index] = productToIncrement.copy(count = decrementedValue)
-                currentState.copy(
-                    productBasket = newBasket
-                )
+        if (index != -1)
+            if (decrementedValue < 999 && decrementedValue > 0) {
+                _uiState.update { currentState ->
+                    val newBasket = currentState.productBasket.toMutableList()
+                    newBasket[index] = productToIncrement.copy(count = decrementedValue)
+                    currentState.copy(
+                        productBasket = newBasket
+                    )
+                }
+            } else if (decrementedValue == 0) {
+                // Delete the element from the list
+                _uiState.update { currentState ->
+                    val newBasket = currentState.productBasket.toMutableList()
+                    newBasket.removeAt(index)
+                    currentState.copy(
+                        productBasket = newBasket
+                    )
+                }
+
             }
-        }
     }
 
     fun addToBasket(product: ProductModel) {

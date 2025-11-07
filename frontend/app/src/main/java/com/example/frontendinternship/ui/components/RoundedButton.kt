@@ -36,6 +36,7 @@ fun RoundedButton(
     borderColor: Color = Color.Blue,
     containerColor: Color = Color.Blue,
     contentColor: Color = Color.White,
+    isButtonEnabled: Boolean = true,
 ) {
     Button(
             onClick = onButtonPress,
@@ -46,7 +47,8 @@ fun RoundedButton(
                 contentColor = contentColor
             ),
             border = BorderStroke(width = LocalPadding.current.VeryMini, borderColor),
-                    contentPadding = PaddingValues(0.dp)
+                    contentPadding = PaddingValues(0.dp),
+        enabled = isButtonEnabled,
     ) {
         Text(
             text = buttonText,
