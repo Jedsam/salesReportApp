@@ -21,6 +21,42 @@ class BasketViewModel @Inject constructor() :
     private val _uiState = MutableStateFlow(BasketUiState())
     val uiState: StateFlow<BasketUiState> = _uiState.asStateFlow()
 
+    fun incrementProduct(productToIncrement: ProductWithCount) {
+        val basket = uiState.value.productBasket
+
+        val index =
+            basket.indexOfFirst { it.product.productId == productToIncrement.product.productId }
+
+        val incrementedValue = productToIncrement.count - 1
+        if (index != -1 && incrementedValue < 999 && incrementedValue > 0) {
+            _uiState.update { currentState ->
+                val newBasket = currentState.productBasket.toMutableList()
+                newBasket[index] = productToIncrement.copy(count = incrementedValue)
+                currentState.copy(
+                    productBasket = newBasket
+                )
+            }
+        }
+    }
+
+    fun decrementProduct(productToIncrement: ProductWithCount) {
+        val basket = uiState.value.productBasket
+
+        val index =
+            basket.indexOfFirst { it.product.productId == productToIncrement.product.productId }
+
+        val decrementedValue = productToIncrement.count - 1
+        if (index != -1 && decrementedValue < 999 && decrementedValue > 0) {
+            _uiState.update { currentState ->
+                val newBasket = currentState.productBasket.toMutableList()
+                newBasket[index] = productToIncrement.copy(count = decrementedValue)
+                currentState.copy(
+                    productBasket = newBasket
+                )
+            }
+        }
+    }
+
     fun addToBasket(product: ProductModel) {
         val basket = uiState.value.productBasket
 

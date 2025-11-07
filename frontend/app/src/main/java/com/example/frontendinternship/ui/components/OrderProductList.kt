@@ -42,6 +42,8 @@ import com.example.frontendinternship.ui.theme.LocalTextFormat
 fun OrderProductList(
     productList: List<ProductWithCount>,
     paddingValue: PaddingValues,
+    onIncrementButtonClicked: (ProductWithCount) -> Unit,
+    onDecrementButtonClicked: (ProductWithCount) -> Unit,
     content: @Composable () -> Unit,
 ) {
     Box(
@@ -90,7 +92,7 @@ fun OrderProductList(
                             )
                         }
                         IconButton(
-                            onClick = {},
+                            onClick = {onDecrementButtonClicked(product) }
                         ) {
                             Icon(
                                 imageVector = Icons.Default.RemoveCircle,
@@ -100,7 +102,7 @@ fun OrderProductList(
                         }
                         Text(text = String.format("%03d", product.count))
                         IconButton(
-                            onClick = {},
+                            onClick ={onIncrementButtonClicked(product) },
                         ) {
                             Icon(
                                 imageVector = Icons.Default.AddCircle,
@@ -158,7 +160,9 @@ fun OrderProductListPreview() {
                         ), 594
                     ),
                 ),
-                paddingValue = innerPadding
+                paddingValue = innerPadding,
+                onDecrementButtonClicked = {},
+                onIncrementButtonClicked = {},
             ) {
                 HorizontalDivider(
                     modifier = Modifier.padding(vertical = LocalPadding.current.VeryTiny),

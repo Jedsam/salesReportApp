@@ -26,6 +26,7 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.frontendinternship.domain.model.ProductModel
+import com.example.frontendinternship.domain.model.ProductWithCount
 import com.example.frontendinternship.domain.model.getCost
 import com.example.frontendinternship.domain.model.getTax
 import com.example.frontendinternship.ui.common.viewmodel.ProductViewModel
@@ -42,7 +43,7 @@ import com.example.frontendinternship.ui.theme.LocalTextFormat
 fun BasketScreen(navController: NavController, viewModel: BasketViewModel = hiltViewModel()) {
     val uiState by viewModel.uiState.collectAsState()
     val totalValue = uiState.productBasket.sumOf { it.getCost() }
-    val taxTotal = uiState.productBasket.sumOf { it.getTax()}
+    val taxTotal = uiState.productBasket.sumOf { it.getTax() }
     val subtotal = totalValue - taxTotal
     val discount = 0.0
     Scaffold(
@@ -100,6 +101,16 @@ fun BasketScreen(navController: NavController, viewModel: BasketViewModel = hilt
         OrderProductList(
             productList = uiState.productBasket,
             paddingValue = innerPadding,
+            onIncrementButtonClicked = { product: ProductWithCount ->
+                viewModel.incrementProduct(
+                    product
+                )
+            },
+            onDecrementButtonClicked = { product: ProductWithCount ->
+                viewModel.decrementProduct(
+                    product
+                )
+            },
         ) {
             HorizontalDivider(
                 modifier = Modifier.padding(vertical = LocalPadding.current.VeryTiny),
@@ -107,20 +118,20 @@ fun BasketScreen(navController: NavController, viewModel: BasketViewModel = hilt
                 color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.2f)
             )
             Column() {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(LocalPadding.current.Tiny),
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        Text(
-                            text = "Subtotal",
-                            color = Color.Gray,
-                        )
-                        Text(
-                            text = String.format(" %.2fTL", subtotal)
-                        )
-                    }
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(LocalPadding.current.Tiny),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(
+                        text = "Subtotal",
+                        color = Color.Gray,
+                    )
+                    Text(
+                        text = String.format(" %.2fTL", subtotal)
+                    )
+                }
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -132,7 +143,8 @@ fun BasketScreen(navController: NavController, viewModel: BasketViewModel = hilt
                         color = Color.Gray,
                     )
                     Text(
-                        text = String.format(" %.2fTL", taxTotal))
+                        text = String.format(" %.2fTL", taxTotal)
+                    )
                 }
                 Row(
                     modifier = Modifier
