@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.room.util.copy
 import com.example.frontendinternship.domain.model.ProductModel
+import com.example.frontendinternship.domain.model.ProductWithCount
 import com.example.frontendinternship.domain.usecase.iface.ILoadProductsUseCase
 import com.example.frontendinternship.utils.ProductOperationEnum
 import dagger.hilt.android.lifecycle.HiltViewModel

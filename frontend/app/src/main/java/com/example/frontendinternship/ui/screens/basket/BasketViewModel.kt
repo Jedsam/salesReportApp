@@ -1,31 +1,40 @@
 package com.example.frontendinternship.ui.screens.basket
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.example.frontendinternship.domain.model.ProductModel
+import com.example.frontendinternship.domain.model.ProductWithCount
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class BasketViewModel @Inject constructor() :
     ViewModel() {
-    data class ProductUiState(
-        var switchCounter: Int = 0,
-        val currentProduct: ProductModel = ProductModel()
+    data class BasketUiState(
+        var productBasket: List<ProductWithCount> = emptyList(),
+        var lastAddedProduct: ProductWithCount = ProductWithCount(ProductModel(productName = ""), 0)
     )
 
-    private val _uiState = MutableStateFlow(ProductUiState())
-    val uiState: StateFlow<ProductUiState> = _uiState.asStateFlow()
+    private val _uiState = MutableStateFlow(BasketUiState())
+    val uiState: StateFlow<BasketUiState> = _uiState.asStateFlow()
 
-    fun incrementCounter() {
-        viewModelScope.launch {
+    fun addToBasket(product: ProductModel) {
+        val basket = uiState.value.productBasket
+
+        val existingProduct = basket.find { it.product.productId == product.productId }
+
+        if (existingProduct == null) {
             _uiState.update { currentState ->
-                currentState.copy(switchCounter = currentState.switchCounter + 1)
+                val newBasket = currentState.productBasket.toMutableList()
+                val lastAddedProductWithCount = ProductWithCount(product, count = 1)
+                newBasket.add(lastAddedProductWithCount)
+                currentState.copy(
+                    lastAddedProduct = lastAddedProductWithCount,
+                    productBasket = newBasket
+                )
             }
         }
     }

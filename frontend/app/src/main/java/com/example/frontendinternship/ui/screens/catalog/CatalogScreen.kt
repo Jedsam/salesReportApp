@@ -1,5 +1,6 @@
 package com.example.frontendinternship.ui.screens.catalog
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
@@ -25,6 +26,7 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.frontendinternship.domain.model.ProductModel
+import com.example.frontendinternship.domain.model.getCost
 import com.example.frontendinternship.domain.usecase.iface.ILoadProductsUseCase
 import com.example.frontendinternship.ui.common.viewmodel.ProductViewModel
 import com.example.frontendinternship.ui.components.ProductList
@@ -46,11 +48,12 @@ fun CatalogScreen(
     basketViewModel: BasketViewModel,
 ) {
     val uiState by viewModel.uiState.collectAsState()
-    val transferUiState by productViewModel.uiState.collectAsState()
-    LaunchedEffect(transferUiState.productOperation) {
+    val productTransferUiState by productViewModel.uiState.collectAsState()
+    val basketTransferUiState by basketViewModel.uiState.collectAsState()
+    LaunchedEffect(productTransferUiState.productOperation) {
         viewModel.updateProductChanges(
-            transferUiState.currentProduct,
-            transferUiState.productOperation
+            productTransferUiState.currentProduct,
+            productTransferUiState.productOperation
         )
         productViewModel.resetProduct()
     }
@@ -70,8 +73,22 @@ fun CatalogScreen(
             )
         },
         bottomBar = {
-            Column {
-                Text(text = "Product x 5 : 10.00TL | 100.00TL")
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                val lastAdded = basketTransferUiState.lastAddedProduct
+                Text(
+                    text = buildString {
+                        append(lastAdded.product.productName)
+                        append(" x ")
+                        append(lastAdded.count)
+                        append(" : ")
+                        append(lastAdded.product.price)
+                        append(" | ")
+                        append(lastAdded.getCost())
+                    }
+                )
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier.padding(LocalPadding.current.Small)
@@ -108,7 +125,9 @@ fun CatalogScreen(
                 productViewModel.updateProduct(product.copy())
                 navController.navigate(Screen.ProductEdit.route)
             },
-            onProductAdded = {},
+            onProductAdded = {
+               product: ProductModel -> basketViewModel.addToBasket(product)
+            },
             productList = uiState.productList,
             paddingValue = innerPadding
         )
