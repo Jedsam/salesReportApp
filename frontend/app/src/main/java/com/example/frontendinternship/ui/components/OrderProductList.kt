@@ -1,6 +1,7 @@
 package com.example.frontendinternship.ui.components
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -47,7 +48,6 @@ fun OrderProductList(
     content: @Composable () -> Unit,
 ) {
     Box(
-        modifier = Modifier
     ) {
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(LocalPadding.current.Normal),
@@ -57,14 +57,15 @@ fun OrderProductList(
             items(productList) { product ->
                 Surface(
                     shape = RoundedCornerShape(15),
-                    color = LocalColors.current.lightGray,
+                    color = MaterialTheme.colorScheme.background,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(
                             start = LocalPadding.current.Tiny,
                             end = LocalPadding.current.Small
                         )
-                        .height(LocalDimensions.current.viewLarge),
+                        .height(LocalDimensions.current.viewLarge)
+                    .border(shape = RoundedCornerShape(15),width = 1.dp, color = Color.Black),
                 ) {
                     Row(
                         modifier = Modifier

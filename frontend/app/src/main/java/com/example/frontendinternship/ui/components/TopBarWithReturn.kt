@@ -27,7 +27,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.frontendinternship.ui.navigation.Screen
 import com.example.frontendinternship.ui.theme.FrontendInternshipTheme
 import com.example.frontendinternship.ui.theme.LocalDimensions
 import com.example.frontendinternship.ui.theme.LocalPadding
@@ -37,7 +36,8 @@ import com.example.frontendinternship.ui.theme.LocalTextFormat
 fun TopBarWithReturn(
     navController: NavController,
     currentScreenText: String,
-    isConnected: Boolean
+    isConnected: Boolean,
+    color: Color = MaterialTheme.colorScheme.background,
 ) {
     Column() {
     Box(
@@ -66,10 +66,10 @@ fun TopBarWithReturn(
                         height = LocalDimensions.current.viewBig
                     ),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.background,
+                    containerColor = color,
                     contentColor = Color.Gray,
-                    disabledContainerColor = MaterialTheme.colorScheme.background,
-                    disabledContentColor = MaterialTheme.colorScheme.background,
+                    disabledContainerColor = color,
+                    disabledContentColor = color,
                 ),
                 contentPadding = PaddingValues(
                     horizontal = LocalPadding.current.VeryTiny,
@@ -112,7 +112,7 @@ fun TopBarWithReturnPreviewWifiOn() {
         TopBarWithReturn(
             navController = rememberNavController(),
             currentScreenText = "TopBar",
-            isConnected = true
+            isConnected = true,
         )
     }
 }
@@ -124,7 +124,7 @@ fun TopBarWithReturnPreviewWifiOff() {
         TopBarWithReturn(
             navController = rememberNavController(),
             currentScreenText = "TopBar",
-            isConnected = false
+            isConnected = false,
         )
     }
 }

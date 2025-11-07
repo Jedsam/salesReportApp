@@ -1,8 +1,10 @@
 package com.example.frontendinternship.ui.screens.basket
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -32,8 +34,10 @@ import com.example.frontendinternship.domain.model.getTax
 import com.example.frontendinternship.ui.components.OrderProductList
 import com.example.frontendinternship.ui.components.RoundedButton
 import com.example.frontendinternship.ui.components.TopBarWithReturn
+import com.example.frontendinternship.ui.navigation.Screen
 import com.example.frontendinternship.ui.screens.payment.PaymentViewModel
 import com.example.frontendinternship.ui.theme.FrontendInternshipTheme
+import com.example.frontendinternship.ui.theme.LocalColors
 import com.example.frontendinternship.ui.theme.LocalDimensions
 import com.example.frontendinternship.ui.theme.LocalPadding
 import com.example.frontendinternship.ui.theme.LocalTextFormat
@@ -45,26 +49,27 @@ fun BasketScreen(
     paymentViewModel: PaymentViewModel
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    val paymentTransferState by paymentViewModel.uiState.collectAsState()
+
     val totalValue = uiState.productBasket.sumOf { it.getCost() }
     val taxTotal = uiState.productBasket.sumOf { it.getTax() }
     val subtotal = totalValue - taxTotal
     val discount = 0.0
     Scaffold(
-        containerColor = MaterialTheme.colorScheme.background,
+        containerColor = LocalColors.current.minorGray,
         modifier = Modifier.fillMaxSize(),
         topBar = {
             TopBarWithReturn(
+                color = LocalColors.current.minorGray,
                 navController = navController,
                 currentScreenText = "Current Order",
                 isConnected = true,
             )
         },
         bottomBar = {
-            Column() {
-                HorizontalDivider(
-                    modifier = Modifier.padding(vertical = LocalPadding.current.VeryTiny),
-                    thickness = 0.5.dp,
-                    color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.2f)
+            Column(modifier = Modifier.background(MaterialTheme.colorScheme.background )) {
+                Spacer(
+                    modifier = Modifier.height(LocalDimensions.current.viewMini)
                 )
                 Row(
                     modifier = Modifier
@@ -91,7 +96,10 @@ fun BasketScreen(
                     RoundedButton(
                         buttonText = "Proceed to Payment",
                         isButtonEnabled = !uiState.productBasket.isEmpty(),
-                        onButtonPress = {},
+                        onButtonPress = {
+                            paymentViewModel.startPayment(uiState.productBasket)
+                            navController.navigate(Screen.Payment.route)
+                        },
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = LocalPadding.current.Small)

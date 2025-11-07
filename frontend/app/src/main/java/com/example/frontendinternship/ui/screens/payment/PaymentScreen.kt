@@ -70,8 +70,8 @@ fun PaymentScreen(
                             .fillMaxWidth()
                             .padding(horizontal = LocalPadding.current.Small)
                             .height(LocalDimensions.current.viewNormalPlus),
-                        borderColor = LocalColors.current.blueEastern,
-                        containerColor = LocalColors.current.blueEastern,
+                        borderColor = LocalColors.current.blueCerulean,
+                        containerColor = LocalColors.current.blueCerulean,
                     )
                 }
             }
@@ -95,7 +95,7 @@ fun PaymentScreen(
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
             Text(
-                text = "$${"%.2f".format(0.0)}",
+                text = "$${"%.2f".format(uiState.payment.total)}",
                 style = MaterialTheme.typography.displaySmall,
                 fontWeight = FontWeight.Bold
             )

@@ -2,6 +2,9 @@ package com.example.frontendinternship.ui.screens.payment
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.frontendinternship.domain.model.ProductWithCount
+import com.example.frontendinternship.domain.model.getCost
+import com.example.frontendinternship.domain.model.getTax
 import com.example.frontendinternship.ui.states.CreditPaymentState
 import com.example.frontendinternship.ui.states.PaymentState
 import com.example.frontendinternship.utils.PaymentTypeEnum
@@ -25,6 +28,26 @@ class PaymentViewModel @Inject constructor() :
 
     private val _uiState = MutableStateFlow(PaymentUiState())
     val uiState: StateFlow<PaymentUiState> = _uiState.asStateFlow()
+
+    fun startPayment(basketList: List<ProductWithCount>) {
+        var subtotal: Double = 0.0
+        var total: Double = 0.0
+        var currCost: Double
+        for (product in basketList) {
+            currCost = product.getCost()
+            subtotal += currCost - product.getTax()
+            total += currCost
+        }
+        _uiState.update { currentState ->
+            currentState.copy(
+                payment =
+                    PaymentState(
+                        subtotal = subtotal,
+                        total = total,
+                    )
+            )
+        }
+    }
 
     fun changeToCashPayment() {
         _uiState.update { currentState ->

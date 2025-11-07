@@ -9,7 +9,8 @@ data class Colors(
     val blue: Color = Color(color = 0xFF09899F),
     val darkGreen: Color = Color(color = 0xFF07792D),
     val lightGray: Color = Color(color = 0xFFD0CDCD),
+    val minorGray: Color = Color(color = 0xFFF5F5F5)
 
-)
+    )
 
 val LocalColors = compositionLocalOf { Colors() }
