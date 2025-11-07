@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -16,6 +15,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material.icons.filled.RemoveCircle
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -27,6 +27,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.example.frontendinternship.domain.model.ProductModel
 import com.example.frontendinternship.domain.model.ProductWithCount
 import com.example.frontendinternship.ui.theme.FrontendInternshipTheme
@@ -45,8 +46,6 @@ fun OrderProductList(
 ) {
     Box(
         modifier = Modifier
-            .fillMaxSize()
-            .padding(paddingValues = paddingValue)
     ) {
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(LocalPadding.current.Normal),
@@ -144,7 +143,13 @@ fun OrderProductListPreview() {
                             price = 15.25
                         ), 10
                     ),
-                    ProductWithCount(ProductModel(productName = "mp2", vatRate = 20.0, price = 0.00), 1),
+                    ProductWithCount(
+                        ProductModel(
+                            productName = "mp2",
+                            vatRate = 20.0,
+                            price = 0.00
+                        ), 1
+                    ),
                     ProductWithCount(
                         ProductModel(
                             productName = "$*^($@!*@#",
@@ -154,7 +159,54 @@ fun OrderProductListPreview() {
                     ),
                 ),
                 paddingValue = innerPadding
-            ) {}
+            ) {
+                HorizontalDivider(
+                    modifier = Modifier.padding(vertical = LocalPadding.current.VeryTiny),
+                    thickness = 0.5.dp,
+                    color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.2f)
+                )
+                Column() {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(LocalPadding.current.Tiny),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Text(
+                            text = "Subtotal",
+                            color = Color.Gray,
+                        )
+                        Text(text = "20.00TL")
+                    }
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(LocalPadding.current.Tiny),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Text(
+                            text = "Tax",
+                            color = Color.Gray,
+                        )
+                        Text(text = "40.00TL")
+                    }
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(LocalPadding.current.Tiny),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Text(
+                            text = "Discount",
+                            color = Color.Gray,
+                        )
+                        Text(
+                            text = "-10.00TL",
+                            color = Color.Red
+                        )
+                    }
+                }
+            }
         }
     }
 }

@@ -13,6 +13,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.frontendinternship.ui.common.viewmodel.ProductViewModel
+import com.example.frontendinternship.ui.screens.basket.BasketScreen
 import com.example.frontendinternship.ui.screens.basket.BasketViewModel
 import com.example.frontendinternship.ui.screens.catalog.CatalogScreen
 import com.example.frontendinternship.ui.screens.login.LoginScreen
@@ -42,18 +43,18 @@ fun Navigation(
         }
     NavHost(navController = navController, startDestination = Screen.Catalog.route) {
         composable(
-            Screen.Catalog.route,
+            route = Screen.Catalog.route,
             enterTransition = defaultEnterAnimation,
             exitTransition = defaultExitAnimation
         ) {
             CatalogScreen(
-                navController,
+                navController = navController,
                 productViewModel = productViewModel,
                 basketViewModel = basketViewModel
             )
         }
         composable(
-            Screen.ProductEdit.route,
+            route = Screen.ProductEdit.route,
             enterTransition = defaultEnterAnimation,
             exitTransition = defaultExitAnimation
         ) {
@@ -63,17 +64,17 @@ fun Navigation(
             )
         }
         composable(
-            Screen.ProductAdd.route,
+            route = Screen.ProductAdd.route,
             enterTransition = defaultEnterAnimation,
             exitTransition = defaultExitAnimation
         ) {
             ProductAddScreen(
-                navController,
+                navController = navController,
                 viewModel = productViewModel
             )
         }
         composable(
-            Screen.Login.route,
+            route = Screen.Login.route,
             enterTransition = defaultEnterAnimation,
             exitTransition = defaultExitAnimation
         ) {
@@ -82,13 +83,24 @@ fun Navigation(
             )
         }
         composable(
-            Screen.Register.route,
+            route = Screen.Register.route,
             enterTransition = defaultEnterAnimation,
             exitTransition = defaultExitAnimation
         ) {
             RegisterScreen(
-                navController,
+                navController = navController,
             )
         }
+        composable(
+            route = Screen.Basket.route,
+            enterTransition = defaultEnterAnimation,
+            exitTransition = defaultExitAnimation
+        ) {
+            BasketScreen(
+                navController = navController,
+                viewModel = basketViewModel
+            )
+        }
+
     }
 }

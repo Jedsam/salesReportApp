@@ -94,8 +94,10 @@ fun CatalogScreen(
                     modifier = Modifier.padding(LocalPadding.current.Small)
                 ) {
                     RoundedButton(
-                        buttonText = "Go to Basket (0)",
-                        onButtonPress = {},
+                        buttonText = "Go to Basket (" +  basketTransferUiState.productBasket.size + ")",
+                        onButtonPress = {
+                            navController.navigate(Screen.Basket.route)
+                        },
                         modifier = Modifier
                             .fillMaxWidth(0.7f)
                             .padding(horizontal = LocalPadding.current.Small)
