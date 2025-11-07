@@ -27,7 +27,7 @@ class BasketViewModel @Inject constructor() :
         val index =
             basket.indexOfFirst { it.product.productId == productToIncrement.product.productId }
 
-        val incrementedValue = productToIncrement.count - 1
+        val incrementedValue = productToIncrement.count + 1
         if (index != -1 && incrementedValue < 999 && incrementedValue > 0) {
             _uiState.update { currentState ->
                 val newBasket = currentState.productBasket.toMutableList()
