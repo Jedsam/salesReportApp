@@ -36,9 +36,9 @@ import com.example.frontendinternship.ui.components.RoundedButton
 import com.example.frontendinternship.ui.components.RoundedTextField
 import com.example.frontendinternship.ui.components.TopBarWithReturn
 import com.example.frontendinternship.ui.theme.FrontendInternshipTheme
+import com.example.frontendinternship.ui.theme.LocalColors
 import com.example.frontendinternship.ui.theme.LocalDimensions
 import com.example.frontendinternship.ui.theme.LocalPadding
-import com.example.frontendinternship.ui.theme.LocalTextFormat
 import com.example.frontendinternship.utils.PaymentTypeEnum
 
 @Composable
@@ -70,8 +70,8 @@ fun PaymentScreen(
                             .fillMaxWidth()
                             .padding(horizontal = LocalPadding.current.Small)
                             .height(LocalDimensions.current.viewNormalPlus),
-                        borderColor = MaterialTheme.colorScheme.secondary,
-                        containerColor = MaterialTheme.colorScheme.secondary,
+                        borderColor = LocalColors.current.blueEastern,
+                        containerColor = LocalColors.current.blueEastern,
                     )
                 }
             }
@@ -179,7 +179,7 @@ fun PaymentScreen(
                     color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.2f)
                 )
                 val taxTotal = uiState.payment.total - uiState.payment.subtotal
-                Column() {
+                Column{
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -191,7 +191,7 @@ fun PaymentScreen(
                             color = Color.Gray,
                         )
                         Text(
-                            text = String.format(" %.2fTL", uiState.payment.subtotal)
+                            text = " ${"%.2f".format(uiState.payment.subtotal)}TL"
                         )
                     }
                     Row(
@@ -205,7 +205,7 @@ fun PaymentScreen(
                             color = Color.Gray,
                         )
                         Text(
-                            text = String.format(" %.2fTL", taxTotal)
+                            text = " ${"%.2f".format(taxTotal)}TL"
                         )
                     }
                     Row(
@@ -219,7 +219,7 @@ fun PaymentScreen(
                             color = Color.Gray,
                         )
                         Text(
-                            text = String.format(" %.2fTL", 0.0),
+                            text = " ${"%.2f".format(0.0)}TL",
                             color = Color.Red
                         )
                     }

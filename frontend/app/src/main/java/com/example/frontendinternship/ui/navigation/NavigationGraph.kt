@@ -17,6 +17,8 @@ import com.example.frontendinternship.ui.screens.basket.BasketScreen
 import com.example.frontendinternship.ui.screens.basket.BasketViewModel
 import com.example.frontendinternship.ui.screens.catalog.CatalogScreen
 import com.example.frontendinternship.ui.screens.login.LoginScreen
+import com.example.frontendinternship.ui.screens.payment.PaymentScreen
+import com.example.frontendinternship.ui.screens.payment.PaymentViewModel
 import com.example.frontendinternship.ui.screens.product.ProductAddScreen
 import com.example.frontendinternship.ui.screens.product.ProductEditScreen
 import com.example.frontendinternship.ui.screens.register.RegisterScreen
@@ -26,7 +28,8 @@ import com.example.frontendinternship.ui.screens.register.RegisterScreen
 fun Navigation(
     navController: NavHostController,
     productViewModel: ProductViewModel = viewModel(),
-    basketViewModel: BasketViewModel = viewModel()
+    basketViewModel: BasketViewModel = viewModel(),
+    paymentViewModel: PaymentViewModel = viewModel()
 ) {
     val defaultEnterAnimation: AnimatedContentTransitionScope<*>.() -> EnterTransition = {
         slideInHorizontally(
@@ -98,7 +101,18 @@ fun Navigation(
         ) {
             BasketScreen(
                 navController = navController,
-                viewModel = basketViewModel
+                viewModel = basketViewModel,
+                paymentViewModel = paymentViewModel
+            )
+        }
+        composable(
+            route = Screen.Payment.route,
+            enterTransition = defaultEnterAnimation,
+            exitTransition = defaultExitAnimation
+        ) {
+            PaymentScreen(
+                navController = navController,
+                viewModel = paymentViewModel
             )
         }
 

@@ -29,18 +29,21 @@ import com.example.frontendinternship.domain.model.ProductModel
 import com.example.frontendinternship.domain.model.ProductWithCount
 import com.example.frontendinternship.domain.model.getCost
 import com.example.frontendinternship.domain.model.getTax
-import com.example.frontendinternship.ui.common.viewmodel.ProductViewModel
 import com.example.frontendinternship.ui.components.OrderProductList
 import com.example.frontendinternship.ui.components.RoundedButton
 import com.example.frontendinternship.ui.components.TopBarWithReturn
-import com.example.frontendinternship.ui.screens.product.ProductAddViewModel
+import com.example.frontendinternship.ui.screens.payment.PaymentViewModel
 import com.example.frontendinternship.ui.theme.FrontendInternshipTheme
 import com.example.frontendinternship.ui.theme.LocalDimensions
 import com.example.frontendinternship.ui.theme.LocalPadding
 import com.example.frontendinternship.ui.theme.LocalTextFormat
 
 @Composable
-fun BasketScreen(navController: NavController, viewModel: BasketViewModel = hiltViewModel()) {
+fun BasketScreen(
+    navController: NavController,
+    viewModel: BasketViewModel = hiltViewModel(),
+    paymentViewModel: PaymentViewModel
+) {
     val uiState by viewModel.uiState.collectAsState()
     val totalValue = uiState.productBasket.sumOf { it.getCost() }
     val taxTotal = uiState.productBasket.sumOf { it.getTax() }
@@ -75,7 +78,7 @@ fun BasketScreen(navController: NavController, viewModel: BasketViewModel = hilt
                         fontSize = LocalTextFormat.current.sizeBig,
                     )
                     Text(
-                        text = String.format(" %.2fTL", totalValue),
+                        text = " ${"%.2f".format(totalValue)}TL",
                         fontWeight = FontWeight.Bold,
                         fontSize = LocalTextFormat.current.sizeBig,
                         color = MaterialTheme.colorScheme.secondary
@@ -130,7 +133,7 @@ fun BasketScreen(navController: NavController, viewModel: BasketViewModel = hilt
                         color = Color.Gray,
                     )
                     Text(
-                        text = String.format(" %.2fTL", subtotal)
+                        text = " ${"%.2f".format(subtotal)}TL"
                     )
                 }
                 Row(
@@ -144,7 +147,7 @@ fun BasketScreen(navController: NavController, viewModel: BasketViewModel = hilt
                         color = Color.Gray,
                     )
                     Text(
-                        text = String.format(" %.2fTL", taxTotal)
+                        text = " ${"%.2f".format(taxTotal)}TL"
                     )
                 }
                 Row(
@@ -158,7 +161,7 @@ fun BasketScreen(navController: NavController, viewModel: BasketViewModel = hilt
                         color = Color.Gray,
                     )
                     Text(
-                        text = String.format(" %.2fTL", discount),
+                        text = " ${"%.2f".format(discount)}TL",
                         color = Color.Red
                     )
                 }
@@ -173,6 +176,12 @@ fun BasketScreenPreview() {
     val basketViewModel = remember {
         mutableStateOf(
             BasketViewModel(
+            )
+        )
+    }
+    val paymentViewModel = remember {
+        mutableStateOf(
+            PaymentViewModel(
             )
         )
     }
@@ -192,7 +201,7 @@ fun BasketScreenPreview() {
         )
     )
     FrontendInternshipTheme {
-        BasketScreen(navController = rememberNavController(), viewModel = basketViewModel.value)
+        BasketScreen(navController = rememberNavController(), viewModel = basketViewModel.value, paymentViewModel = paymentViewModel.value)
     }
 }
 
@@ -202,6 +211,12 @@ fun BasketScreenBigPreview() {
     val basketViewModel = remember {
         mutableStateOf(
             BasketViewModel(
+            )
+        )
+    }
+    val paymentViewModel = remember {
+        mutableStateOf(
+            PaymentViewModel(
             )
         )
     }
@@ -263,7 +278,7 @@ fun BasketScreenBigPreview() {
         )
     )
     FrontendInternshipTheme {
-        BasketScreen(navController = rememberNavController(), viewModel = basketViewModel.value)
+        BasketScreen(navController = rememberNavController(), viewModel = basketViewModel.value, paymentViewModel =  paymentViewModel.value)
     }
 }
 
