@@ -94,7 +94,7 @@ fun CatalogScreen(
                     modifier = Modifier.padding(LocalPadding.current.Small)
                 ) {
                     RoundedButton(
-                        buttonText = "Go to Basket (" +  basketTransferUiState.productBasket.size + ")",
+                        buttonText = "Go to Basket (" + basketTransferUiState.productBasket.size + ")",
                         onButtonPress = {
                             navController.navigate(Screen.Basket.route)
                         },
@@ -127,8 +127,8 @@ fun CatalogScreen(
                 productViewModel.updateProduct(product.copy())
                 navController.navigate(Screen.ProductEdit.route)
             },
-            onProductAdded = {
-               product: ProductModel -> basketViewModel.addToBasket(product)
+            onProductAdded = { product: ProductModel ->
+                basketViewModel.addToBasket(product)
             },
             productList = uiState.productList,
             paddingValue = innerPadding
@@ -179,7 +179,7 @@ class FakeLoadProductsUseCase : ILoadProductsUseCase {
                 price = 5.49812940
             ),
             ProductModel(
-                productName = "DenemDenemDenemDenemeeeeDeneme",
+                productName = "Test Test Test Test Test Test Test Test Test Test Test ",
                 vatRate = 5.0,
                 price = 5.49812940
             ),

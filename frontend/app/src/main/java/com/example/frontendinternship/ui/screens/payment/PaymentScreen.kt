@@ -109,19 +109,19 @@ fun PaymentScreen(
             ) {
                 Spacer(modifier = Modifier.width(LocalDimensions.current.viewVeryMini))
                 PaymentSwapButton(
-                    onClick = {},
+                    onClick = { viewModel.changeToCashPayment() },
                     text = "Cash",
                     fillMaxWidthFraction = 0.3f,
                     isActive = isCash
                 )
                 PaymentSwapButton(
-                    onClick = {},
+                    onClick = { viewModel.changeToCreditPayment() },
                     text = "Credit",
                     fillMaxWidthFraction = 0.5f,
                     isActive = isCredit,
                 )
                 PaymentSwapButton(
-                    onClick = {},
+                    onClick = { viewModel.changeToCouponPayment() },
                     text = "Coupon",
                     isActive = isCoupon,
                     fillMaxWidthFraction = 0.96f,
@@ -131,10 +131,13 @@ fun PaymentScreen(
             if (isCredit) {
                 RoundedTextField(
                     textFieldInformation = "Card Number",
-                    textValue = "",
-                    onFieldValueChange = {
+                    textValue = uiState.creditPayment.cardNumber,
+                    onFieldValueChange = { nextText ->
+                        if (nextText.length < 19 && nextText.all { it.isDigit() }) {
+                            viewModel.updateCardNumber(nextText)
+                        }
                     },
-                    keyboardType = KeyboardType.Text,
+                    keyboardType = KeyboardType.Number,
                     textFieldModifier = Modifier.fillMaxWidth(0.9f),
                     textColor = Color.Black,
                 )
@@ -146,17 +149,23 @@ fun PaymentScreen(
                 ) {
                     RoundedTextField(
                         textFieldInformation = "Expiration Date",
-                        textValue = "",
-                        onFieldValueChange = {
+                        textValue = uiState.creditPayment.expirationDate,
+                        onFieldValueChange = { nextText ->
+                                if (nextText.length < 6) {
+                                viewModel.updateExpirationDate(nextText)
+                            }
                         },
-                        keyboardType = KeyboardType.Decimal,
+                        keyboardType = KeyboardType.Text,
                         textFieldModifier = Modifier.fillMaxWidth(0.45f),
                         textColor = Color.Black,
                     )
                     RoundedTextField(
                         textFieldInformation = "CVV",
-                        textValue = "",
-                        onFieldValueChange = {
+                        textValue = uiState.creditPayment.cvv,
+                        onFieldValueChange = { nextText ->
+                            if (nextText.length < 4 && nextText.all { it.isDigit() }) {
+                                viewModel.updateCVV(nextText)
+                            }
                         },
                         keyboardType = KeyboardType.Number,
                         textFieldModifier = Modifier.fillMaxWidth(),
@@ -166,10 +175,15 @@ fun PaymentScreen(
             } else if (isCash) {
                 RoundedTextField(
                     textFieldInformation = "Cash amount",
-                    textValue = "",
-                    onFieldValueChange = {
+                    textValue = "%.2f".format(uiState.cashPayment.receivedAmount),
+                    onFieldValueChange = { nextText ->
+                        var nextVal = nextText.toDoubleOrNull() ?: 0.0
+                        if (nextVal < 0.0) {
+                            nextVal = 0.0
+                        }
+                        viewModel.updateCashAmount(nextVal)
                     },
-                    keyboardType = KeyboardType.Text,
+                    keyboardType = KeyboardType.Decimal,
                     textFieldModifier = Modifier.fillMaxWidth(0.9f),
                     textColor = Color.Black,
                 )
@@ -178,36 +192,7 @@ fun PaymentScreen(
                     thickness = 0.5.dp,
                     color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.2f)
                 )
-                val taxTotal = uiState.payment.total - uiState.payment.subtotal
-                Column{
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(LocalPadding.current.Tiny),
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        Text(
-                            text = "Subtotal",
-                            color = Color.Gray,
-                        )
-                        Text(
-                            text = " ${"%.2f".format(uiState.payment.subtotal)}TL"
-                        )
-                    }
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(LocalPadding.current.Tiny),
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        Text(
-                            text = "Tax",
-                            color = Color.Gray,
-                        )
-                        Text(
-                            text = " ${"%.2f".format(taxTotal)}TL"
-                        )
-                    }
+                Column {
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -218,17 +203,21 @@ fun PaymentScreen(
                             text = "Change",
                             color = Color.Gray,
                         )
+                        val changeVal = uiState.cashPayment.receivedAmount - uiState.payment.total
                         Text(
-                            text = " ${"%.2f".format(0.0)}TL",
-                            color = Color.Red
+                            text = if (changeVal < 0) "Not enough!" else "${"%.2f".format(changeVal)}TL",
+                            color = Color.Blue
                         )
                     }
                 }
             } else if (isCoupon) {
                 RoundedTextField(
                     textFieldInformation = "Coupon Code",
-                    textValue = "",
-                    onFieldValueChange = {
+                    textValue = uiState.couponPayment.couponCode,
+                    onFieldValueChange = { nextText ->
+                        if (nextText.length < 20) {
+                            viewModel.updateCouponCode(nextText)
+                        }
                     },
                     keyboardType = KeyboardType.Text,
                     textFieldModifier = Modifier.fillMaxWidth(0.9f),
@@ -242,8 +231,13 @@ fun PaymentScreen(
                 ) {
                     RoundedTextField(
                         textFieldInformation = "Coupon Value",
-                        textValue = "",
-                        onFieldValueChange = {
+                        textValue = uiState.couponPayment.couponValue.toString(),
+                        onFieldValueChange = { nextText ->
+                            var nextVal = nextText.toDoubleOrNull() ?: 0.0
+                            if (nextVal < 0.0) {
+                                nextVal = 0.0
+                            }
+                            viewModel.updateCouponValue(nextVal)
                         },
                         keyboardType = KeyboardType.Decimal,
                         textFieldModifier = Modifier.fillMaxWidth(0.45f),
@@ -251,10 +245,11 @@ fun PaymentScreen(
                     )
                     RoundedTextField(
                         textFieldInformation = "Expiry Date",
-                        textValue = "",
-                        onFieldValueChange = {
+                        textValue = uiState.couponPayment.expiryDate,
+                        onFieldValueChange = { nextText ->
+                            viewModel.updateExpiryDate(nextText)
                         },
-                        keyboardType = KeyboardType.Number,
+                        keyboardType = KeyboardType.Text,
                         textFieldModifier = Modifier.fillMaxWidth(),
                         textColor = Color.Black,
                     )

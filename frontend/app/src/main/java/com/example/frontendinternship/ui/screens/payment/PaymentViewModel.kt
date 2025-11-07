@@ -5,6 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.frontendinternship.domain.model.ProductWithCount
 import com.example.frontendinternship.domain.model.getCost
 import com.example.frontendinternship.domain.model.getTax
+import com.example.frontendinternship.ui.states.CashPaymentState
+import com.example.frontendinternship.ui.states.CouponPaymentState
 import com.example.frontendinternship.ui.states.CreditPaymentState
 import com.example.frontendinternship.ui.states.PaymentState
 import com.example.frontendinternship.utils.PaymentTypeEnum
@@ -21,17 +23,17 @@ class PaymentViewModel @Inject constructor() :
     ViewModel() {
     data class PaymentUiState(
         var payment: PaymentState = PaymentState(),
-        var cashPayment: CreditPaymentState = CreditPaymentState(),
+        var cashPayment: CashPaymentState = CashPaymentState(),
         var creditPayment: CreditPaymentState = CreditPaymentState(),
-        var couponPayment: CreditPaymentState = CreditPaymentState(),
+        var couponPayment: CouponPaymentState = CouponPaymentState(),
     )
 
     private val _uiState = MutableStateFlow(PaymentUiState())
     val uiState: StateFlow<PaymentUiState> = _uiState.asStateFlow()
 
     fun startPayment(basketList: List<ProductWithCount>) {
-        var subtotal: Double = 0.0
-        var total: Double = 0.0
+        var subtotal = 0.0
+        var total = 0.0
         var currCost: Double
         for (product in basketList) {
             currCost = product.getCost()
@@ -67,10 +69,55 @@ class PaymentViewModel @Inject constructor() :
         }
     }
 
-    fun incrementCounter() {
+
+    fun updateCardNumber(cardNumber: String) {
         viewModelScope.launch {
             _uiState.update { currentState ->
-                currentState.copy()
+                currentState.copy(creditPayment = currentState.creditPayment.copy(cardNumber = cardNumber))
+            }
+        }
+    }
+    fun updateExpirationDate(expirationDate: String) {
+        viewModelScope.launch {
+            _uiState.update { currentState ->
+                currentState.copy(creditPayment = currentState.creditPayment.copy(expirationDate = expirationDate))
+            }
+        }
+    }
+
+    fun updateCVV(cvv: String) {
+        viewModelScope.launch {
+            _uiState.update { currentState ->
+                currentState.copy(creditPayment = currentState.creditPayment.copy(cvv = cvv))
+            }
+        }
+    }
+
+    fun updateCouponCode(couponCode: String) {
+        viewModelScope.launch {
+            _uiState.update { currentState ->
+                currentState.copy(couponPayment = currentState.couponPayment.copy(couponCode = couponCode))
+            }
+        }
+    }
+    fun updateCouponValue(couponValue: Double) {
+        viewModelScope.launch {
+            _uiState.update { currentState ->
+                currentState.copy(couponPayment = currentState.couponPayment.copy(couponValue = couponValue))
+            }
+        }
+    }
+    fun updateExpiryDate(expiryDate: String) {
+        viewModelScope.launch {
+            _uiState.update { currentState ->
+                currentState.copy(couponPayment = currentState.couponPayment.copy(expiryDate = expiryDate ))
+            }
+        }
+    }
+    fun updateCashAmount(receivedAmount: Double) {
+        viewModelScope.launch {
+            _uiState.update { currentState ->
+                currentState.copy(cashPayment = currentState.cashPayment.copy(receivedAmount = receivedAmount))
             }
         }
     }
