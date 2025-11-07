@@ -26,6 +26,8 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.frontendinternship.domain.model.ProductModel
+import com.example.frontendinternship.domain.model.getCost
+import com.example.frontendinternship.domain.model.getTax
 import com.example.frontendinternship.ui.common.viewmodel.ProductViewModel
 import com.example.frontendinternship.ui.components.OrderProductList
 import com.example.frontendinternship.ui.components.RoundedButton
@@ -39,6 +41,10 @@ import com.example.frontendinternship.ui.theme.LocalTextFormat
 @Composable
 fun BasketScreen(navController: NavController, viewModel: BasketViewModel = hiltViewModel()) {
     val uiState by viewModel.uiState.collectAsState()
+    val totalValue = uiState.productBasket.sumOf { it.getCost() }
+    val taxTotal = uiState.productBasket.sumOf { it.getTax()}
+    val subtotal = totalValue - taxTotal
+    val discount = 0.0
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
         modifier = Modifier.fillMaxSize(),
@@ -68,7 +74,7 @@ fun BasketScreen(navController: NavController, viewModel: BasketViewModel = hilt
                         fontSize = LocalTextFormat.current.sizeBig,
                     )
                     Text(
-                        text = "100.00TL",
+                        text = String.format(" %.2fTL", totalValue),
                         fontWeight = FontWeight.Bold,
                         fontSize = LocalTextFormat.current.sizeBig,
                         color = MaterialTheme.colorScheme.secondary
@@ -101,18 +107,20 @@ fun BasketScreen(navController: NavController, viewModel: BasketViewModel = hilt
                 color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.2f)
             )
             Column() {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(LocalPadding.current.Tiny),
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Text(
-                        text = "Subtotal",
-                        color = Color.Gray,
-                    )
-                    Text(text = "20.00TL")
-                }
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(LocalPadding.current.Tiny),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Text(
+                            text = "Subtotal",
+                            color = Color.Gray,
+                        )
+                        Text(
+                            text = String.format(" %.2fTL", subtotal)
+                        )
+                    }
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -123,7 +131,8 @@ fun BasketScreen(navController: NavController, viewModel: BasketViewModel = hilt
                         text = "Tax",
                         color = Color.Gray,
                     )
-                    Text(text = "40.00TL")
+                    Text(
+                        text = String.format(" %.2fTL", taxTotal))
                 }
                 Row(
                     modifier = Modifier
@@ -136,7 +145,7 @@ fun BasketScreen(navController: NavController, viewModel: BasketViewModel = hilt
                         color = Color.Gray,
                     )
                     Text(
-                        text = "-10.00TL",
+                        text = String.format(" %.2fTL", discount),
                         color = Color.Red
                     )
                 }
@@ -148,29 +157,98 @@ fun BasketScreen(navController: NavController, viewModel: BasketViewModel = hilt
 @Preview
 @Composable
 fun BasketScreenPreview() {
-    val basketViewModel = remember { mutableStateOf(BasketViewModel(
-    )) }
-    basketViewModel.value.addToBasket(ProductModel(productName = "MyProduct1", vatRate = 10.0, price = 30.0))
-            basketViewModel.value.addToBasket(ProductModel(productName = "MyProduct2", vatRate = 15.0, price = 12.3450))
-    basketViewModel.value.addToBasket(ProductModel(productName = "MyProduct3", vatRate = 18.0, price = 30.40))
-    basketViewModel.value.addToBasket(ProductModel(
+    val basketViewModel = remember {
+        mutableStateOf(
+            BasketViewModel(
+            )
+        )
+    }
+    basketViewModel.value.addToBasket(ProductModel(productName = "m", vatRate = 20.0, price = 0.00))
+    basketViewModel.value.addToBasket(
+        ProductModel(
             productName = "MyBigProductNameItsBigItsVeryBig",
             vatRate = 0.0,
             price = 15.25
-        ))
-    basketViewModel.value.addToBasket(ProductModel(productName = "mp2", vatRate = 20.0, price = 0.00))
-    basketViewModel.value.addToBasket(ProductModel(productName = "$*^($@!*@#", vatRate = 5.0, price = 5.49812940))
-    basketViewModel.value.addToBasket(ProductModel(productName = "m", vatRate = 20.0, price = 0.00))
-    basketViewModel.value.addToBasket(ProductModel(
-            productName = "油売ってる自動販売機に重要な機材の欠片",
-            vatRate = 5.0,
-            price = 5.49812940
-        ))
-    basketViewModel.value.addToBasket(ProductModel(
+        )
+    )
+    basketViewModel.value.addToBasket(
+        ProductModel(
             productName = "DenemDenemDenemDenemeeeeDeneme",
             vatRate = 5.0,
             price = 5.49812940
-        ))
+        )
+    )
+    FrontendInternshipTheme {
+        BasketScreen(navController = rememberNavController(), viewModel = basketViewModel.value)
+    }
+}
+
+@Preview
+@Composable
+fun BasketScreenBigPreview() {
+    val basketViewModel = remember {
+        mutableStateOf(
+            BasketViewModel(
+            )
+        )
+    }
+    basketViewModel.value.addToBasket(
+        ProductModel(
+            productName = "MyProduct1",
+            vatRate = 10.0,
+            price = 30.0
+        )
+    )
+    basketViewModel.value.addToBasket(
+        ProductModel(
+            productName = "MyProduct2",
+            vatRate = 15.0,
+            price = 12.3450
+        )
+    )
+    basketViewModel.value.addToBasket(
+        ProductModel(
+            productName = "MyProduct3",
+            vatRate = 18.0,
+            price = 30.40
+        )
+    )
+    basketViewModel.value.addToBasket(
+        ProductModel(
+            productName = "MyBigProductNameItsBigItsVeryBig",
+            vatRate = 0.0,
+            price = 15.25
+        )
+    )
+    basketViewModel.value.addToBasket(
+        ProductModel(
+            productName = "mp2",
+            vatRate = 20.0,
+            price = 0.00
+        )
+    )
+    basketViewModel.value.addToBasket(
+        ProductModel(
+            productName = "$*^($@!*@#",
+            vatRate = 5.0,
+            price = 5.49812940
+        )
+    )
+    basketViewModel.value.addToBasket(ProductModel(productName = "m", vatRate = 20.0, price = 0.00))
+    basketViewModel.value.addToBasket(
+        ProductModel(
+            productName = "油売ってる自動販売機に重要な機材の欠片",
+            vatRate = 5.0,
+            price = 5.49812940
+        )
+    )
+    basketViewModel.value.addToBasket(
+        ProductModel(
+            productName = "DenemDenemDenemDenemeeeeDeneme",
+            vatRate = 5.0,
+            price = 5.49812940
+        )
+    )
     FrontendInternshipTheme {
         BasketScreen(navController = rememberNavController(), viewModel = basketViewModel.value)
     }
