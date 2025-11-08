@@ -101,6 +101,12 @@ sourceSets {
     }
 }
 
+buildCache {
+    local {
+        directory = "${settingsDir}/build-cache"
+    }
+} 
+
 tasks.named('test') {
 	useJUnitPlatform()
 }
