@@ -43,6 +43,7 @@ fun LoginScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
     MyScaffold(
+        navController = navController,
         topBarRightSideContent = {
             WifiOnorOff(isOn = true)
         },

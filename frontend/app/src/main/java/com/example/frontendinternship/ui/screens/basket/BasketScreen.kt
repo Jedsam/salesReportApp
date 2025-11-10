@@ -55,6 +55,7 @@ fun BasketScreen(
     val subtotal = totalValue - taxTotal
     val discount = 0.0
     MyScaffold(
+        navController = navController,
         containerColor = LocalColors.current.minorGray,
         topBarRightSideContent = {
             WifiOnorOff(isOn = true)

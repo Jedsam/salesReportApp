@@ -1,4 +1,4 @@
-package com.example.frontendinternship.ui.screens.register
+package com.example.frontendinternship.ui.screens.shop
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -28,9 +28,9 @@ import com.example.frontendinternship.ui.theme.LocalDimensions
 import com.example.frontendinternship.ui.theme.LocalPadding
 
 @Composable
-fun RegisterScreen(
+fun ShopScreen(
     navController: NavController,
-    viewModel: RegisterViewModel = hiltViewModel(),
+    viewModel: ShopViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsState()
     MyScaffold(
@@ -39,7 +39,7 @@ fun RegisterScreen(
         topBarRightSideContent = {
             WifiOnorOff(isOn = true)
         },
-        screenText = "Register",
+        screenText = "Shop",
         bottomBar = {
             Column(
                 modifier = Modifier
@@ -121,9 +121,9 @@ fun RegisterScreen(
 
 @Preview
 @Composable
-fun ProductScreenPreview() {
+fun ShopScreenPreview() {
     FrontendInternshipTheme {
-        RegisterScreen(
+        ShopScreen(
             navController = rememberNavController(),
         )
     }

@@ -22,6 +22,8 @@ import com.example.frontendinternship.ui.screens.payment.PaymentViewModel
 import com.example.frontendinternship.ui.screens.product.ProductAddScreen
 import com.example.frontendinternship.ui.screens.product.ProductEditScreen
 import com.example.frontendinternship.ui.screens.register.RegisterScreen
+import com.example.frontendinternship.ui.screens.shop.ShopScreen
+import com.example.frontendinternship.ui.screens.transaction.TransactionScreen
 
 
 @Composable
@@ -115,6 +117,23 @@ fun Navigation(
                 viewModel = paymentViewModel
             )
         }
-
+        composable(
+            route = Screen.Transaction.route,
+            enterTransition = defaultEnterAnimation,
+            exitTransition = defaultExitAnimation
+        ) {
+            TransactionScreen(
+                navController = navController,
+            )
+        }
+        composable(
+            route = Screen.Shop.route,
+            enterTransition = defaultEnterAnimation,
+            exitTransition = defaultExitAnimation
+        ) {
+            ShopScreen(
+                navController = navController,
+            )
+        }
     }
 }

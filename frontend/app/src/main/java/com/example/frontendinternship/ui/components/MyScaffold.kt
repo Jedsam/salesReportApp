@@ -10,12 +10,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import com.example.frontendinternship.ui.navigation.Screen
 import com.example.frontendinternship.ui.theme.LocalDimensions
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MyScaffold(
+    navController: NavController,
     containerColor: Color = MaterialTheme.colorScheme.background,
     topBarRightSideContent: @Composable () -> Unit,
     bottomBar: @Composable () -> Unit,
@@ -24,27 +28,47 @@ fun MyScaffold(
 ) {
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
-val drawerWidth = LocalDimensions.current.viewExtrasNormal
+    val drawerWidth = LocalDimensions.current.viewExtrasNormal
 
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
             Box(
                 modifier = Modifier
-                    .background(Color.Blue)
+                    .background(MaterialTheme.colorScheme.background)
                     .width(drawerWidth)
                     .fillMaxHeight()
-                    .clickable(
-                        interactionSource = remember { MutableInteractionSource() },
-                        indication = null,
-                        onClick = {}
-                    )
             ) {
-                Text(
-                    text = "Drawer title",
-                    color = Color.White,
-                    modifier = Modifier.padding(16.dp)
-                )
+                Column {
+                    Text(
+                        text = "Menu title",
+                        color = MaterialTheme.colorScheme.secondary,
+                        modifier = Modifier.padding(16.dp)
+                    )
+                    Text(
+                        text = "Transaction",
+                        color = Color.Black,
+                        modifier = Modifier
+                            .padding(16.dp)
+                            .clickable(
+                                onClick = {
+                                    navController.navigate(Screen.Transaction.route)
+                                }
+                            )
+                    )
+                    Text(
+                        text = "Shop",
+                        color = Color.Black,
+                        modifier = Modifier
+                            .padding(16.dp)
+                            .clickable(
+                                onClick = {
+                                    navController.navigate(Screen.Shop.route)
+                                }
+                            )
+                    )
+
+                }
             }
         }
     ) {
@@ -73,5 +97,10 @@ val drawerWidth = LocalDimensions.current.viewExtrasNormal
 @Preview
 @Composable
 fun ScaffoldWithNavigationBarPreview() {
-    MyScaffold(topBarRightSideContent = {}, bottomBar = {}, screenText = "MyScreen", content =  {})
+    MyScaffold(
+        navController = rememberNavController(),
+        topBarRightSideContent = {},
+        bottomBar = {},
+        screenText = "MyScreen",
+        content = {})
 }

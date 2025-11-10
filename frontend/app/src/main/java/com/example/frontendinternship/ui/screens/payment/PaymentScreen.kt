@@ -47,6 +47,7 @@ fun PaymentScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
     MyScaffold(
+        navController = navController,
         containerColor = MaterialTheme.colorScheme.background,
         topBarRightSideContent = {
             WifiOnorOff(isOn = true)

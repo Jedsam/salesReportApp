@@ -1,4 +1,4 @@
-package com.example.frontendinternship.ui.screens.catalog
+package com.example.frontendinternship.ui.screens.transaction
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -13,7 +13,6 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -25,12 +24,11 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.frontendinternship.domain.model.ProductModel
-import com.example.frontendinternship.domain.model.getCost
 import com.example.frontendinternship.domain.usecase.iface.ILoadProductsUseCase
 import com.example.frontendinternship.ui.common.viewmodel.ProductViewModel
+import com.example.frontendinternship.ui.components.MyScaffold
 import com.example.frontendinternship.ui.components.ProductList
 import com.example.frontendinternship.ui.components.RoundedButton
-import com.example.frontendinternship.ui.components.MyScaffold
 import com.example.frontendinternship.ui.navigation.Screen
 import com.example.frontendinternship.ui.screens.basket.BasketViewModel
 import com.example.frontendinternship.ui.theme.FrontendInternshipTheme
@@ -40,22 +38,11 @@ import com.example.frontendinternship.ui.theme.LocalPadding
 import com.example.frontendinternship.ui.theme.LocalTextFormat
 
 @Composable
-fun CatalogScreen(
+fun TransactionScreen(
     navController: NavController,
-    viewModel: CatalogViewModel = hiltViewModel(),
-    productViewModel: ProductViewModel,
-    basketViewModel: BasketViewModel,
+    viewModel: TransactionViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsState()
-    val productTransferUiState by productViewModel.uiState.collectAsState()
-    val basketTransferUiState by basketViewModel.uiState.collectAsState()
-    LaunchedEffect(productTransferUiState.productOperation) {
-        viewModel.updateProductChanges(
-            productTransferUiState.currentProduct,
-            productTransferUiState.productOperation
-        )
-        productViewModel.resetProduct()
-    }
     MyScaffold(
         navController = navController,
         topBarRightSideContent = {
@@ -90,30 +77,18 @@ fun CatalogScreen(
                 )
             }
         },
-        screenText = "Catalog",
+        screenText = "Transactions",
         bottomBar = {
             Column(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                val lastAdded = basketTransferUiState.lastAddedProduct
-                Text(
-                    text = buildString {
-                        append(lastAdded.product.productName)
-                        append(" x ")
-                        append(lastAdded.count)
-                        append(" : ")
-                        append(lastAdded.product.price)
-                        append(" | ")
-                        append(lastAdded.getCost())
-                    }
-                )
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier.padding(LocalPadding.current.Small)
                 ) {
                     RoundedButton(
-                        buttonText = "Go to Basket (" + basketTransferUiState.productBasket.size + ")",
+                        buttonText = "Go to Basket ( )",
                         onButtonPress = {
                             navController.navigate(Screen.Basket.route)
                         },
@@ -128,7 +103,6 @@ fun CatalogScreen(
                         buttonText = "+",
                         textSize = LocalTextFormat.current.sizeMain,
                         onButtonPress = {
-                            productViewModel.updateProduct(ProductModel())
                             navController.navigate(Screen.ProductAdd.route)
                         },
                         modifier = Modifier
@@ -143,11 +117,9 @@ fun CatalogScreen(
     ) { innerPadding ->
         ProductList(
             onProductSelected = { product: ProductModel ->
-                productViewModel.updateProduct(product.copy())
                 navController.navigate(Screen.ProductEdit.route)
             },
             onProductAdded = { product: ProductModel ->
-                basketViewModel.addToBasket(product)
             },
             productList = uiState.productList,
             paddingValue = innerPadding
@@ -169,11 +141,11 @@ fun NewCatalogScreenPreview() {
     )
     val basketViewModel = remember { mutableStateOf(BasketViewModel()) }
     FrontendInternshipTheme {
-        CatalogScreen(
+        TransactionScreen(
             navController = rememberNavController(),
-            viewModel = CatalogViewModel_Factory.newInstance(
+            viewModel = TransactionViewModel_Factory.newInstance(
                 FakeLoadProductsUseCase()
-            ), productViewModel = productViewModel.value, basketViewModel = basketViewModel.value
+            )
         )
     }
 }

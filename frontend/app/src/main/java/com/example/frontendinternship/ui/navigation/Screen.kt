@@ -8,4 +8,6 @@ sealed class Screen(val route: String) {
     data object Register : Screen("Register")
     data object Basket : Screen("Basket")
     data object Payment : Screen("Payment")
+    data object Transaction : Screen("Transaction")
+    data object Shop : Screen("Shop")
 }
