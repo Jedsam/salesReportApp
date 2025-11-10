@@ -1,17 +1,16 @@
 package com.example.frontendinternship.ui.screens.catalog
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -31,7 +30,7 @@ import com.example.frontendinternship.domain.usecase.iface.ILoadProductsUseCase
 import com.example.frontendinternship.ui.common.viewmodel.ProductViewModel
 import com.example.frontendinternship.ui.components.ProductList
 import com.example.frontendinternship.ui.components.RoundedButton
-import com.example.frontendinternship.ui.components.TopBarWithSync
+import com.example.frontendinternship.ui.components.MyScaffold
 import com.example.frontendinternship.ui.navigation.Screen
 import com.example.frontendinternship.ui.screens.basket.BasketViewModel
 import com.example.frontendinternship.ui.theme.FrontendInternshipTheme
@@ -57,21 +56,40 @@ fun CatalogScreen(
         )
         productViewModel.resetProduct()
     }
-    Scaffold(
-        containerColor = MaterialTheme.colorScheme.background,
-        modifier = Modifier.fillMaxSize(),
-        contentWindowInsets = WindowInsets.systemBars,
-        topBar = {
-            TopBarWithSync(
-                onSyncButtonPressed = {},
-                onLoginButtonPressed = {
-                    navController.navigate(Screen.Login.route)
+    MyScaffold(
+        topBarRightSideContent = {
+            Button(
+                onClick = {
+                    if (uiState.isLoggedIn) {
+                        // onSyncButtonPressed()
+                    } else {
+                        navController.navigate(Screen.Login.route)
+                    }
                 },
-                isLoggedIn = uiState.isLoggedIn,
-                isConnected = true,
-                currentScreenText = "Products",
-            )
+                modifier = Modifier
+                    .size(
+                        width = LocalDimensions.current.viewBig,
+                        height = LocalDimensions.current.viewBig
+                    ),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.background,
+                    contentColor = MaterialTheme.colorScheme.primary,
+                    disabledContainerColor = MaterialTheme.colorScheme.background,
+                    disabledContentColor = MaterialTheme.colorScheme.background,
+                ),
+                contentPadding = PaddingValues(
+                    horizontal = LocalPadding.current.VeryTiny,
+                    vertical = LocalPadding.current.Mini
+                )
+            ) {
+                Text(
+                    text = "Login",
+                    fontSize = LocalTextFormat.current.sizeBig,
+                    color = MaterialTheme.colorScheme.primary
+                )
+            }
         },
+        screenText = "Catalog",
         bottomBar = {
             Column(
                 modifier = Modifier.fillMaxWidth(),

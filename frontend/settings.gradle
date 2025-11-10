@@ -18,6 +18,12 @@ dependencyResolutionManagement {
     }
 }
 
+buildCache {
+    local {
+        directory = "${settingsDir}/build-cache"
+    }
+}
+
 // Using the name provided in your input
 rootProject.name = "frontendInternship"
 include ':app'

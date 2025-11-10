@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -13,7 +12,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -34,7 +32,8 @@ import androidx.navigation.compose.rememberNavController
 import com.example.frontendinternship.ui.components.PaymentSwapButton
 import com.example.frontendinternship.ui.components.RoundedButton
 import com.example.frontendinternship.ui.components.RoundedTextField
-import com.example.frontendinternship.ui.components.TopBarWithReturn
+import com.example.frontendinternship.ui.components.MyScaffold
+import com.example.frontendinternship.ui.components.WifiOnorOff
 import com.example.frontendinternship.ui.theme.FrontendInternshipTheme
 import com.example.frontendinternship.ui.theme.LocalColors
 import com.example.frontendinternship.ui.theme.LocalDimensions
@@ -47,16 +46,12 @@ fun PaymentScreen(
     viewModel: PaymentViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsState()
-    Scaffold(
+    MyScaffold(
         containerColor = MaterialTheme.colorScheme.background,
-        modifier = Modifier.fillMaxSize(),
-        topBar = {
-            TopBarWithReturn(
-                navController = navController,
-                currentScreenText = "Payment",
-                isConnected = true,
-            )
+        topBarRightSideContent = {
+            WifiOnorOff(isOn = true)
         },
+        screenText = "Payment",
         bottomBar = {
             Column {
                 Row(
@@ -151,7 +146,7 @@ fun PaymentScreen(
                         textFieldInformation = "Expiration Date",
                         textValue = uiState.creditPayment.expirationDate,
                         onFieldValueChange = { nextText ->
-                                if (nextText.length < 6) {
+                            if (nextText.length < 6) {
                                 viewModel.updateExpirationDate(nextText)
                             }
                         },

@@ -4,14 +4,12 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -30,7 +28,8 @@ import com.example.frontendinternship.domain.model.UserModel
 import com.example.frontendinternship.domain.usecase.iface.ILoginUseCase
 import com.example.frontendinternship.ui.components.RoundedButton
 import com.example.frontendinternship.ui.components.RoundedTextField
-import com.example.frontendinternship.ui.components.TopBarWithReturn
+import com.example.frontendinternship.ui.components.MyScaffold
+import com.example.frontendinternship.ui.components.WifiOnorOff
 import com.example.frontendinternship.ui.navigation.Screen
 import com.example.frontendinternship.ui.theme.FrontendInternshipTheme
 import com.example.frontendinternship.ui.theme.LocalDimensions
@@ -43,16 +42,11 @@ fun LoginScreen(
     viewModel: LoginViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsState()
-    Scaffold(
-        containerColor = MaterialTheme.colorScheme.background,
-        modifier = Modifier.fillMaxSize(),
-        topBar = {
-            TopBarWithReturn(
-                navController = navController,
-                currentScreenText = "Login",
-                isConnected = true,
-            )
+    MyScaffold(
+        topBarRightSideContent = {
+            WifiOnorOff(isOn = true)
         },
+        screenText = "Login",
         bottomBar = {
             Column(
                 modifier = Modifier

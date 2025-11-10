@@ -142,8 +142,3 @@ dependencies {
     implementation(libs.protobuf.kotlin.lite)
 }
 
-buildCache {
-    local {
-        directory = "${settingsDir}/build-cache"
-    }
-}

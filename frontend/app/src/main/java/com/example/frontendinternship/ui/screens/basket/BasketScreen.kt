@@ -5,13 +5,11 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -33,7 +31,8 @@ import com.example.frontendinternship.domain.model.getCost
 import com.example.frontendinternship.domain.model.getTax
 import com.example.frontendinternship.ui.components.OrderProductList
 import com.example.frontendinternship.ui.components.RoundedButton
-import com.example.frontendinternship.ui.components.TopBarWithReturn
+import com.example.frontendinternship.ui.components.MyScaffold
+import com.example.frontendinternship.ui.components.WifiOnorOff
 import com.example.frontendinternship.ui.navigation.Screen
 import com.example.frontendinternship.ui.screens.payment.PaymentViewModel
 import com.example.frontendinternship.ui.theme.FrontendInternshipTheme
@@ -55,19 +54,14 @@ fun BasketScreen(
     val taxTotal = uiState.productBasket.sumOf { it.getTax() }
     val subtotal = totalValue - taxTotal
     val discount = 0.0
-    Scaffold(
+    MyScaffold(
         containerColor = LocalColors.current.minorGray,
-        modifier = Modifier.fillMaxSize(),
-        topBar = {
-            TopBarWithReturn(
-                color = LocalColors.current.minorGray,
-                navController = navController,
-                currentScreenText = "Current Order",
-                isConnected = true,
-            )
+        topBarRightSideContent = {
+            WifiOnorOff(isOn = true)
         },
+        screenText = "Basket",
         bottomBar = {
-            Column(modifier = Modifier.background(MaterialTheme.colorScheme.background )) {
+            Column(modifier = Modifier.background(MaterialTheme.colorScheme.background)) {
                 Spacer(
                     modifier = Modifier.height(LocalDimensions.current.viewMini)
                 )
@@ -209,7 +203,11 @@ fun BasketScreenPreview() {
         )
     )
     FrontendInternshipTheme {
-        BasketScreen(navController = rememberNavController(), viewModel = basketViewModel.value, paymentViewModel = paymentViewModel.value)
+        BasketScreen(
+            navController = rememberNavController(),
+            viewModel = basketViewModel.value,
+            paymentViewModel = paymentViewModel.value
+        )
     }
 }
 
@@ -286,7 +284,11 @@ fun BasketScreenBigPreview() {
         )
     )
     FrontendInternshipTheme {
-        BasketScreen(navController = rememberNavController(), viewModel = basketViewModel.value, paymentViewModel =  paymentViewModel.value)
+        BasketScreen(
+            navController = rememberNavController(),
+            viewModel = basketViewModel.value,
+            paymentViewModel = paymentViewModel.value
+        )
     }
 }
 

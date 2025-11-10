@@ -3,13 +3,11 @@ package com.example.frontendinternship.ui.screens.register
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -23,7 +21,8 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.frontendinternship.ui.components.RoundedButton
 import com.example.frontendinternship.ui.components.RoundedTextField
-import com.example.frontendinternship.ui.components.TopBarWithReturn
+import com.example.frontendinternship.ui.components.MyScaffold
+import com.example.frontendinternship.ui.components.WifiOnorOff
 import com.example.frontendinternship.ui.theme.FrontendInternshipTheme
 import com.example.frontendinternship.ui.theme.LocalDimensions
 import com.example.frontendinternship.ui.theme.LocalPadding
@@ -34,16 +33,12 @@ fun RegisterScreen(
     viewModel: RegisterViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsState()
-    Scaffold(
+    MyScaffold(
         containerColor = MaterialTheme.colorScheme.background,
-        modifier = Modifier.fillMaxSize(),
-        topBar = {
-            TopBarWithReturn(
-                navController = navController,
-                currentScreenText = "Register",
-                isConnected = true,
-            )
+        topBarRightSideContent = {
+            WifiOnorOff(isOn = true)
         },
+        screenText = "Register",
         bottomBar = {
             Column(
                 modifier = Modifier
