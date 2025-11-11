@@ -25,7 +25,7 @@ data class Dimensions(
     val viewExtrasBigPlus: Dp = 170.dp,
     val viewExtrasLarge: Dp = 180.dp,
     val viewExtrasLargePlus: Dp = 190.dp,
-    val viewExtrasMax: Dp = 100.dp,
+    val viewExtrasMax: Dp = 200.dp,
     val clipTiny: Dp = 8.dp,
     val clipSmall: Dp = 12.dp,
     val clipNormal: Dp = 16.dp,

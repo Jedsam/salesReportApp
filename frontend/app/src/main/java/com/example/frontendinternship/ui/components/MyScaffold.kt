@@ -2,8 +2,12 @@ package com.example.frontendinternship.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.sharp.Home
+import androidx.compose.material.icons.sharp.Money
+import androidx.compose.material.icons.sharp.Shop
+import androidx.compose.material.icons.sharp.Wifi
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -28,7 +32,7 @@ fun MyScaffold(
 ) {
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
-    val drawerWidth = LocalDimensions.current.viewExtrasNormal
+    val drawerWidth = LocalDimensions.current.viewExtrasMax
 
     ModalNavigationDrawer(
         drawerState = drawerState,
@@ -38,36 +42,37 @@ fun MyScaffold(
                     .background(MaterialTheme.colorScheme.background)
                     .width(drawerWidth)
                     .fillMaxHeight()
+                    .windowInsetsPadding(WindowInsets.systemBars)
             ) {
                 Column {
                     Text(
-                        text = "Menu title",
+                        text = "MyApp",
                         color = MaterialTheme.colorScheme.secondary,
                         modifier = Modifier.padding(16.dp)
                     )
-                    Text(
+                    NavigationItem(
+                        text = "Home",
+                        onClick = {
+                                navController.popBackStack(Screen.Catalog.route,
+                                    inclusive = false
+                                )
+                            },
+                        icon = Icons.Sharp.Home
+                    )
+                    NavigationItem(
                         text = "Transaction",
-                        color = Color.Black,
-                        modifier = Modifier
-                            .padding(16.dp)
-                            .clickable(
-                                onClick = {
-                                    navController.navigate(Screen.Transaction.route)
-                                }
-                            )
+                        onClick ={
+                            navController.navigate(Screen.Transaction.route)
+                        },
+                        icon = Icons.Sharp.Money
                     )
-                    Text(
+                    NavigationItem(
                         text = "Shop",
-                        color = Color.Black,
-                        modifier = Modifier
-                            .padding(16.dp)
-                            .clickable(
-                                onClick = {
-                                    navController.navigate(Screen.Shop.route)
-                                }
-                            )
+                        onClick ={
+                            navController.navigate(Screen.Shop.route)
+                        },
+                        icon = Icons.Sharp.Shop
                     )
-
                 }
             }
         }
