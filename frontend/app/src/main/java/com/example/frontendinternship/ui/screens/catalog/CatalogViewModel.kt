@@ -2,10 +2,11 @@ package com.example.frontendinternship.ui.screens.catalog
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.room.util.copy
 import com.example.frontendinternship.domain.model.ProductModel
-import com.example.frontendinternship.domain.model.ProductWithCount
-import com.example.frontendinternship.domain.usecase.iface.ILoadProductsUseCase
+import com.example.frontendinternship.domain.usecase.product.IAddProductsUseCase
+import com.example.frontendinternship.domain.usecase.product.IEditProductsUseCase
+import com.example.frontendinternship.domain.usecase.product.ILoadProductsUseCase
+import com.example.frontendinternship.domain.usecase.product.IRemoveProductsUseCase
 import com.example.frontendinternship.utils.ProductOperationEnum
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,7 +18,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CatalogViewModel @Inject constructor(
-    private val loadProductsUseCase: ILoadProductsUseCase
+    private val loadProductsUseCase: ILoadProductsUseCase,
+    private val addProductsUseCase: IAddProductsUseCase,
+    private val editProductsUseCase: IEditProductsUseCase,
+    private val removeProductsUseCase: IRemoveProductsUseCase,
 ) :
     ViewModel() {
     data class ProductUiState(
@@ -43,9 +47,6 @@ class CatalogViewModel @Inject constructor(
         }
     }
 
-    fun closeOperatingWindow() {
-
-    }
 
     private fun loadAllProducts() {
         viewModelScope.launch {
@@ -65,31 +66,42 @@ class CatalogViewModel @Inject constructor(
         if (productOperation == ProductOperationEnum.CANCELED) {
             return
         }
-        _uiState.update { currentState ->
-            val newProductList = currentState.productList.toMutableList()
-            when (productOperation) {
-                ProductOperationEnum.ADD -> {
-                    newProductList.add(currentProduct.copy())
-                }
 
-                ProductOperationEnum.EDIT -> {
-                    val index =
-                        newProductList.indexOfFirst { it.productId == currentProduct.productId }
-                    if (index != -1) {
-                        newProductList[index] = currentProduct.copy()
+        viewModelScope.launch {
+            _uiState.update { currentState ->
+                val newProductList = currentState.productList.toMutableList()
+                when (productOperation) {
+                    ProductOperationEnum.ADD -> {
+                        val productCopy = currentProduct.copy()
+                        newProductList.add(productCopy)
+                        addProductsUseCase(listOf(productCopy))
+                    }
+
+                    ProductOperationEnum.EDIT -> {
+                        val index =
+                            newProductList.indexOfFirst { it.productId == currentProduct.productId }
+                        if (index != -1) {
+                            val productCopy = currentProduct.copy()
+                            newProductList[index] = productCopy
+                            editProductsUseCase(listOf(productCopy))
+                        }
+                    }
+
+                    ProductOperationEnum.DELETE -> {
+                        val productID = currentProduct.productId
+                        if (productID != null) {
+                            newProductList.removeIf { it.productId == currentProduct.productId }
+                            removeProductsUseCase(currentProduct.productId)
+                        }
+                    }
+
+                    ProductOperationEnum.CANCELED -> {
                     }
                 }
-
-                ProductOperationEnum.DELETE -> {
-                    newProductList.removeIf { it.productId == currentProduct.productId }
-                }
-
-                ProductOperationEnum.CANCELED -> {
-                }
+                currentState.copy(
+                    productList = newProductList
+                )
             }
-            currentState.copy(
-                productList = newProductList
-            )
         }
     }
 }

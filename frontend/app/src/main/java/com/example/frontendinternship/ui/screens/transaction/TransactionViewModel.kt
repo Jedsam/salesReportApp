@@ -3,7 +3,7 @@ package com.example.frontendinternship.ui.screens.transaction
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.frontendinternship.domain.model.ProductModel
-import com.example.frontendinternship.domain.usecase.iface.ILoadProductsUseCase
+import com.example.frontendinternship.domain.usecase.product.ILoadProductsUseCase
 import com.example.frontendinternship.utils.ProductOperationEnum
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

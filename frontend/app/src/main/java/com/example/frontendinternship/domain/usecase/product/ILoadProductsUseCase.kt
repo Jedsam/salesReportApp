@@ -1,7 +1,6 @@
-package com.example.frontendinternship.domain.usecase.iface
+package com.example.frontendinternship.domain.usecase.product
 
 import com.example.frontendinternship.domain.model.ProductModel
-import com.example.frontendinternship.domain.model.UserModel
 
 interface ILoadProductsUseCase {
     suspend operator fun invoke(): List<ProductModel>

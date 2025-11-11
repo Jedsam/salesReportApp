@@ -1,4 +1,4 @@
-package com.example.frontendinternship.domain.usecase.iface
+package com.example.frontendinternship.domain.usecase.authentication
 
 import com.example.frontendinternship.domain.model.UserModel
 

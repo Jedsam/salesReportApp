@@ -1,9 +1,15 @@
 package com.example.frontendinternship.domain.di
 
-import com.example.frontendinternship.domain.usecase.iface.ILoadProductsUseCase
-import com.example.frontendinternship.domain.usecase.iface.ILoginUseCase
-import com.example.frontendinternship.domain.usecase.implementation.LoadProductsUseCase
-import com.example.frontendinternship.domain.usecase.implementation.LoginUseCase
+import com.example.frontendinternship.domain.usecase.product.ILoadProductsUseCase
+import com.example.frontendinternship.domain.usecase.authentication.ILoginUseCase
+import com.example.frontendinternship.domain.usecase.product.LoadProductsUseCase
+import com.example.frontendinternship.domain.usecase.authentication.LoginUseCase
+import com.example.frontendinternship.domain.usecase.product.AddProductsUseCase
+import com.example.frontendinternship.domain.usecase.product.EditProductsUseCase
+import com.example.frontendinternship.domain.usecase.product.IAddProductsUseCase
+import com.example.frontendinternship.domain.usecase.product.IEditProductsUseCase
+import com.example.frontendinternship.domain.usecase.product.IRemoveProductsUseCase
+import com.example.frontendinternship.domain.usecase.product.RemoveProductsUseCase
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -22,4 +28,16 @@ abstract class UseCaseModule {
     abstract fun bindLoginUseCase(
         impl: LoginUseCase
     ): ILoginUseCase
+    @Binds
+    abstract fun bindAddProductsUseCase(
+        impl: AddProductsUseCase
+    ): IAddProductsUseCase
+    @Binds
+    abstract fun bindEditProductsUseCase(
+        impl: EditProductsUseCase
+    ): IEditProductsUseCase
+    @Binds
+    abstract fun bindRemoveProductsUseCase(
+        impl: RemoveProductsUseCase
+    ): IRemoveProductsUseCase
 }

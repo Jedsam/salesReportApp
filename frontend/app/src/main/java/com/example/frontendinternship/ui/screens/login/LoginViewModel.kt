@@ -3,7 +3,7 @@ package com.example.frontendinternship.ui.screens.login
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.frontendinternship.domain.model.UserModel
-import com.example.frontendinternship.domain.usecase.iface.ILoginUseCase
+import com.example.frontendinternship.domain.usecase.authentication.ILoginUseCase
 import com.example.frontendinternship.utils.APIOperationStateEnum
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

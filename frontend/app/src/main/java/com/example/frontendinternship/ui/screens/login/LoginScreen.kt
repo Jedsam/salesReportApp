@@ -25,7 +25,7 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.frontendinternship.domain.model.UserModel
-import com.example.frontendinternship.domain.usecase.iface.ILoginUseCase
+import com.example.frontendinternship.domain.usecase.authentication.ILoginUseCase
 import com.example.frontendinternship.ui.components.RoundedButton
 import com.example.frontendinternship.ui.components.RoundedTextField
 import com.example.frontendinternship.ui.components.MyScaffold

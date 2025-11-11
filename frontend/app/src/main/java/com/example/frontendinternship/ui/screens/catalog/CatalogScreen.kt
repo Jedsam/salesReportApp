@@ -26,7 +26,10 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.frontendinternship.domain.model.ProductModel
 import com.example.frontendinternship.domain.model.getCost
-import com.example.frontendinternship.domain.usecase.iface.ILoadProductsUseCase
+import com.example.frontendinternship.domain.usecase.product.IAddProductsUseCase
+import com.example.frontendinternship.domain.usecase.product.IEditProductsUseCase
+import com.example.frontendinternship.domain.usecase.product.ILoadProductsUseCase
+import com.example.frontendinternship.domain.usecase.product.IRemoveProductsUseCase
 import com.example.frontendinternship.ui.common.viewmodel.ProductViewModel
 import com.example.frontendinternship.ui.components.ProductList
 import com.example.frontendinternship.ui.components.RoundedButton
@@ -38,6 +41,7 @@ import com.example.frontendinternship.ui.theme.LocalColors
 import com.example.frontendinternship.ui.theme.LocalDimensions
 import com.example.frontendinternship.ui.theme.LocalPadding
 import com.example.frontendinternship.ui.theme.LocalTextFormat
+import java.util.UUID
 
 @Composable
 fun CatalogScreen(
@@ -172,9 +176,31 @@ fun NewCatalogScreenPreview() {
         CatalogScreen(
             navController = rememberNavController(),
             viewModel = CatalogViewModel_Factory.newInstance(
-                FakeLoadProductsUseCase()
-            ), productViewModel = productViewModel.value, basketViewModel = basketViewModel.value
+                FakeLoadProductsUseCase(),
+                FakeAddProductsUseCase(),
+                FakeEditProductsUseCase(),
+                FakeRemoveProductsUseCase(),
+
+                ),
+            productViewModel = productViewModel.value,
+            basketViewModel = basketViewModel.value
         )
+    }
+}
+
+class FakeAddProductsUseCase : IAddProductsUseCase {
+    override suspend fun invoke(products: List<ProductModel>) {
+    }
+}
+
+class FakeEditProductsUseCase : IEditProductsUseCase {
+    override suspend fun invoke(products: List<ProductModel>) {
+    }
+}
+
+class FakeRemoveProductsUseCase : IRemoveProductsUseCase {
+
+    override suspend fun invoke(uuid: UUID) {
     }
 }
 

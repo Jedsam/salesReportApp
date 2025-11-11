@@ -24,7 +24,7 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.frontendinternship.domain.model.ProductModel
-import com.example.frontendinternship.domain.usecase.iface.ILoadProductsUseCase
+import com.example.frontendinternship.domain.usecase.product.ILoadProductsUseCase
 import com.example.frontendinternship.ui.common.viewmodel.ProductViewModel
 import com.example.frontendinternship.ui.components.MyScaffold
 import com.example.frontendinternship.ui.components.ProductList
