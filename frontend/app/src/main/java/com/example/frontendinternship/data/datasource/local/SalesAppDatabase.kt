@@ -2,6 +2,7 @@ package com.example.frontendinternship.data.datasource.local
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import com.example.frontendinternship.data.datasource.local.dao.MerchantDao
 import com.example.frontendinternship.data.datasource.local.dao.ProductDao
 import com.example.frontendinternship.data.datasource.local.dao.ReceiptDao
 import com.example.frontendinternship.data.datasource.local.dao.ShopDao
@@ -39,5 +40,6 @@ class SalesAppDatabase {
         abstract fun productDao(): ProductDao
         abstract fun shopDao(): ShopDao
         abstract fun userDao(): UserDao
+        abstract fun merchantDao(): MerchantDao
     }
 }

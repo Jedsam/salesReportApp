@@ -1,11 +1,13 @@
 package com.example.frontendinternship.data.di
 
+import com.example.frontendinternship.data.repository.local.MerchantRepositoryImpl
 import com.example.frontendinternship.data.repository.local.ProductRepositoryImpl
 import com.example.frontendinternship.data.repository.local.ReceiptRepositoryImpl
 import com.example.frontendinternship.data.repository.local.ShopRepositoryImpl
 import com.example.frontendinternship.data.repository.local.UserRepositoryImpl
 import com.example.frontendinternship.data.repository.remote.AuthRepositoryImpl
 import com.example.frontendinternship.domain.repository.AuthRepository
+import com.example.frontendinternship.domain.repository.MerchantRepository
 import com.example.frontendinternship.domain.repository.ProductRepository
 import com.example.frontendinternship.domain.repository.ReceiptRepository
 import com.example.frontendinternship.domain.repository.ReportRepository
@@ -50,4 +52,10 @@ abstract class RepositoryModule {
     abstract fun bindShopRepository(
         shopRepositoryImpl: ShopRepositoryImpl
     ): ShopRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindMerchantRepository(
+        merchantRepositoryImpl: MerchantRepositoryImpl
+    ): MerchantRepository
 }

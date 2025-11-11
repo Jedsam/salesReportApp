@@ -1,4 +1,4 @@
-package com.example.frontendinternship.ui.screens.shop
+package com.example.frontendinternship.ui.screens.merchant
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -19,11 +19,9 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.frontendinternship.domain.model.ProductModel
-import com.example.frontendinternship.domain.model.ShopModel
-import com.example.frontendinternship.domain.usecase.product.IAddProductsUseCase
-import com.example.frontendinternship.domain.usecase.shop.ILoadShopsUseCase
-import com.example.frontendinternship.domain.usecase.shop.IUpdateShopUseCase
+import com.example.frontendinternship.domain.model.MerchantModel
+import com.example.frontendinternship.domain.usecase.shop.ILoadMerchantsUseCase
+import com.example.frontendinternship.domain.usecase.shop.IUpdateMerchantUseCase
 import com.example.frontendinternship.ui.components.RoundedButton
 import com.example.frontendinternship.ui.components.RoundedTextField
 import com.example.frontendinternship.ui.components.MyScaffold
@@ -33,9 +31,9 @@ import com.example.frontendinternship.ui.theme.LocalDimensions
 import com.example.frontendinternship.ui.theme.LocalPadding
 
 @Composable
-fun ShopScreen(
+fun MerchantScreen(
     navController: NavController,
-    viewModel: ShopViewModel = hiltViewModel(),
+    viewModel: MerchantViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsState()
     MyScaffold(
@@ -44,7 +42,7 @@ fun ShopScreen(
         topBarRightSideContent = {
             WifiOnorOff(isOn = true)
         },
-        screenText = "Shop",
+        screenText = "Merchant",
         bottomBar = {
             Column(
                 modifier = Modifier
@@ -60,7 +58,7 @@ fun ShopScreen(
                 RoundedButton(
                     buttonText = "Save",
                     onButtonPress = {
-                        viewModel.updateShop()
+                        viewModel.updateMerchant()
                     },
                     modifier = Modifier
                         .fillMaxWidth()
@@ -80,28 +78,28 @@ fun ShopScreen(
         ) {
             Spacer(modifier = Modifier.height(LocalPadding.current.Big))
             RoundedTextField(
-                textFieldInformation = "Shop Name",
-                textValue = uiState.currentShop.name,
+                textFieldInformation = "Merchant Name",
+                textValue = uiState.currentMerchant.name,
                 onFieldValueChange = { newText ->
                     if (newText.length < 20)
-                        viewModel.updateShopName(newText)
+                        viewModel.updateMerchantName(newText)
                 },
                 keyboardType = KeyboardType.Text,
                 textFieldModifier = Modifier.fillMaxWidth(0.8f),
             )
             RoundedTextField(
-                textFieldInformation = "Shop Address",
-                textValue = uiState.currentShop.address,
+                textFieldInformation = "Merchant Address",
+                textValue = uiState.currentMerchant.address,
                 onFieldValueChange = { newText ->
                     if (newText.length < 20)
-                        viewModel.updateShopAddress(newText)
+                        viewModel.updateMerchantAddress(newText)
                 },
                 keyboardType = KeyboardType.Text,
                 textFieldModifier = Modifier.fillMaxWidth(0.8f),
             )
             RoundedTextField(
                 textFieldInformation = "Phone",
-                textValue = uiState.currentShop.phone ?: "",
+                textValue = uiState.currentMerchant.phone ?: "",
                 onFieldValueChange = { newText ->
                     if (newText.length < 20)
                         viewModel.updatePhone(newText)
@@ -111,7 +109,7 @@ fun ShopScreen(
             )
             RoundedTextField(
                 textFieldInformation = "Email",
-                textValue = uiState.currentShop.email ?: "",
+                textValue = uiState.currentMerchant.email ?: "",
                 onFieldValueChange = { newText ->
                     if (newText.length < 20)
                         viewModel.updateEmail(newText)
@@ -126,27 +124,27 @@ fun ShopScreen(
 
 @Preview
 @Composable
-fun ShopScreenPreview() {
+fun MerchantScreenPreview() {
     FrontendInternshipTheme {
-        ShopScreen(
+        MerchantScreen(
             navController = rememberNavController(),
-            ShopViewModel_Factory.newInstance(
-FakeLoadShopsUseCase(),
-                FakeUpdateShopsUseCase(),
+            MerchantViewModel_Factory.newInstance(
+                FakeLoadMerchantsUseCase(),
+                FakeUpdateMerchantsUseCase(),
             ),
         )
     }
 }
 
 
-class FakeLoadShopsUseCase : ILoadShopsUseCase {
-    override suspend fun invoke(): List<ShopModel> {
-      return emptyList()
+class FakeLoadMerchantsUseCase : ILoadMerchantsUseCase {
+    override suspend fun invoke(): List<MerchantModel> {
+        return emptyList()
     }
 }
 
-class FakeUpdateShopsUseCase : IUpdateShopUseCase {
-    override suspend fun invoke(shopModel: ShopModel) {
+class FakeUpdateMerchantsUseCase : IUpdateMerchantUseCase {
+    override suspend fun invoke(shopModel: MerchantModel) {
     }
 }
 

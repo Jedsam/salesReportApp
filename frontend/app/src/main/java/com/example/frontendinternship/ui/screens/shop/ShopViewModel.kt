@@ -45,9 +45,32 @@ class ShopViewModel @Inject constructor(
         }
     }
 
-    fun updateShop(shopModel: ShopModel) {
+    fun updateShopName(shopName: String) {
+        _uiState.update { currentState ->
+            currentState.copy(currentShop = currentState.currentShop.copy(name = shopName))
+        }
+    }
+
+    fun updateShopAddress(shopAddress: String) {
+        _uiState.update { currentState ->
+            currentState.copy(currentShop = currentState.currentShop.copy(address = shopAddress))
+        }
+    }
+
+    fun updatePhone(phone: String) {
+        _uiState.update { currentState ->
+            currentState.copy(currentShop = currentState.currentShop.copy(phone = phone))
+        }
+    }
+
+    fun updateEmail(email: String) {
+        _uiState.update { currentState ->
+            currentState.copy(currentShop = currentState.currentShop.copy(email = email))
+        }
+    }
+    fun updateShop() {
         viewModelScope.launch {
-            updateShopUseCase(shopModel)
+            updateShopUseCase(uiState.value.currentShop)
         }
     }
 }
