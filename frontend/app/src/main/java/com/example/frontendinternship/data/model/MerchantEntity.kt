@@ -13,7 +13,6 @@ import androidx.room.PrimaryKey
             entity = UserEntity::class,
             parentColumns = ["user_id"],
             childColumns = ["user_id"],
-            onDelete = ForeignKey.CASCADE
         )
     ],
     indices = [Index("user_id")]
@@ -27,5 +26,5 @@ data class MerchantEntity(
     @ColumnInfo(name = "phone") val phone: String?,
     @ColumnInfo(name = "address") val address: String?,
     @ColumnInfo(name = "created_at") val createdAt: String,
-    @ColumnInfo(name = "status") val status: String
+    @ColumnInfo(name = "status", defaultValue = "active") val status: String
 )

@@ -14,23 +14,24 @@ class ProductRepositoryImpl @Inject constructor(
     private val productDao: ProductDao
 ) : ProductRepository {
 
-    override fun loadProducts(): List<ProductModel> {
+    override suspend fun loadProducts(): List<ProductModel> {
         val productEntities: List<ProductEntity> = productDao.getAllNotDeleted()
         return productEntities.map { productEntity: ProductEntity ->
             productEntity.toDomain()
         }
     }
 
-    override fun removeProducts(uuid: UUID) {
+    override suspend fun removeProducts(uuid: UUID) {
         productDao.markDeleted(uuid.toBytes())
     }
 
-    override fun editProducts(products: List<ProductModel>) {
+    override suspend fun editProducts(products: List<ProductModel>) {
         productDao.editAll(products.map { productModel -> productModel.toData(isDeleted = false) })
     }
 
-    override fun addProducts(products: List<ProductModel>) {
+    override suspend fun addProducts(products: List<ProductModel>) {
         productDao.addAll(products.map { productModel -> productModel.toData(isDeleted = false) })
     }
+
 }
 

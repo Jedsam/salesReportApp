@@ -5,10 +5,10 @@ import java.util.UUID
 
 
 interface ProductRepository {
-    fun loadProducts(): List<ProductModel>
+    suspend fun loadProducts(): List<ProductModel>
 
-    fun removeProducts(uuid: UUID)
-    fun editProducts(products: List<ProductModel>)
-    fun addProducts(products: List<ProductModel>)
+    suspend fun removeProducts(uuid: UUID)
+    suspend fun editProducts(products: List<ProductModel>)
+    suspend fun addProducts(products: List<ProductModel>)
 
 }

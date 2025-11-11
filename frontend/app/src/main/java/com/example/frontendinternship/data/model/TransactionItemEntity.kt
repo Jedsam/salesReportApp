@@ -13,7 +13,6 @@ import androidx.room.PrimaryKey
             entity = TransactionEntity::class,
             parentColumns = ["transaction_id"],
             childColumns = ["transaction_id"],
-            onDelete = ForeignKey.CASCADE
         ),
         ForeignKey(
             entity = ProductEntity::class,

@@ -16,7 +16,7 @@ class ReceiptRepositoryImpl @Inject constructor(
     private val receiptDao: ReceiptDao,
 ) : ReceiptRepository {
 
-    override fun insert(vatTotalAmounts: VatTotalAmounts, paymentType: PAYMENT_METHOD) {
+    override suspend fun insert(vatTotalAmounts: VatTotalAmounts, paymentType: PAYMENT_METHOD) {
         val currentMillis = System.currentTimeMillis()
 
         val date = Date(currentMillis)
@@ -34,7 +34,7 @@ class ReceiptRepositoryImpl @Inject constructor(
         )
     }
 
-    override fun getFromDate(dateTime: String): List<ReceiptModel> {
+    override suspend fun getFromDate(dateTime: String): List<ReceiptModel> {
         return receiptDao.getFromDate(dateTime).map { it.toDomain() }
     }
 }

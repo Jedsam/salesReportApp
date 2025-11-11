@@ -5,6 +5,8 @@ import androidx.room.Room
 import com.example.frontendinternship.data.datasource.local.SalesAppDatabase
 import com.example.frontendinternship.data.datasource.local.dao.ProductDao
 import com.example.frontendinternship.data.datasource.local.dao.ReceiptDao
+import com.example.frontendinternship.data.datasource.local.dao.ShopDao
+import com.example.frontendinternship.data.datasource.local.dao.UserDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -26,8 +28,6 @@ class DatabaseModule {
                 SalesAppDatabase.AppDatabase::class.java, "PRODUCTS"
             )
                 .createFromAsset("retail.db")
-                // WARNING: Generally avoid allowMainThreadQueries() in production
-                .allowMainThreadQueries()
                 .build()
         }
 
@@ -39,6 +39,16 @@ class DatabaseModule {
         @Provides
         fun provideReceiptDao(appDatabase: SalesAppDatabase.AppDatabase): ReceiptDao {
             return appDatabase.receiptDao()
+        }
+
+        @Provides
+        fun provideShopDao(appDatabase: SalesAppDatabase.AppDatabase): ShopDao {
+            return appDatabase.shopDao()
+        }
+
+        @Provides
+        fun provideUserDao(appDatabase: SalesAppDatabase.AppDatabase): UserDao {
+            return appDatabase.userDao()
         }
     }
 }

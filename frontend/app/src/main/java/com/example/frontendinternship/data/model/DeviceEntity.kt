@@ -5,6 +5,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import com.example.frontendinternship.utils.StatusEnum
 
 @Entity(
     tableName = "DEVICES",
@@ -27,14 +28,14 @@ import androidx.room.PrimaryKey
     ],
     indices = [Index("shop_id"), Index("firmware_id"), Index("model_id")]
 )
+
 data class DeviceEntity(
     @PrimaryKey
     @ColumnInfo(name = "device_id") val deviceId: ByteArray,
     @ColumnInfo(name = "shop_id") val shopId: ByteArray,
     @ColumnInfo(name = "firmware_id") val firmwareId: ByteArray,
     @ColumnInfo(name = "model_id") val modelId: ByteArray,
-    @ColumnInfo(name = "last_seen") val lastSeen: Long?,
-    @ColumnInfo(name = "created_at") val createdAt: Long,
-    @ColumnInfo(name = "status") val status: String
+    @ColumnInfo(name = "last_seen") val lastSeen: String?,
+    @ColumnInfo(name = "created_at") val createdAt: String,
+    @ColumnInfo(name = "status", defaultValue = "active") val status: String
 )
-

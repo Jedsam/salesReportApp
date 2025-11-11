@@ -10,7 +10,7 @@ fun ReceiptEntity.toDomain(): ReceiptModel {
     return ReceiptModel(
         this.receiptNumber ?: -1,
         SimpleDateFormat("yyyy-MM-dd HH", Locale.getDefault()).parse(
-            this?.receiptDateTime ?: "0-01-1"
+            this.receiptDateTime ?: "0-01-1"
         ) ?: Date(
             0
         ),

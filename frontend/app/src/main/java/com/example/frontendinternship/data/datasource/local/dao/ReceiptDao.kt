@@ -18,18 +18,19 @@ import kotlin.collections.List
 @Dao
 interface ReceiptDao {
     @Query("SELECT * FROM receipt")
-    fun getAll(): List<ReceiptEntity>
+    suspend fun getAll(): List<ReceiptEntity>
 
 
     @Insert
-    fun insert(receipt: ReceiptEntity)
+    suspend fun insert(receipt: ReceiptEntity)
 
 
     @Insert
-    fun insertAll(vararg receipts: ReceiptEntity)
+    suspend fun insertAll(vararg receipts: ReceiptEntity)
 
     @Delete
-    fun delete(receipt: ReceiptEntity)
+    suspend fun delete(receipt: ReceiptEntity)
+
     @Query("SELECT * FROM receipt WHERE receiptDateTime = (:dateTime)")
-    fun getFromDate(dateTime: String) : List<ReceiptEntity>
+    suspend fun getFromDate(dateTime: String): List<ReceiptEntity>
 }

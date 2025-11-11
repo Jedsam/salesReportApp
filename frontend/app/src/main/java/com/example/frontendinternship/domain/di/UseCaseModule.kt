@@ -10,6 +10,10 @@ import com.example.frontendinternship.domain.usecase.product.IAddProductsUseCase
 import com.example.frontendinternship.domain.usecase.product.IEditProductsUseCase
 import com.example.frontendinternship.domain.usecase.product.IRemoveProductsUseCase
 import com.example.frontendinternship.domain.usecase.product.RemoveProductsUseCase
+import com.example.frontendinternship.domain.usecase.shop.ILoadShopsUseCase
+import com.example.frontendinternship.domain.usecase.shop.IUpdateShopUseCase
+import com.example.frontendinternship.domain.usecase.shop.LoadShopsUseCase
+import com.example.frontendinternship.domain.usecase.shop.UpdateShopUseCase
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -28,16 +32,29 @@ abstract class UseCaseModule {
     abstract fun bindLoginUseCase(
         impl: LoginUseCase
     ): ILoginUseCase
+
     @Binds
     abstract fun bindAddProductsUseCase(
         impl: AddProductsUseCase
     ): IAddProductsUseCase
+
     @Binds
     abstract fun bindEditProductsUseCase(
         impl: EditProductsUseCase
     ): IEditProductsUseCase
+
     @Binds
     abstract fun bindRemoveProductsUseCase(
         impl: RemoveProductsUseCase
     ): IRemoveProductsUseCase
+
+    @Binds
+    abstract fun bindLoadShopsUseCase(
+        impl: LoadShopsUseCase
+    ): ILoadShopsUseCase
+
+    @Binds
+    abstract fun bindUpdateShopUseCase(
+        impl: UpdateShopUseCase
+    ): IUpdateShopUseCase
 }

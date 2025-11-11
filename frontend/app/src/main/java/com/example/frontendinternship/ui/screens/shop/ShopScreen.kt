@@ -19,6 +19,11 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.frontendinternship.domain.model.ProductModel
+import com.example.frontendinternship.domain.model.ShopModel
+import com.example.frontendinternship.domain.usecase.product.IAddProductsUseCase
+import com.example.frontendinternship.domain.usecase.shop.ILoadShopsUseCase
+import com.example.frontendinternship.domain.usecase.shop.IUpdateShopUseCase
 import com.example.frontendinternship.ui.components.RoundedButton
 import com.example.frontendinternship.ui.components.RoundedTextField
 import com.example.frontendinternship.ui.components.MyScaffold
@@ -73,45 +78,31 @@ fun ShopScreen(
         ) {
             Spacer(modifier = Modifier.height(LocalPadding.current.Big))
             RoundedTextField(
-                textFieldInformation = "Full Name",
-                textValue = uiState.currentUser.username,
+                textFieldInformation = "Shop Name",
+                textValue = uiState.currentShop.name,
                 onFieldValueChange = {},
                 keyboardType = KeyboardType.Text,
                 textFieldModifier = Modifier.fillMaxWidth(0.8f),
             )
             RoundedTextField(
-                textFieldInformation = "Business Name",
-                textValue = uiState.currentUser.username,
+                textFieldInformation = "Shop Address",
+                textValue = uiState.currentShop.address,
                 onFieldValueChange = {},
                 keyboardType = KeyboardType.Text,
                 textFieldModifier = Modifier.fillMaxWidth(0.8f),
             )
             RoundedTextField(
                 textFieldInformation = "Phone",
-                textValue = uiState.currentUser.username,
+                textValue = uiState.currentShop.phone ?: "",
                 onFieldValueChange = {},
                 keyboardType = KeyboardType.Text,
                 textFieldModifier = Modifier.fillMaxWidth(0.8f),
             )
             RoundedTextField(
-                textFieldInformation = "Business Address",
-                textValue = uiState.currentUser.username,
+                textFieldInformation = "Email",
+                textValue = uiState.currentShop.email ?: "",
                 onFieldValueChange = {},
                 keyboardType = KeyboardType.Text,
-                textFieldModifier = Modifier.fillMaxWidth(0.8f),
-            )
-            RoundedTextField(
-                textFieldInformation = "Username",
-                textValue = uiState.currentUser.username,
-                onFieldValueChange = {},
-                keyboardType = KeyboardType.Text,
-                textFieldModifier = Modifier.fillMaxWidth(0.8f),
-            )
-            RoundedTextField(
-                textFieldInformation = "Password",
-                textValue = "*".repeat(uiState.currentUser.password.length),
-                onFieldValueChange = {},
-                keyboardType = KeyboardType.Decimal,
                 textFieldModifier = Modifier.fillMaxWidth(0.8f),
             )
             Spacer(modifier = Modifier.height(LocalPadding.current.Big))
@@ -125,7 +116,23 @@ fun ShopScreenPreview() {
     FrontendInternshipTheme {
         ShopScreen(
             navController = rememberNavController(),
+            ShopViewModel_Factory.newInstance(
+FakeLoadShopsUseCase(),
+                FakeUpdateShopsUseCase(),
+            ),
         )
+    }
+}
+
+
+class FakeLoadShopsUseCase : ILoadShopsUseCase {
+    override suspend fun invoke(): List<ShopModel> {
+      return emptyList()
+    }
+}
+
+class FakeUpdateShopsUseCase : IUpdateShopUseCase {
+    override suspend fun invoke(shopModel: ShopModel) {
     }
 }
 
