@@ -17,6 +17,7 @@ import com.example.frontendinternship.ui.screens.basket.BasketScreen
 import com.example.frontendinternship.ui.screens.basket.BasketViewModel
 import com.example.frontendinternship.ui.screens.catalog.CatalogScreen
 import com.example.frontendinternship.ui.screens.login.LoginScreen
+import com.example.frontendinternship.ui.screens.merchant.MerchantScreen
 import com.example.frontendinternship.ui.screens.payment.PaymentScreen
 import com.example.frontendinternship.ui.screens.payment.PaymentViewModel
 import com.example.frontendinternship.ui.screens.product.ProductAddScreen
@@ -123,6 +124,15 @@ fun Navigation(
             exitTransition = defaultExitAnimation
         ) {
             TransactionScreen(
+                navController = navController,
+            )
+        }
+        composable(
+            route = Screen.Merchant.route,
+            enterTransition = defaultEnterAnimation,
+            exitTransition = defaultExitAnimation
+        ) {
+            MerchantScreen(
                 navController = navController,
             )
         }

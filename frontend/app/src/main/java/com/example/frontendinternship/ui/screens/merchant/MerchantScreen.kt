@@ -20,8 +20,8 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.frontendinternship.domain.model.MerchantModel
-import com.example.frontendinternship.domain.usecase.shop.ILoadMerchantsUseCase
-import com.example.frontendinternship.domain.usecase.shop.IUpdateMerchantUseCase
+import com.example.frontendinternship.domain.usecase.merchant.ILoadMerchantsUseCase
+import com.example.frontendinternship.domain.usecase.merchant.IUpdateMerchantUseCase
 import com.example.frontendinternship.ui.components.RoundedButton
 import com.example.frontendinternship.ui.components.RoundedTextField
 import com.example.frontendinternship.ui.components.MyScaffold
@@ -88,8 +88,18 @@ fun MerchantScreen(
                 textFieldModifier = Modifier.fillMaxWidth(0.8f),
             )
             RoundedTextField(
+                textFieldInformation = "Business Name",
+                textValue = uiState.currentMerchant.businessName ?: "",
+                onFieldValueChange = { newText ->
+                    if (newText.length < 20)
+                        viewModel.updateBusinessName(newText)
+                },
+                keyboardType = KeyboardType.Text,
+                textFieldModifier = Modifier.fillMaxWidth(0.8f),
+            )
+            RoundedTextField(
                 textFieldInformation = "Merchant Address",
-                textValue = uiState.currentMerchant.address,
+                textValue = uiState.currentMerchant.address ?: "",
                 onFieldValueChange = { newText ->
                     if (newText.length < 20)
                         viewModel.updateMerchantAddress(newText)
@@ -103,16 +113,6 @@ fun MerchantScreen(
                 onFieldValueChange = { newText ->
                     if (newText.length < 20)
                         viewModel.updatePhone(newText)
-                },
-                keyboardType = KeyboardType.Text,
-                textFieldModifier = Modifier.fillMaxWidth(0.8f),
-            )
-            RoundedTextField(
-                textFieldInformation = "Email",
-                textValue = uiState.currentMerchant.email ?: "",
-                onFieldValueChange = { newText ->
-                    if (newText.length < 20)
-                        viewModel.updateEmail(newText)
                 },
                 keyboardType = KeyboardType.Text,
                 textFieldModifier = Modifier.fillMaxWidth(0.8f),

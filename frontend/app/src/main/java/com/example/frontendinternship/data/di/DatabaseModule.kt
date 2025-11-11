@@ -3,6 +3,7 @@ package com.example.frontendinternship.data.di
 import android.content.Context
 import androidx.room.Room
 import com.example.frontendinternship.data.datasource.local.SalesAppDatabase
+import com.example.frontendinternship.data.datasource.local.dao.MerchantDao
 import com.example.frontendinternship.data.datasource.local.dao.ProductDao
 import com.example.frontendinternship.data.datasource.local.dao.ReceiptDao
 import com.example.frontendinternship.data.datasource.local.dao.ShopDao
@@ -49,6 +50,11 @@ class DatabaseModule {
         @Provides
         fun provideUserDao(appDatabase: SalesAppDatabase.AppDatabase): UserDao {
             return appDatabase.userDao()
+        }
+
+        @Provides
+        fun provideMerchantDao(appDatabase: SalesAppDatabase.AppDatabase): MerchantDao {
+            return appDatabase.merchantDao()
         }
     }
 }

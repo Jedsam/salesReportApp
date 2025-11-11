@@ -4,6 +4,10 @@ import com.example.frontendinternship.domain.usecase.product.ILoadProductsUseCas
 import com.example.frontendinternship.domain.usecase.authentication.ILoginUseCase
 import com.example.frontendinternship.domain.usecase.product.LoadProductsUseCase
 import com.example.frontendinternship.domain.usecase.authentication.LoginUseCase
+import com.example.frontendinternship.domain.usecase.merchant.ILoadMerchantsUseCase
+import com.example.frontendinternship.domain.usecase.merchant.IUpdateMerchantUseCase
+import com.example.frontendinternship.domain.usecase.merchant.LoadMerchantsUseCase
+import com.example.frontendinternship.domain.usecase.merchant.UpdateMerchantUseCase
 import com.example.frontendinternship.domain.usecase.product.AddProductsUseCase
 import com.example.frontendinternship.domain.usecase.product.EditProductsUseCase
 import com.example.frontendinternship.domain.usecase.product.IAddProductsUseCase
@@ -57,4 +61,14 @@ abstract class UseCaseModule {
     abstract fun bindUpdateShopUseCase(
         impl: UpdateShopUseCase
     ): IUpdateShopUseCase
+
+    @Binds
+    abstract fun bindLoadMerchantsUseCase(
+        impl: LoadMerchantsUseCase
+    ): ILoadMerchantsUseCase
+
+    @Binds
+    abstract fun bindUpdateMerchantUseCase(
+        impl: UpdateMerchantUseCase
+    ): IUpdateMerchantUseCase
 }
