@@ -20,7 +20,7 @@ class LoginViewModel @Inject constructor(
     ViewModel() {
     data class LoginUiState(
         val currentUser: UserModel = UserModel(),
-        val loginLoadingState: APIOperationStateEnum = APIOperationStateEnum.DISABLED,
+        val loginLoadingState: APIOperationStateEnum = APIOperationStateEnum.READY,
     )
 
 
@@ -46,7 +46,7 @@ class LoginViewModel @Inject constructor(
     fun closeOperatingWindow() {
         _uiState.update { currentState ->
             currentState.copy(
-                loginLoadingState = APIOperationStateEnum.DISABLED
+                loginLoadingState = APIOperationStateEnum.READY
             )
         }
     }

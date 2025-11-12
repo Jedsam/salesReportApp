@@ -23,6 +23,7 @@ import com.example.frontendinternship.ui.theme.FrontendInternshipTheme
 import com.example.frontendinternship.ui.theme.LocalDimensions
 import com.example.frontendinternship.ui.theme.LocalPadding
 import com.example.frontendinternship.ui.theme.LocalTextFormat
+import com.example.frontendinternship.utils.APIOperationStateEnum
 
 @Composable
 fun TransactionsScreen(
@@ -36,7 +37,8 @@ fun TransactionsScreen(
             Button(
                 onClick = {
                     if (uiState.isLoggedIn) {
-                        // onSyncButtonPressed()
+                        if (uiState.syncResult == APIOperationStateEnum.READY)
+                            viewModel.synchronizeTransactions()
                     } else {
                         navController.navigate(Screen.Login.route)
                     }
@@ -57,8 +59,20 @@ fun TransactionsScreen(
                     vertical = LocalPadding.current.Mini
                 )
             ) {
+                val buttonText: String
+                if (uiState.isLoggedIn) {
+                    when (uiState.syncResult) {
+                        APIOperationStateEnum.READY -> buttonText = "Sync"
+                        APIOperationStateEnum.SUCCESS -> buttonText = "Success!"
+                        APIOperationStateEnum.FAILURE -> buttonText = "Failure!"
+                        APIOperationStateEnum.EXECUTING -> buttonText = "Executing"
+                    }
+                }
+                else {
+                    buttonText = "Login"
+                }
                 Text(
-                    text = "Login",
+                    text = buttonText,
                     fontSize = LocalTextFormat.current.sizeBig,
                     color = MaterialTheme.colorScheme.primary
                 )

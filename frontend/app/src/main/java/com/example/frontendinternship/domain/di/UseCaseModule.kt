@@ -1,5 +1,7 @@
 package com.example.frontendinternship.domain.di
 
+import com.example.frontendinternship.domain.usecase.authentication.CheckUserLoggedInUseCase
+import com.example.frontendinternship.domain.usecase.authentication.ICheckUserLoggedInUseCase
 import com.example.frontendinternship.domain.usecase.product.ILoadProductsUseCase
 import com.example.frontendinternship.domain.usecase.authentication.ILoginUseCase
 import com.example.frontendinternship.domain.usecase.product.LoadProductsUseCase
@@ -92,4 +94,9 @@ abstract class UseCaseModule {
     abstract fun bindLoadTransactionItemsUseCase(
         impl: LoadTransactionItemsUseCase
     ): ILoadTransactionItemsUseCase
+
+    @Binds
+    abstract fun bindCheckUserLoggedInUseCase(
+        impl: CheckUserLoggedInUseCase
+    ): ICheckUserLoggedInUseCase
 }

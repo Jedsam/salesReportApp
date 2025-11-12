@@ -99,6 +99,8 @@ dependencies {
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.lifecycle.viewmodelKtx)
+    implementation(libs.androidx.security.crypto)
+
 
     // Core & Compose
     implementation(libs.androidx.core.ktx)
