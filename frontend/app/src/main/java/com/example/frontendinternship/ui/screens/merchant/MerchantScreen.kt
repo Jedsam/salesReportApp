@@ -89,7 +89,7 @@ fun MerchantScreen(
             )
             RoundedTextField(
                 textFieldInformation = "Business Name",
-                textValue = uiState.currentMerchant.businessName ?: "",
+                textValue = uiState.currentMerchant.businessName,
                 onFieldValueChange = { newText ->
                     if (newText.length < 20)
                         viewModel.updateBusinessName(newText)

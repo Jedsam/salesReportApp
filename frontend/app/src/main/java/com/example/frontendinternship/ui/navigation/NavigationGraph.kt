@@ -24,7 +24,7 @@ import com.example.frontendinternship.ui.screens.product.ProductAddScreen
 import com.example.frontendinternship.ui.screens.product.ProductEditScreen
 import com.example.frontendinternship.ui.screens.register.RegisterScreen
 import com.example.frontendinternship.ui.screens.shop.ShopScreen
-import com.example.frontendinternship.ui.screens.transaction.TransactionScreen
+import com.example.frontendinternship.ui.screens.transaction.TransactionsScreen
 
 
 @Composable
@@ -119,11 +119,11 @@ fun Navigation(
             )
         }
         composable(
-            route = Screen.Transaction.route,
+            route = Screen.Transactions.route,
             enterTransition = defaultEnterAnimation,
             exitTransition = defaultExitAnimation
         ) {
-            TransactionScreen(
+            TransactionsScreen(
                 navController = navController,
             )
         }

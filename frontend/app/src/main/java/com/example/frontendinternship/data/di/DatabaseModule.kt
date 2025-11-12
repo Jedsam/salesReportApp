@@ -7,6 +7,7 @@ import com.example.frontendinternship.data.datasource.local.dao.MerchantDao
 import com.example.frontendinternship.data.datasource.local.dao.ProductDao
 import com.example.frontendinternship.data.datasource.local.dao.ReceiptDao
 import com.example.frontendinternship.data.datasource.local.dao.ShopDao
+import com.example.frontendinternship.data.datasource.local.dao.TransactionDao
 import com.example.frontendinternship.data.datasource.local.dao.UserDao
 import dagger.Module
 import dagger.Provides
@@ -55,6 +56,11 @@ class DatabaseModule {
         @Provides
         fun provideMerchantDao(appDatabase: SalesAppDatabase.AppDatabase): MerchantDao {
             return appDatabase.merchantDao()
+        }
+
+        @Provides
+        fun provideTransactionDao(appDatabase: SalesAppDatabase.AppDatabase): TransactionDao {
+            return appDatabase.transactionDao()
         }
     }
 }

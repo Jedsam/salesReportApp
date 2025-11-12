@@ -18,6 +18,8 @@ import com.example.frontendinternship.domain.usecase.shop.ILoadShopsUseCase
 import com.example.frontendinternship.domain.usecase.shop.IUpdateShopUseCase
 import com.example.frontendinternship.domain.usecase.shop.LoadShopsUseCase
 import com.example.frontendinternship.domain.usecase.shop.UpdateShopUseCase
+import com.example.frontendinternship.domain.usecase.transaction.ILoadTransactionsUseCase
+import com.example.frontendinternship.domain.usecase.transaction.LoadTransactionsUseCase
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -71,4 +73,9 @@ abstract class UseCaseModule {
     abstract fun bindUpdateMerchantUseCase(
         impl: UpdateMerchantUseCase
     ): IUpdateMerchantUseCase
+
+    @Binds
+    abstract fun bindLoadTransactionsUseCase(
+        impl: LoadTransactionsUseCase
+    ): ILoadTransactionsUseCase
 }

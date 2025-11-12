@@ -6,6 +6,7 @@ import com.example.frontendinternship.data.datasource.local.dao.MerchantDao
 import com.example.frontendinternship.data.datasource.local.dao.ProductDao
 import com.example.frontendinternship.data.datasource.local.dao.ReceiptDao
 import com.example.frontendinternship.data.datasource.local.dao.ShopDao
+import com.example.frontendinternship.data.datasource.local.dao.TransactionDao
 import com.example.frontendinternship.data.datasource.local.dao.UserDao
 import com.example.frontendinternship.data.model.DeviceEntity
 import com.example.frontendinternship.data.model.FirmwareEntity
@@ -41,5 +42,6 @@ class SalesAppDatabase {
         abstract fun shopDao(): ShopDao
         abstract fun userDao(): UserDao
         abstract fun merchantDao(): MerchantDao
+        abstract fun transactionDao(): TransactionDao
     }
 }

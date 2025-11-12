@@ -6,20 +6,16 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
 import com.example.frontendinternship.data.model.ProductEntity
+import com.example.frontendinternship.data.model.TransactionEntity
 
 @Dao
-interface ProductDao {
-    @Query("SELECT * FROM PRODUCTS WHERE is_deleted = 0")
-    suspend fun getAllNotDeleted(): List<ProductEntity>
-
-    @Query("UPDATE products SET is_deleted = 1 WHERE product_id = :uuid")
-    suspend fun markDeleted(uuid: ByteArray)
-
-    @Update
-    suspend fun editAll(products: List<ProductEntity>)
+interface TransactionDao {
+    @Query("SELECT * FROM TRANSACTIONS")
+    suspend fun getAll(): List<TransactionEntity>
 
     @Insert
-    suspend fun addAll(products: List<ProductEntity>)
+    suspend fun addAll(transactions: List<TransactionEntity>)
+
     //@Insert
     //fun insertAll(vararg PRODUCTSs: ProductEntity)
 

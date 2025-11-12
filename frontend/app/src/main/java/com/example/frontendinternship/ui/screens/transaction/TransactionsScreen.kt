@@ -15,22 +15,18 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.frontendinternship.domain.model.ProductModel
-import com.example.frontendinternship.domain.usecase.product.ILoadProductsUseCase
-import com.example.frontendinternship.ui.common.viewmodel.ProductViewModel
+import com.example.frontendinternship.domain.model.TransactionModel
+import com.example.frontendinternship.domain.usecase.transaction.ILoadTransactionsUseCase
 import com.example.frontendinternship.ui.components.MyScaffold
-import com.example.frontendinternship.ui.components.ProductList
 import com.example.frontendinternship.ui.components.RoundedButton
+import com.example.frontendinternship.ui.components.TransactionList
 import com.example.frontendinternship.ui.navigation.Screen
-import com.example.frontendinternship.ui.screens.basket.BasketViewModel
 import com.example.frontendinternship.ui.theme.FrontendInternshipTheme
 import com.example.frontendinternship.ui.theme.LocalColors
 import com.example.frontendinternship.ui.theme.LocalDimensions
@@ -38,9 +34,9 @@ import com.example.frontendinternship.ui.theme.LocalPadding
 import com.example.frontendinternship.ui.theme.LocalTextFormat
 
 @Composable
-fun TransactionScreen(
+fun TransactionsScreen(
     navController: NavController,
-    viewModel: TransactionViewModel = hiltViewModel(),
+    viewModel: TransactionsViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsState()
     MyScaffold(
@@ -99,29 +95,15 @@ fun TransactionScreen(
                         borderColor = LocalColors.current.darkGreen,
                         containerColor = LocalColors.current.darkGreen,
                     )
-                    RoundedButton(
-                        buttonText = "+",
-                        textSize = LocalTextFormat.current.sizeMain,
-                        onButtonPress = {
-                            navController.navigate(Screen.ProductAdd.route)
-                        },
-                        modifier = Modifier
-                            .width(LocalDimensions.current.viewNormalPlus)
-                            .height(LocalDimensions.current.viewNormalPlus),
-                        borderColor = MaterialTheme.colorScheme.primary,
-                        containerColor = MaterialTheme.colorScheme.primary,
-                    )
                 }
             }
         },
     ) { innerPadding ->
-        ProductList(
-            onProductSelected = { product: ProductModel ->
-                navController.navigate(Screen.ProductEdit.route)
+        TransactionList(
+            onTransactionSelected = { transaction: TransactionModel ->
+                navController.navigate(Screen.Transaction.route)
             },
-            onProductAdded = { product: ProductModel ->
-            },
-            productList = uiState.productList,
+            transactionList = uiState.transactionList,
             paddingValue = innerPadding
         )
     }
@@ -131,48 +113,34 @@ fun TransactionScreen(
 @Preview
 @Composable
 fun NewCatalogScreenPreview() {
-    val productViewModel = remember { mutableStateOf(ProductViewModel()) }
-    productViewModel.value.updateProduct(
-        ProductModel(
-            productName = "MyProduct1",
-            vatRate = 10.0,
-            price = 30.0
-        )
-    )
-    val basketViewModel = remember { mutableStateOf(BasketViewModel()) }
     FrontendInternshipTheme {
-        TransactionScreen(
+        TransactionsScreen(
             navController = rememberNavController(),
-            viewModel = TransactionViewModel_Factory.newInstance(
-                FakeLoadProductsUseCase()
+            viewModel = TransactionsViewModel_Factory.newInstance(
+                FakeLoadTransactionsUseCase()
             )
         )
     }
 }
 
-class FakeLoadProductsUseCase : ILoadProductsUseCase {
-    override suspend fun invoke(): List<ProductModel> {
+class FakeLoadTransactionsUseCase : ILoadTransactionsUseCase {
+    override suspend fun invoke(): List<TransactionModel> {
         return listOf(
-            ProductModel(productName = "MyProduct1", vatRate = 10.0, price = 30.0),
-            ProductModel(productName = "MyProduct2", vatRate = 15.0, price = 12.3450),
-            ProductModel(productName = "MyProduct3", vatRate = 18.0, price = 30.40),
-            ProductModel(
-                productName = "MyBigProductNameItsBigItsVeryBig",
-                vatRate = 0.0,
-                price = 15.25
+            TransactionModel(
+                subtotal = 10.0,
+                total = 30.0
             ),
-            ProductModel(productName = "mp2", vatRate = 20.0, price = 0.00),
-            ProductModel(productName = "$*^($@!*@#", vatRate = 5.0, price = 5.49812940),
-            ProductModel(productName = "m", vatRate = 20.0, price = 0.00),
-            ProductModel(
-                productName = "油売ってる自動販売機に重要な機材の欠片",
-                vatRate = 5.0,
-                price = 5.49812940
+            TransactionModel(
+                subtotal = 5.0,
+                total = 15.25
             ),
-            ProductModel(
-                productName = "Test Test Test Test Test Test Test Test Test Test Test ",
-                vatRate = 5.0,
-                price = 5.49812940
+            TransactionModel(
+                subtotal = 3.1741515,
+                total = 20.0
+            ),
+            TransactionModel(
+                subtotal = 5.0,
+                total = 5.49812940
             ),
         )
     }
