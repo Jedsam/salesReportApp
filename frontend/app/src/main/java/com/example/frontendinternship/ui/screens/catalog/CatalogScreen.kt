@@ -67,7 +67,7 @@ fun CatalogScreen(
             Button(
                 onClick = {
                     if (uiState.isLoggedIn) {
-                        // onSyncButtonPressed()
+                        //viewModel.logOut()
                     } else {
                         navController.navigate(Screen.Login.route)
                     }

@@ -20,6 +20,14 @@ import com.example.frontendinternship.domain.usecase.shop.ILoadShopsUseCase
 import com.example.frontendinternship.domain.usecase.shop.IUpdateShopUseCase
 import com.example.frontendinternship.domain.usecase.shop.LoadShopsUseCase
 import com.example.frontendinternship.domain.usecase.shop.UpdateShopUseCase
+import com.example.frontendinternship.domain.usecase.transaction.CreateCancelTransactionUseCase
+import com.example.frontendinternship.domain.usecase.transaction.CreateCashTransactionUseCase
+import com.example.frontendinternship.domain.usecase.transaction.CreateCouponTransactionUseCase
+import com.example.frontendinternship.domain.usecase.transaction.CreateCreditTransactionUseCase
+import com.example.frontendinternship.domain.usecase.transaction.ICreateCancelTransactionUseCase
+import com.example.frontendinternship.domain.usecase.transaction.ICreateCashTransactionUseCase
+import com.example.frontendinternship.domain.usecase.transaction.ICreateCouponTransactionUseCase
+import com.example.frontendinternship.domain.usecase.transaction.ICreateCreditTransactionUseCase
 import com.example.frontendinternship.domain.usecase.transaction.ILoadTransactionItemsUseCase
 import com.example.frontendinternship.domain.usecase.transaction.ILoadTransactionUseCase
 import com.example.frontendinternship.domain.usecase.transaction.ILoadTransactionsUseCase
@@ -106,4 +114,24 @@ abstract class UseCaseModule {
     abstract fun bindSynchronizeTransactionUseCase(
         impl: SynchronizeTransactionsUseCase
     ): ISynchronizeTransactionsUseCase
+
+    @Binds
+    abstract fun bindCreateCashTransactionUseCase(
+        impl: CreateCashTransactionUseCase
+    ): ICreateCashTransactionUseCase
+
+    @Binds
+    abstract fun bindCreateCouponTransactionUseCase(
+        impl: CreateCouponTransactionUseCase
+    ): ICreateCouponTransactionUseCase
+
+    @Binds
+    abstract fun bindCreateCreditTransactionUseCase(
+        impl: CreateCreditTransactionUseCase
+    ): ICreateCreditTransactionUseCase
+
+    @Binds
+    abstract fun bindCreateCancelTransactionUseCase(
+        impl: CreateCancelTransactionUseCase
+    ): ICreateCancelTransactionUseCase
 }

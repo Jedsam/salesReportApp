@@ -34,6 +34,10 @@ import com.example.frontendinternship.ui.components.RoundedButton
 import com.example.frontendinternship.ui.components.MyScaffold
 import com.example.frontendinternship.ui.components.WifiOnorOff
 import com.example.frontendinternship.ui.navigation.Screen
+import com.example.frontendinternship.ui.screens.payment.FakeCreateCancelTransactionUseCase
+import com.example.frontendinternship.ui.screens.payment.FakeCreateCashTransactionUseCase
+import com.example.frontendinternship.ui.screens.payment.FakeCreateCouponTransactionUseCase
+import com.example.frontendinternship.ui.screens.payment.FakeCreateCreditTransactionUseCase
 import com.example.frontendinternship.ui.screens.payment.PaymentViewModel
 import com.example.frontendinternship.ui.theme.FrontendInternshipTheme
 import com.example.frontendinternship.ui.theme.LocalColors
@@ -185,6 +189,10 @@ fun BasketScreenPreview() {
     val paymentViewModel = remember {
         mutableStateOf(
             PaymentViewModel(
+                FakeCreateCancelTransactionUseCase(),
+                FakeCreateCashTransactionUseCase(),
+                FakeCreateCouponTransactionUseCase(),
+                FakeCreateCreditTransactionUseCase(),
             )
         )
     }
@@ -224,6 +232,10 @@ fun BasketScreenBigPreview() {
     val paymentViewModel = remember {
         mutableStateOf(
             PaymentViewModel(
+                FakeCreateCancelTransactionUseCase(),
+                FakeCreateCashTransactionUseCase(),
+                FakeCreateCouponTransactionUseCase(),
+                FakeCreateCreditTransactionUseCase(),
             )
         )
     }

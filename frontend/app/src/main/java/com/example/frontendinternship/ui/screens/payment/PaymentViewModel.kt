@@ -5,6 +5,10 @@ import androidx.lifecycle.viewModelScope
 import com.example.frontendinternship.domain.model.ProductWithCount
 import com.example.frontendinternship.domain.model.getCost
 import com.example.frontendinternship.domain.model.getTax
+import com.example.frontendinternship.domain.usecase.transaction.ICreateCancelTransactionUseCase
+import com.example.frontendinternship.domain.usecase.transaction.ICreateCashTransactionUseCase
+import com.example.frontendinternship.domain.usecase.transaction.ICreateCouponTransactionUseCase
+import com.example.frontendinternship.domain.usecase.transaction.ICreateCreditTransactionUseCase
 import com.example.frontendinternship.ui.states.CashPaymentState
 import com.example.frontendinternship.ui.states.CouponPaymentState
 import com.example.frontendinternship.ui.states.CreditPaymentState
@@ -19,7 +23,12 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class PaymentViewModel @Inject constructor() :
+class PaymentViewModel @Inject constructor(
+    private val createCancelTransactionUseCase: ICreateCancelTransactionUseCase,
+    private val createCashTransactionUseCase: ICreateCashTransactionUseCase,
+    private val createCouponTransactionUseCase: ICreateCouponTransactionUseCase,
+    private val createCreditTransactionUseCase: ICreateCreditTransactionUseCase,
+) :
     ViewModel() {
     data class PaymentUiState(
         var payment: PaymentState = PaymentState(),
@@ -48,6 +57,24 @@ class PaymentViewModel @Inject constructor() :
                         total = total,
                     )
             )
+        }
+    }
+
+    fun cancelPayment() {
+        viewModelScope.launch {
+            createCancelTransactionUseCase(uiState.value.payment)
+        }
+    }
+    fun chargePayment() {
+        viewModelScope.launch {
+            when (uiState.value.payment.paymentType) {
+                PaymentTypeEnum.CASH ->
+                createCashTransactionUseCase(uiState.value.payment, uiState.value.cashPayment)
+                PaymentTypeEnum.CREDIT ->
+                createCreditTransactionUseCase(uiState.value.payment, uiState.value.creditPayment)
+                PaymentTypeEnum.COUPON ->
+                createCouponTransactionUseCase(uiState.value.payment, uiState.value.couponPayment)
+            }
         }
     }
 

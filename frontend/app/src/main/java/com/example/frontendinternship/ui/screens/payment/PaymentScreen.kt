@@ -29,11 +29,22 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.frontendinternship.domain.model.UserModel
+import com.example.frontendinternship.domain.usecase.authentication.ILoginUseCase
+import com.example.frontendinternship.domain.usecase.transaction.ICreateCancelTransactionUseCase
+import com.example.frontendinternship.domain.usecase.transaction.ICreateCashTransactionUseCase
+import com.example.frontendinternship.domain.usecase.transaction.ICreateCouponTransactionUseCase
+import com.example.frontendinternship.domain.usecase.transaction.ICreateCreditTransactionUseCase
 import com.example.frontendinternship.ui.components.PaymentSwapButton
 import com.example.frontendinternship.ui.components.RoundedButton
 import com.example.frontendinternship.ui.components.RoundedTextField
 import com.example.frontendinternship.ui.components.MyScaffold
 import com.example.frontendinternship.ui.components.WifiOnorOff
+import com.example.frontendinternship.ui.navigation.Screen
+import com.example.frontendinternship.ui.states.CashPaymentState
+import com.example.frontendinternship.ui.states.CouponPaymentState
+import com.example.frontendinternship.ui.states.CreditPaymentState
+import com.example.frontendinternship.ui.states.PaymentState
 import com.example.frontendinternship.ui.theme.FrontendInternshipTheme
 import com.example.frontendinternship.ui.theme.LocalColors
 import com.example.frontendinternship.ui.theme.LocalDimensions
@@ -54,22 +65,45 @@ fun PaymentScreen(
         },
         screenText = "Payment",
         bottomBar = {
-            Column {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.padding(LocalPadding.current.Small)
-                ) {
-                    RoundedButton(
-                        buttonText = "Charge ${"%.2f".format(uiState.payment.total)}TL",
-                        onButtonPress = {},
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = LocalPadding.current.Small)
-                            .height(LocalDimensions.current.viewNormalPlus),
-                        borderColor = LocalColors.current.blueCerulean,
-                        containerColor = LocalColors.current.blueCerulean,
-                    )
-                }
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(LocalDimensions.current.viewExtrasBig),
+                verticalArrangement = Arrangement.spacedBy(LocalPadding.current.Normal),
+            ) {
+                RoundedButton(
+                    buttonText = "Charge ${"%.2f".format(uiState.payment.total)}TL",
+                    onButtonPress = {
+                        viewModel.chargePayment()
+                        navController.popBackStack(
+                            Screen.Catalog.route,
+                            inclusive = false
+                        )
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = LocalPadding.current.Small)
+                        .height(LocalDimensions.current.viewNormalPlus),
+                    borderColor = LocalColors.current.blueCerulean,
+                    containerColor = LocalColors.current.blueCerulean,
+                )
+                RoundedButton(
+                    buttonText = "Cancel",
+                    onButtonPress = {
+                        viewModel.cancelPayment()
+                        navController.popBackStack(
+                            Screen.Catalog.route,
+                            inclusive = false
+                        )
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = LocalPadding.current.Small)
+                        .height(LocalDimensions.current.viewNormalPlus),
+                    borderColor = MaterialTheme.colorScheme.primary,
+                    containerColor = MaterialTheme.colorScheme.background,
+                    contentColor = MaterialTheme.colorScheme.primary
+                )
             }
         }) { innerPadding ->
         val isCash = uiState.payment.paymentType == PaymentTypeEnum.CASH
@@ -258,7 +292,12 @@ fun PaymentScreen(
 @Preview
 @Composable
 fun PaymentScreenCashPreview() {
-    val paymentViewModel = remember { mutableStateOf(PaymentViewModel()) }
+    val paymentViewModel = remember { mutableStateOf(PaymentViewModel(
+        FakeCreateCancelTransactionUseCase(),
+        FakeCreateCashTransactionUseCase(),
+        FakeCreateCouponTransactionUseCase(),
+        FakeCreateCreditTransactionUseCase(),
+    )) }
     paymentViewModel.value.changeToCashPayment()
     FrontendInternshipTheme {
         PaymentScreen(
@@ -271,7 +310,12 @@ fun PaymentScreenCashPreview() {
 @Preview
 @Composable
 fun PaymentScreenCreditPreview() {
-    val paymentViewModel = remember { mutableStateOf(PaymentViewModel()) }
+    val paymentViewModel = remember { mutableStateOf(PaymentViewModel(
+        FakeCreateCancelTransactionUseCase(),
+        FakeCreateCashTransactionUseCase(),
+        FakeCreateCouponTransactionUseCase(),
+        FakeCreateCreditTransactionUseCase(),
+    )) }
     paymentViewModel.value.changeToCreditPayment()
     FrontendInternshipTheme {
         PaymentScreen(
@@ -284,12 +328,45 @@ fun PaymentScreenCreditPreview() {
 @Preview
 @Composable
 fun PaymentScreenCouponPreview() {
-    val paymentViewModel = remember { mutableStateOf(PaymentViewModel()) }
+    val paymentViewModel = remember { mutableStateOf(PaymentViewModel(
+        FakeCreateCancelTransactionUseCase(),
+        FakeCreateCashTransactionUseCase(),
+        FakeCreateCouponTransactionUseCase(),
+        FakeCreateCreditTransactionUseCase(),
+    )) }
     paymentViewModel.value.changeToCouponPayment()
     FrontendInternshipTheme {
         PaymentScreen(
             navController = rememberNavController(),
             viewModel = paymentViewModel.value
         )
+    }
+}
+class FakeCreateCancelTransactionUseCase: ICreateCancelTransactionUseCase {
+    override suspend fun invoke(paymentState: PaymentState) {
+    }
+}
+class FakeCreateCashTransactionUseCase: ICreateCashTransactionUseCase {
+    override suspend fun invoke(
+        paymentState: PaymentState,
+        cashPaymentState: CashPaymentState
+    ) {
+
+    }
+}
+class FakeCreateCreditTransactionUseCase: ICreateCreditTransactionUseCase {
+    override suspend fun invoke(
+        paymentState: PaymentState,
+        creditPaymentState: CreditPaymentState
+    ) {
+
+    }
+}
+class FakeCreateCouponTransactionUseCase: ICreateCouponTransactionUseCase {
+    override suspend fun invoke(
+        paymentState: PaymentState,
+        couponPaymentState: CouponPaymentState
+    ) {
+
     }
 }
