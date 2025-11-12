@@ -35,3 +35,5 @@ data class TransactionItemEntity(
     @ColumnInfo(name = "total") val total: Double
 )
 
+
+

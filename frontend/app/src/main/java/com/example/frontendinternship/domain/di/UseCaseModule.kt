@@ -18,7 +18,11 @@ import com.example.frontendinternship.domain.usecase.shop.ILoadShopsUseCase
 import com.example.frontendinternship.domain.usecase.shop.IUpdateShopUseCase
 import com.example.frontendinternship.domain.usecase.shop.LoadShopsUseCase
 import com.example.frontendinternship.domain.usecase.shop.UpdateShopUseCase
+import com.example.frontendinternship.domain.usecase.transaction.ILoadTransactionItemsUseCase
+import com.example.frontendinternship.domain.usecase.transaction.ILoadTransactionUseCase
 import com.example.frontendinternship.domain.usecase.transaction.ILoadTransactionsUseCase
+import com.example.frontendinternship.domain.usecase.transaction.LoadTransactionItemsUseCase
+import com.example.frontendinternship.domain.usecase.transaction.LoadTransactionUseCase
 import com.example.frontendinternship.domain.usecase.transaction.LoadTransactionsUseCase
 import dagger.Binds
 import dagger.Module
@@ -78,4 +82,14 @@ abstract class UseCaseModule {
     abstract fun bindLoadTransactionsUseCase(
         impl: LoadTransactionsUseCase
     ): ILoadTransactionsUseCase
+
+    @Binds
+    abstract fun bindLoadTransactionUseCase(
+        impl: LoadTransactionUseCase
+    ): ILoadTransactionUseCase
+
+    @Binds
+    abstract fun bindLoadTransactionItemsUseCase(
+        impl: LoadTransactionItemsUseCase
+    ): ILoadTransactionItemsUseCase
 }

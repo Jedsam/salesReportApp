@@ -2,8 +2,10 @@ package com.example.frontendinternship.data.mapper
 
 import com.example.frontendinternship.data.model.ProductEntity
 import com.example.frontendinternship.data.model.TransactionEntity
+import com.example.frontendinternship.data.model.TransactionWithItemsAndProducts
 import com.example.frontendinternship.domain.model.ProductModel
 import com.example.frontendinternship.domain.model.TransactionModel
+import com.example.frontendinternship.domain.model.TransactionWithItemModel
 import com.example.frontendinternship.utils.PaymentTypeEnum
 import com.example.frontendinternship.utils.StatusEnum
 import com.example.frontendinternship.utils.toBytes
@@ -34,5 +36,13 @@ fun TransactionModel.toData(deviceId: UUID): TransactionEntity {
         authCode = this.authCode,
         currency = this.currency,
         deviceId = deviceId.toBytes(),
+    )
+}
+fun TransactionWithItemsAndProducts.toDomain(): TransactionWithItemModel {
+    return TransactionWithItemModel(
+        transaction = this.transaction.toDomain(),
+        transactionItem = this.transactionItemsWithProduct.map {
+            item -> item.toDomain()
+        },
     )
 }

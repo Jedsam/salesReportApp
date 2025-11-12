@@ -4,6 +4,7 @@ import com.example.frontendinternship.data.repository.local.MerchantRepositoryIm
 import com.example.frontendinternship.data.repository.local.ProductRepositoryImpl
 import com.example.frontendinternship.data.repository.local.ReceiptRepositoryImpl
 import com.example.frontendinternship.data.repository.local.ShopRepositoryImpl
+import com.example.frontendinternship.data.repository.local.TransactionItemRepositoryImpl
 import com.example.frontendinternship.data.repository.local.TransactionRepositoryImpl
 import com.example.frontendinternship.data.repository.local.UserRepositoryImpl
 import com.example.frontendinternship.data.repository.remote.AuthRepositoryImpl
@@ -13,6 +14,7 @@ import com.example.frontendinternship.domain.repository.ProductRepository
 import com.example.frontendinternship.domain.repository.ReceiptRepository
 import com.example.frontendinternship.domain.repository.ReportRepository
 import com.example.frontendinternship.domain.repository.ShopRepository
+import com.example.frontendinternship.domain.repository.TransactionItemRepository
 import com.example.frontendinternship.domain.repository.TransactionRepository
 import com.example.frontendinternship.domain.repository.UserRepository
 import dagger.Binds
@@ -66,4 +68,10 @@ abstract class RepositoryModule {
     abstract fun bindTransactionRepository(
         transactionRepositoryImpl: TransactionRepositoryImpl
     ): TransactionRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindTransactionItemRepository(
+        transactionItemRepositoryImpl: TransactionItemRepositoryImpl
+    ): TransactionItemRepository
 }

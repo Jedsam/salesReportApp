@@ -24,6 +24,7 @@ import com.example.frontendinternship.ui.screens.product.ProductAddScreen
 import com.example.frontendinternship.ui.screens.product.ProductEditScreen
 import com.example.frontendinternship.ui.screens.register.RegisterScreen
 import com.example.frontendinternship.ui.screens.shop.ShopScreen
+import com.example.frontendinternship.ui.screens.transaction.TransactionItemScreen
 import com.example.frontendinternship.ui.screens.transaction.TransactionsScreen
 
 
@@ -125,6 +126,13 @@ fun Navigation(
         ) {
             TransactionsScreen(
                 navController = navController,
+            )
+        }
+        composable(Screen.Transactions.route + "{id}") { backStackEntry ->
+            val id = backStackEntry.arguments?.getString("id") ?: return@composable
+            TransactionItemScreen(
+                navController = navController,
+                transactionId = id
             )
         }
         composable(
