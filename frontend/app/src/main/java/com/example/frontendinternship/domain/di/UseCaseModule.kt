@@ -23,9 +23,11 @@ import com.example.frontendinternship.domain.usecase.shop.UpdateShopUseCase
 import com.example.frontendinternship.domain.usecase.transaction.ILoadTransactionItemsUseCase
 import com.example.frontendinternship.domain.usecase.transaction.ILoadTransactionUseCase
 import com.example.frontendinternship.domain.usecase.transaction.ILoadTransactionsUseCase
+import com.example.frontendinternship.domain.usecase.transaction.ISynchronizeTransactionsUseCase
 import com.example.frontendinternship.domain.usecase.transaction.LoadTransactionItemsUseCase
 import com.example.frontendinternship.domain.usecase.transaction.LoadTransactionUseCase
 import com.example.frontendinternship.domain.usecase.transaction.LoadTransactionsUseCase
+import com.example.frontendinternship.domain.usecase.transaction.SynchronizeTransactionsUseCase
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -99,4 +101,9 @@ abstract class UseCaseModule {
     abstract fun bindCheckUserLoggedInUseCase(
         impl: CheckUserLoggedInUseCase
     ): ICheckUserLoggedInUseCase
+
+    @Binds
+    abstract fun bindSynchronizeTransactionUseCase(
+        impl: SynchronizeTransactionsUseCase
+    ): ISynchronizeTransactionsUseCase
 }

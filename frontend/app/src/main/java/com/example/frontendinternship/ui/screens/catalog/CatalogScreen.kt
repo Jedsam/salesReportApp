@@ -36,6 +36,7 @@ import com.example.frontendinternship.ui.components.RoundedButton
 import com.example.frontendinternship.ui.components.MyScaffold
 import com.example.frontendinternship.ui.navigation.Screen
 import com.example.frontendinternship.ui.screens.basket.BasketViewModel
+import com.example.frontendinternship.ui.screens.transaction.FakeCheckUserLoggedInUseCase
 import com.example.frontendinternship.ui.theme.FrontendInternshipTheme
 import com.example.frontendinternship.ui.theme.LocalColors
 import com.example.frontendinternship.ui.theme.LocalDimensions
@@ -180,6 +181,7 @@ fun NewCatalogScreenPreview() {
                 FakeAddProductsUseCase(),
                 FakeEditProductsUseCase(),
                 FakeRemoveProductsUseCase(),
+                FakeCheckUserLoggedInUseCase(),
 
                 ),
             productViewModel = productViewModel.value,

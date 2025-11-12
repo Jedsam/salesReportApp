@@ -76,9 +76,9 @@ fun MyScaffold(
                         icon = Icons.Sharp.Home
                     )
                     NavigationItem(
-                        text = "Transaction",
+                        text = "Transactions",
                         onClick = {
-                            navController.navigate(Screen.Transaction.route)
+                            navController.navigate(Screen.Transactions.route)
                         },
                         icon = Icons.Sharp.Money
                     )

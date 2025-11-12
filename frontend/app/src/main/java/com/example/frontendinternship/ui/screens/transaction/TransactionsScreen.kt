@@ -15,7 +15,9 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.frontendinternship.domain.model.TransactionModel
+import com.example.frontendinternship.domain.usecase.authentication.ICheckUserLoggedInUseCase
 import com.example.frontendinternship.domain.usecase.transaction.ILoadTransactionsUseCase
+import com.example.frontendinternship.domain.usecase.transaction.ISynchronizeTransactionsUseCase
 import com.example.frontendinternship.ui.components.MyScaffold
 import com.example.frontendinternship.ui.components.TransactionList
 import com.example.frontendinternship.ui.navigation.Screen
@@ -59,17 +61,15 @@ fun TransactionsScreen(
                     vertical = LocalPadding.current.Mini
                 )
             ) {
-                val buttonText: String
-                if (uiState.isLoggedIn) {
+                val buttonText: String = if (uiState.isLoggedIn) {
                     when (uiState.syncResult) {
-                        APIOperationStateEnum.READY -> buttonText = "Sync"
-                        APIOperationStateEnum.SUCCESS -> buttonText = "Success!"
-                        APIOperationStateEnum.FAILURE -> buttonText = "Failure!"
-                        APIOperationStateEnum.EXECUTING -> buttonText = "Executing"
+                        APIOperationStateEnum.READY -> "Sync"
+                        APIOperationStateEnum.SUCCESS -> "Success!"
+                        APIOperationStateEnum.FAILURE -> "Failure!"
+                        APIOperationStateEnum.EXECUTING -> "Executing"
                     }
-                }
-                else {
-                    buttonText = "Login"
+                } else {
+                    "Login"
                 }
                 Text(
                     text = buttonText,
@@ -101,10 +101,25 @@ fun NewCatalogScreenPreview() {
         TransactionsScreen(
             navController = rememberNavController(),
             viewModel = TransactionsViewModel_Factory.newInstance(
-                FakeLoadTransactionsUseCase()
+                FakeLoadTransactionsUseCase(),
+                FakeSynchronizeTransactionsUseCase(),
+                FakeCheckUserLoggedInUseCase()
             )
         )
     }
+}
+
+class FakeCheckUserLoggedInUseCase : ICheckUserLoggedInUseCase {
+    override suspend fun invoke(): Boolean {
+        return false
+    }
+}
+
+class FakeSynchronizeTransactionsUseCase : ISynchronizeTransactionsUseCase {
+    override suspend fun invoke(): Boolean {
+        return false
+    }
+
 }
 
 class FakeLoadTransactionsUseCase : ILoadTransactionsUseCase {
