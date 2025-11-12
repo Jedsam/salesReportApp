@@ -4,4 +4,10 @@ pluginManagement {
 		gradlePluginPortal()
 	}
 }
+
+buildCache {
+    local {
+        directory = "${settingsDir}/build-cache"
+    }
+} 
 rootProject.name = 'server'
