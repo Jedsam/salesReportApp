@@ -2,6 +2,7 @@ package com.example.frontendinternship.ui.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.List
@@ -23,7 +24,13 @@ fun NavigationItem(
     onClick: () -> Unit = {},
     icon: ImageVector = Icons.Sharp.Home,
 ) {
-    Row(verticalAlignment = Alignment.CenterVertically) {
+    Row(verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier
+            .fillMaxWidth()
+        .clickable(
+            onClick = onClick
+        )
+    ) {
         Icon(
             imageVector = icon,
             contentDescription = "NavigationItem",
@@ -34,9 +41,6 @@ fun NavigationItem(
             color = Color.Black,
             modifier = Modifier
                 .padding(16.dp)
-                .clickable(
-                    onClick = onClick
-                )
         )
     }
 }

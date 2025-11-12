@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.sharp.Home
 import androidx.compose.material.icons.sharp.Money
+import androidx.compose.material.icons.sharp.Person
 import androidx.compose.material.icons.sharp.Shop
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -56,6 +57,7 @@ fun MyScaffold(
                     .width(drawerWidth)
                     .fillMaxHeight()
                     .windowInsetsPadding(WindowInsets.systemBars)
+                    .padding(start = 16.dp)
             ) {
                 Column {
                     Text(
@@ -66,29 +68,30 @@ fun MyScaffold(
                     NavigationItem(
                         text = "Home",
                         onClick = {
-                                navController.popBackStack(Screen.Catalog.route,
-                                    inclusive = false
-                                )
-                            },
+                            navController.popBackStack(
+                                Screen.Catalog.route,
+                                inclusive = false
+                            )
+                        },
                         icon = Icons.Sharp.Home
                     )
                     NavigationItem(
                         text = "Transaction",
-                        onClick ={
+                        onClick = {
                             navController.navigate(Screen.Transaction.route)
                         },
                         icon = Icons.Sharp.Money
                     )
                     NavigationItem(
                         text = "Merchant",
-                        onClick ={
+                        onClick = {
                             navController.navigate(Screen.Merchant.route)
                         },
-                        icon = Icons.Sharp.Shop
+                        icon = Icons.Sharp.Person
                     )
                     NavigationItem(
                         text = "Shop",
-                        onClick ={
+                        onClick = {
                             navController.navigate(Screen.Shop.route)
                         },
                         icon = Icons.Sharp.Shop
