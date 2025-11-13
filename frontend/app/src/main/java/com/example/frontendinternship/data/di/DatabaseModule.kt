@@ -4,7 +4,9 @@ import android.content.Context
 import androidx.room.Room
 import com.example.frontendinternship.data.datasource.local.SalesAppDatabase
 import com.example.frontendinternship.data.datasource.local.dao.DeviceDao
+import com.example.frontendinternship.data.datasource.local.dao.FirmwareDao
 import com.example.frontendinternship.data.datasource.local.dao.MerchantDao
+import com.example.frontendinternship.data.datasource.local.dao.ModelDao
 import com.example.frontendinternship.data.datasource.local.dao.PaymentDao
 import com.example.frontendinternship.data.datasource.local.dao.ProductDao
 import com.example.frontendinternship.data.datasource.local.dao.ReceiptDao
@@ -78,6 +80,16 @@ class DatabaseModule {
         @Provides
         fun provideTransactionItemDao(appDatabase: SalesAppDatabase.AppDatabase): TransactionItemDao {
             return appDatabase.transactionItemDao()
+        }
+
+        @Provides
+        fun provideFirmwareDao(appDatabase: SalesAppDatabase.AppDatabase): FirmwareDao {
+            return appDatabase.firmwareDao()
+        }
+
+        @Provides
+        fun provideModelDao(appDatabase: SalesAppDatabase.AppDatabase): ModelDao {
+            return appDatabase.modelDao()
         }
 
 

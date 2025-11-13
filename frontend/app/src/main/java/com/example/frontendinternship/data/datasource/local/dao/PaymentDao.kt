@@ -17,13 +17,13 @@ interface PaymentDao {
 
 
     @Query("SELECT * FROM CASH_PAYMENT_METHOD WHERE transaction_id IN (:transactionIds)")
-    fun getCashPaymentsByTransactionIds(transactionIds: List<ByteArray>): List<CashPaymentEntity>
+    suspend fun getCashPaymentsByTransactionIds(transactionIds: List<ByteArray>): List<CashPaymentEntity>
 
     @Query("SELECT * FROM COUPON_PAYMENT_METHOD WHERE transaction_id IN (:transactionIds)")
-    fun getCouponPaymentsByTransactionIds(transactionIds: List<ByteArray>): List<CouponPaymentEntity>
+    suspend fun getCouponPaymentsByTransactionIds(transactionIds: List<ByteArray>): List<CouponPaymentEntity>
 
     @Query("SELECT * FROM CREDIT_PAYMENT_METHOD WHERE transaction_id IN (:transactionIds)")
-    fun getCreditPaymentsByTransactionIds(transactionIds: List<ByteArray>): List<CreditPaymentEntity>
+    suspend fun getCreditPaymentsByTransactionIds(transactionIds: List<ByteArray>): List<CreditPaymentEntity>
 
     @Insert
     suspend fun insert(cashPaymentEntity: CashPaymentEntity)

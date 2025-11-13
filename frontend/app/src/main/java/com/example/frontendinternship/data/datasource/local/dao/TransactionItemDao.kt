@@ -24,7 +24,7 @@ interface TransactionItemDao {
     suspend fun getByTransactionId(id: ByteArray): List<TransactionItemEntity>
 
     @Query("SELECT * FROM TRANSACTION_ITEMS WHERE transaction_id IN (:transactionIds)")
-    fun getByTransactionId(transactionIds: List<ByteArray>): List<TransactionItemEntity>
+    suspend fun getByTransactionId(transactionIds: List<ByteArray>): List<TransactionItemEntity>
 
     //@Insert
     //fun insertAll(vararg PRODUCTSs: ProductEntity)

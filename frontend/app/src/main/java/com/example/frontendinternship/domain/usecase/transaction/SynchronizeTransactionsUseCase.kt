@@ -10,8 +10,9 @@ import kotlin.String
 
 class SynchronizeTransactionsUseCase @Inject constructor(
     private val synchronizeRepository: SynchronizeRepository,
-    private var lastSynchronization: Long = System.currentTimeMillis() - 60 * 60 * 1000,
 ) : ISynchronizeTransactionsUseCase {
+    private var lastSynchronization: Long = System.currentTimeMillis() - 60 * 60 * 1000
+
     override suspend fun invoke(forceSync: Boolean): Boolean {
         val currentTime = System.currentTimeMillis()
         if (currentTime - lastSynchronization > 36000 || forceSync) {
