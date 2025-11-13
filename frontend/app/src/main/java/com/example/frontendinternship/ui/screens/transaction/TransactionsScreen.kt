@@ -47,7 +47,7 @@ fun TransactionsScreen(
                 },
                 modifier = Modifier
                     .size(
-                        width = LocalDimensions.current.viewBig,
+                        width = LocalDimensions.current.viewLarge,
                         height = LocalDimensions.current.viewBig
                     ),
                 colors = ButtonDefaults.buttonColors(

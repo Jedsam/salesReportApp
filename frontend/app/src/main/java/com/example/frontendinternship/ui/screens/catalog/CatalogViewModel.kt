@@ -38,7 +38,6 @@ class CatalogViewModel @Inject constructor(
 
     init {
         loadAllProducts()
-        updateLoginState()
         // startReportCheckLoop()
     }
 

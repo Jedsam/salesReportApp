@@ -22,6 +22,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.frontendinternship.domain.model.ProductModel
@@ -62,6 +65,13 @@ fun CatalogScreen(
         )
         productViewModel.resetProduct()
     }
+    val lifecycleOwner = LocalLifecycleOwner.current
+
+    LaunchedEffect(lifecycleOwner) {
+        lifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
+            viewModel.updateLoginState()
+        }
+    }
     MyScaffold(
         navController = navController,
         topBarRightSideContent = {
@@ -75,7 +85,7 @@ fun CatalogScreen(
                 },
                 modifier = Modifier
                     .size(
-                        width = LocalDimensions.current.viewBig,
+                        width = LocalDimensions.current.viewLarge,
                         height = LocalDimensions.current.viewBig
                     ),
                 colors = ButtonDefaults.buttonColors(
