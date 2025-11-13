@@ -4,5 +4,5 @@ import com.example.frontendinternship.domain.model.TransactionModel
 
 
 interface SynchronizeRepository {
-    suspend fun synchronize(loadTransactions: List<TransactionModel>): Boolean
+    suspend fun synchronize(timeString: String): Boolean
 }

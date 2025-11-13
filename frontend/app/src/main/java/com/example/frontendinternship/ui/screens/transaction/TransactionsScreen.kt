@@ -117,7 +117,7 @@ class FakeCheckUserLoggedInUseCase : ICheckUserLoggedInUseCase {
 }
 
 class FakeSynchronizeTransactionsUseCase : ISynchronizeTransactionsUseCase {
-    override suspend fun invoke(): Boolean {
+    override suspend fun invoke(forceSync: Boolean): Boolean {
         return false
     }
 

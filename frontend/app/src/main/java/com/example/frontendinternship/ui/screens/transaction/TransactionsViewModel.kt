@@ -57,7 +57,7 @@ class TransactionsViewModel @Inject constructor(
             }
             _uiState.update { currentState ->
                 currentState.copy(
-                    syncResult = if (synchronizeTransactionsUseCase())
+                    syncResult = if (synchronizeTransactionsUseCase(forceSync = true))
                         APIOperationStateEnum.SUCCESS
                     else APIOperationStateEnum.FAILURE
                 )

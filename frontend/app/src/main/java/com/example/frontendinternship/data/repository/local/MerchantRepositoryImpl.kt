@@ -1,8 +1,8 @@
 package com.example.frontendinternship.data.repository.local
 
 import com.example.frontendinternship.data.datasource.local.dao.MerchantDao
-import com.example.frontendinternship.data.mapper.toData
-import com.example.frontendinternship.data.mapper.toDomain
+import com.example.frontendinternship.data.datasource.local.mapper.toData
+import com.example.frontendinternship.data.datasource.local.mapper.toDomain
 import com.example.frontendinternship.data.model.MerchantEntity
 import com.example.frontendinternship.domain.model.MerchantModel
 import com.example.frontendinternship.domain.repository.MerchantRepository

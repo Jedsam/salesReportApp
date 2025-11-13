@@ -28,6 +28,9 @@ interface TransactionDao {
     @Insert
     suspend fun addAll(transactions: List<TransactionEntity>)
 
+    @Query("SELECT * FROM transactions WHERE created_at > :thresholdTime")
+    fun getAllFromTime(thresholdTime: String): List<TransactionEntity>
+
     //@Insert
     //fun insertAll(vararg PRODUCTSs: ProductEntity)
 

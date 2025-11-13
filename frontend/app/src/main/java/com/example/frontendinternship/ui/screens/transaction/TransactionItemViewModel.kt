@@ -2,12 +2,8 @@ package com.example.frontendinternship.ui.screens.transaction
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.frontendinternship.domain.model.TransactionItemModel
-import com.example.frontendinternship.domain.model.TransactionModel
 import com.example.frontendinternship.domain.model.TransactionWithItemModel
 import com.example.frontendinternship.domain.usecase.transaction.ILoadTransactionItemsUseCase
-import com.example.frontendinternship.domain.usecase.transaction.LoadTransactionItemsUseCase
-import com.example.frontendinternship.domain.usecase.transaction.LoadTransactionUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow

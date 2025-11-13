@@ -1,4 +1,4 @@
-package com.example.frontendinternship.data.mapper
+package com.example.frontendinternship.data.datasource.local.mapper
 
 import com.example.frontendinternship.data.model.ProductEntity
 import com.example.frontendinternship.data.model.TransactionItemEntity
@@ -6,7 +6,6 @@ import com.example.frontendinternship.data.model.TransactionItemWithProduct
 import com.example.frontendinternship.domain.model.ProductWithCount
 import com.example.frontendinternship.domain.model.TransactionItemModel
 import com.example.frontendinternship.domain.model.getCost
-import com.example.frontendinternship.ui.states.PaymentState
 import com.example.frontendinternship.utils.toBytes
 import com.example.frontendinternship.utils.toUUID
 import java.util.UUID

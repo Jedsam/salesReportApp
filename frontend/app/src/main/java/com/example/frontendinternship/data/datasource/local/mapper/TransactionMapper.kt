@@ -1,9 +1,7 @@
-package com.example.frontendinternship.data.mapper
+package com.example.frontendinternship.data.datasource.local.mapper
 
-import com.example.frontendinternship.data.model.ProductEntity
 import com.example.frontendinternship.data.model.TransactionEntity
 import com.example.frontendinternship.data.model.TransactionWithItemsAndProducts
-import com.example.frontendinternship.domain.model.ProductModel
 import com.example.frontendinternship.domain.model.TransactionModel
 import com.example.frontendinternship.domain.model.TransactionWithItemModel
 import com.example.frontendinternship.ui.states.PaymentState

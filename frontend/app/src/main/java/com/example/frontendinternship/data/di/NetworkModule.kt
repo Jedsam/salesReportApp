@@ -2,6 +2,8 @@ package com.example.frontendinternship.data.di
 
 import android.content.Context
 import com.backend.proto.merchant.MerchantServiceGrpcKt
+import com.backend.proto.sync.SyncServiceGrpc
+import com.backend.proto.sync.SyncServiceGrpcKt
 import com.backend.proto.user.AuthServiceGrpcKt
 import com.example.frontendinternship.R
 import com.example.frontendinternship.data.network.ApiURL
@@ -64,5 +66,11 @@ object GrpcModule {
     @Singleton
     fun provideMerchantServiceStub(channel: ManagedChannel): MerchantServiceGrpcKt.MerchantServiceCoroutineStub {
         return MerchantServiceGrpcKt.MerchantServiceCoroutineStub(channel)
+    }
+
+    @Provides
+    @Singleton
+    fun provideSyncServiceStub(channel: ManagedChannel): SyncServiceGrpcKt.SyncServiceCoroutineStub {
+        return SyncServiceGrpcKt.SyncServiceCoroutineStub(channel)
     }
 }

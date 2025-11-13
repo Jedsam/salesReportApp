@@ -1,7 +1,7 @@
 package com.example.frontendinternship.data.repository.local
 
 import com.example.frontendinternship.data.datasource.local.dao.ReceiptDao
-import com.example.frontendinternship.data.mapper.toDomain
+import com.example.frontendinternship.data.datasource.local.mapper.toDomain
 import com.example.frontendinternship.data.model.ReceiptEntity
 import com.example.frontendinternship.domain.model.PAYMENT_METHOD
 import com.example.frontendinternship.domain.model.ReceiptModel

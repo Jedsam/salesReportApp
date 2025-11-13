@@ -1,4 +1,4 @@
-package com.example.frontendinternship.data.mapper
+package com.example.frontendinternship.data.datasource.local.mapper
 
 import com.example.frontendinternship.data.model.MerchantEntity
 import com.example.frontendinternship.domain.model.MerchantModel

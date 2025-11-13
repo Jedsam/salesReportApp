@@ -4,8 +4,8 @@ import com.example.frontendinternship.data.datasource.local.dao.DeviceDao
 import com.example.frontendinternship.data.datasource.local.dao.PaymentDao
 import com.example.frontendinternship.data.datasource.local.dao.TransactionDao
 import com.example.frontendinternship.data.datasource.local.dao.TransactionItemDao
-import com.example.frontendinternship.data.mapper.toData
-import com.example.frontendinternship.data.mapper.toDomain
+import com.example.frontendinternship.data.datasource.local.mapper.toData
+import com.example.frontendinternship.data.datasource.local.mapper.toDomain
 import com.example.frontendinternship.data.model.CashPaymentEntity
 import com.example.frontendinternship.data.model.CouponPaymentEntity
 import com.example.frontendinternship.data.model.CreditPaymentEntity

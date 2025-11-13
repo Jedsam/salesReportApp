@@ -12,6 +12,9 @@ interface ProductDao {
     @Query("SELECT * FROM PRODUCTS WHERE is_deleted = 0")
     suspend fun getAllNotDeleted(): List<ProductEntity>
 
+    @Query("SELECT * FROM PRODUCTS")
+    suspend fun getAll(): List<ProductEntity>
+
     @Query("UPDATE products SET is_deleted = 1 WHERE product_id = :uuid")
     suspend fun markDeleted(uuid: ByteArray)
 

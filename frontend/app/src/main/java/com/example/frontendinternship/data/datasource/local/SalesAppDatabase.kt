@@ -3,7 +3,9 @@ package com.example.frontendinternship.data.datasource.local
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.example.frontendinternship.data.datasource.local.dao.DeviceDao
+import com.example.frontendinternship.data.datasource.local.dao.FirmwareDao
 import com.example.frontendinternship.data.datasource.local.dao.MerchantDao
+import com.example.frontendinternship.data.datasource.local.dao.ModelDao
 import com.example.frontendinternship.data.datasource.local.dao.PaymentDao
 import com.example.frontendinternship.data.datasource.local.dao.ProductDao
 import com.example.frontendinternship.data.datasource.local.dao.ReceiptDao
@@ -55,5 +57,7 @@ class SalesAppDatabase {
         abstract fun transactionItemDao(): TransactionItemDao
         abstract fun deviceDao(): DeviceDao
         abstract fun paymentDao(): PaymentDao
+        abstract fun modelDao(): ModelDao
+        abstract fun firmwareDao(): FirmwareDao
     }
 }
