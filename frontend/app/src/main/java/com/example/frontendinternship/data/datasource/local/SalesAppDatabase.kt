@@ -43,7 +43,7 @@ class SalesAppDatabase {
             CouponPaymentEntity::class,
             CreditPaymentEntity::class,
         ],
-        version = 3
+        version = 4
     )
     abstract class AppDatabase : RoomDatabase() {
         abstract fun receiptDao(): ReceiptDao

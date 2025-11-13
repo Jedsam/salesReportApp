@@ -13,6 +13,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.sharp.ArrowForwardIos
 import androidx.compose.material.icons.automirrored.sharp.Note
+import androidx.compose.material.icons.sharp.Cancel
 import androidx.compose.material.icons.sharp.CreditCard
 import androidx.compose.material.icons.sharp.Money
 import androidx.compose.material3.HorizontalDivider
@@ -91,6 +92,11 @@ fun TransactionList(
                             PaymentTypeEnum.COUPON -> {
                                 icon = Icons.AutoMirrored.Sharp.Note
                                 paymentMethodText = "Coupon"
+                            }
+
+                            PaymentTypeEnum.CANCEL -> {
+                                icon = Icons.Sharp.Cancel
+                                paymentMethodText = "Cancel"
                             }
                         }
                         Icon(

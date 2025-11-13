@@ -62,7 +62,10 @@ class PaymentViewModel @Inject constructor(
 
     fun cancelPayment(productBasket: List<ProductWithCount>) {
         viewModelScope.launch {
-            createCancelTransactionUseCase(uiState.value.payment, productBasket)
+            createCancelTransactionUseCase(
+                uiState.value.payment.copy(paymentType = PaymentTypeEnum.CANCEL),
+                productBasket
+            )
         }
     }
 
@@ -89,6 +92,10 @@ class PaymentViewModel @Inject constructor(
                         uiState.value.couponPayment,
                         productBasket
                     )
+
+                PaymentTypeEnum.CANCEL -> {
+
+                }
             }
         }
     }

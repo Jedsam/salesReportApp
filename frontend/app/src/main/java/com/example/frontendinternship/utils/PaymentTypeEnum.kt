@@ -3,7 +3,8 @@ package com.example.frontendinternship.utils
 enum class PaymentTypeEnum(val value: String) {
     CASH("cash"),
     CREDIT("credit"),
-    COUPON("coupon");
+    COUPON("coupon"),
+    CANCEL("cancel");
 
     companion object {
         fun fromString(value: String): PaymentTypeEnum? {

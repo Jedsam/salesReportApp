@@ -84,7 +84,7 @@ CREATE TABLE IF NOT EXISTS TRANSACTIONS (
     status          TEXT NOT NULL DEFAULT 'active'
         CHECK(status IN ('active', 'suspended', 'closed')),
     payment_type    TEXT NOT NULL
-        CHECK(payment_type IN ('cash', 'credit', 'coupon')),
+        CHECK(payment_type IN ('cash', 'credit', 'coupon', 'cancel')),
     FOREIGN KEY(device_id) REFERENCES DEVICES(device_id) 
 );
 
