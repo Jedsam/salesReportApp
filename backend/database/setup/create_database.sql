@@ -146,7 +146,6 @@ CREATE TABLE IF NOT EXISTS `TRANSACTION_ITEMS` (
     `transaction_id`       BINARY(16) NOT NULL,
     `product_id`           BINARY(16) NOT NULL,
     `product_name`        VARCHAR(255)    NOT NULL,
-    `sku`                 VARCHAR(20)     NOT NULL,
     `unit_price`          DECIMAL(10, 2)  NOT NULL,
     `quantity`            DECIMAL(10, 2)  NOT NULL,
     `vat_rate`            DECIMAL(10, 2)  NOT NULL,
