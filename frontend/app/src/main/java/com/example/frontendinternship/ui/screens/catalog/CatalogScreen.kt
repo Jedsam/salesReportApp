@@ -90,7 +90,7 @@ fun CatalogScreen(
                 )
             ) {
                 Text(
-                    text = "Login",
+                    text = if (uiState.isLoggedIn) "Logout" else "Login",
                     fontSize = LocalTextFormat.current.sizeBig,
                     color = MaterialTheme.colorScheme.primary
                 )
@@ -197,6 +197,7 @@ class FakeLogOutUseCase : ILogOutUseCase {
 
     }
 }
+
 class FakeAddProductsUseCase : IAddProductsUseCase {
     override suspend fun invoke(products: List<ProductModel>) {
     }
