@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.frontendinternship.domain.model.ProductModel
 import com.example.frontendinternship.domain.usecase.authentication.ICheckUserLoggedInUseCase
+import com.example.frontendinternship.domain.usecase.authentication.ILogOutUseCase
 import com.example.frontendinternship.domain.usecase.product.IAddProductsUseCase
 import com.example.frontendinternship.domain.usecase.product.IEditProductsUseCase
 import com.example.frontendinternship.domain.usecase.product.ILoadProductsUseCase
@@ -24,8 +25,8 @@ class CatalogViewModel @Inject constructor(
     private val editProductsUseCase: IEditProductsUseCase,
     private val removeProductsUseCase: IRemoveProductsUseCase,
     private val checkUserLoggedInUseCase: ICheckUserLoggedInUseCase,
-
-    ) :
+    private val logOutUseCase: ILogOutUseCase,
+) :
     ViewModel() {
     data class ProductUiState(
         var productList: List<ProductModel> = emptyList(),
@@ -39,6 +40,17 @@ class CatalogViewModel @Inject constructor(
         loadAllProducts()
         updateLoginState()
         // startReportCheckLoop()
+    }
+
+    fun logOut() {
+        viewModelScope.launch {
+            logOutUseCase()
+            _uiState.update { currentState ->
+                currentState.copy(
+                    isLoggedIn = false
+                )
+            }
+        }
     }
 
     fun updateLoginState() {

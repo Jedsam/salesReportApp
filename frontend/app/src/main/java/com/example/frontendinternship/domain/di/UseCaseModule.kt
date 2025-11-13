@@ -2,8 +2,10 @@ package com.example.frontendinternship.domain.di
 
 import com.example.frontendinternship.domain.usecase.authentication.CheckUserLoggedInUseCase
 import com.example.frontendinternship.domain.usecase.authentication.ICheckUserLoggedInUseCase
+import com.example.frontendinternship.domain.usecase.authentication.ILogOutUseCase
 import com.example.frontendinternship.domain.usecase.product.ILoadProductsUseCase
 import com.example.frontendinternship.domain.usecase.authentication.ILoginUseCase
+import com.example.frontendinternship.domain.usecase.authentication.LogOutUseCase
 import com.example.frontendinternship.domain.usecase.product.LoadProductsUseCase
 import com.example.frontendinternship.domain.usecase.authentication.LoginUseCase
 import com.example.frontendinternship.domain.usecase.merchant.ILoadMerchantsUseCase
@@ -134,4 +136,8 @@ abstract class UseCaseModule {
     abstract fun bindCreateCancelTransactionUseCase(
         impl: CreateCancelTransactionUseCase
     ): ICreateCancelTransactionUseCase
+    @Binds
+    abstract fun bindLogOutUseCase(
+        impl: LogOutUseCase
+    ): ILogOutUseCase
 }

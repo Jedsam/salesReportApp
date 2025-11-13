@@ -26,6 +26,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.frontendinternship.domain.model.ProductModel
 import com.example.frontendinternship.domain.model.getCost
+import com.example.frontendinternship.domain.usecase.authentication.ILogOutUseCase
 import com.example.frontendinternship.domain.usecase.product.IAddProductsUseCase
 import com.example.frontendinternship.domain.usecase.product.IEditProductsUseCase
 import com.example.frontendinternship.domain.usecase.product.ILoadProductsUseCase
@@ -67,7 +68,7 @@ fun CatalogScreen(
             Button(
                 onClick = {
                     if (uiState.isLoggedIn) {
-                        //viewModel.logOut()
+                        viewModel.logOut()
                     } else {
                         navController.navigate(Screen.Login.route)
                     }
@@ -182,6 +183,7 @@ fun NewCatalogScreenPreview() {
                 FakeEditProductsUseCase(),
                 FakeRemoveProductsUseCase(),
                 FakeCheckUserLoggedInUseCase(),
+                FakeLogOutUseCase(),
 
                 ),
             productViewModel = productViewModel.value,
@@ -190,6 +192,11 @@ fun NewCatalogScreenPreview() {
     }
 }
 
+class FakeLogOutUseCase : ILogOutUseCase {
+    override suspend fun invoke() {
+
+    }
+}
 class FakeAddProductsUseCase : IAddProductsUseCase {
     override suspend fun invoke(products: List<ProductModel>) {
     }
