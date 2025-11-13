@@ -1,0 +1,111 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_outer_classname = "SynchProto";
+option java_package = "com.backend.proto.synch";
+
+
+
+message Shop {
+  bytes shop_id = 1;
+  bytes merchant_id = 2;
+  string name = 3;
+  string address = 4;
+  string phone = 5;
+  string email = 6;
+  string created_at = 7;
+  string status = 8;
+}
+
+message Firmware {
+  bytes firmware_id = 1;
+  string firmware_version = 2;
+}
+
+message Model {
+  bytes model_id = 1;
+  string model_name = 2;
+}
+
+message Device {
+  bytes device_id = 1;
+  bytes shop_id = 2;
+  bytes firmware_id = 3;
+  bytes model_id = 4;
+  string last_seen = 5;
+  string created_at = 6;
+  string status = 7;
+}
+
+message Product {
+  bytes product_id = 1;
+  string name = 2;
+  double price = 3;
+  double vat_rate = 4;
+  bool is_deleted = 5;
+  string created = 6;
+}
+
+message Transaction {
+  bytes transaction_id = 1;
+  bytes device_id = 2;
+  double subtotal = 3;
+  double total = 4;
+  string currency = 5;
+  string auth_code = 6;
+  string created_at = 7;
+  string status = 8;
+  string payment_type = 9;
+}
+
+message CashPaymentMethod {
+  bytes transaction_id = 1;
+  double received_amount = 2;
+  double change_given = 3;
+}
+
+message CouponPaymentMethod {
+  bytes transaction_id = 1;
+  string coupon_code = 2;
+  double coupon_value = 3;
+  string expiry_date = 4;
+}
+
+message CreditPaymentMethod {
+  bytes transaction_id = 1;
+  string card_scheme = 2;
+  string card_last4 = 3;
+  string auth_code = 4;
+}
+
+message TransactionItem {
+  bytes transaction_item_id = 1;
+  bytes transaction_id = 2;
+  bytes product_id = 3;
+  string product_name = 4;
+  double unit_price = 5;
+  double quantity = 6;
+  double vat_rate = 7;
+  double total = 8;
+}
+
+message SynchRequest {
+  Shop shop = 1;
+  Firmware firmware = 2;
+  Model model = 3;
+  Device device = 4;
+  repeated Product products = 5;
+  repeated Transaction transactions = 6;
+  repeated CashPaymentMethod cash_payments = 7;
+  repeated CouponPaymentMethod coupon_payments = 8;
+  repeated CreditPaymentMethod credit_payments = 9;
+  repeated TransactionItem transaction_items = 10;
+}
+
+message SynchResponse {
+  int32 result = 1,
+}
+
+service MerchantService {
+  rpc SynchDevice(SynchRequest) returns (SynchResponse);
+}
