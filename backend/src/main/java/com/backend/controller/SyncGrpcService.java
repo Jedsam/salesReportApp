@@ -75,20 +75,20 @@ public class SyncGrpcService extends SyncServiceImplBase {
       transactionPaymentType.put(txId, paymentType);
 
       switch (paymentType) {
-        case "CANCEL":
+        case "cancel":
           canceledReceiptsCount++;
           canceledReceiptsAmount += transactionTotal;
 
           break;
-        case "CASH":
+        case "cash":
           cashPaymentAmount += transactionTotal;
           totalAmount += transactionTotal;
           break;
-        case "CREDIT":
+        case "credit":
           creditPaymentAmount += transactionTotal;
           totalAmount += transactionTotal;
           break;
-        case "COUPON":
+        case "coupon":
           couponPaymentAmount += transactionTotal;
           totalAmount += transactionTotal;
           break;
@@ -102,7 +102,7 @@ public class SyncGrpcService extends SyncServiceImplBase {
     for (TransactionItem item : syncRequest.getTransactionItemsList()) {
       String paymentType = transactionPaymentType.get(item.getTransactionId());
 
-      if (paymentType != null && !paymentType.equals("CANCEL")) {
+      if (paymentType != null && !paymentType.equals("cancel")) {
         double itemTotal = item.getTotal();
         double vatRate = item.getVatRate();
 

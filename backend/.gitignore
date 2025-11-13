@@ -45,4 +45,6 @@ Thumbs.db
 *.key
 *.crt
 
+/reports/
+
 .factorypath
