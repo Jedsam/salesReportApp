@@ -1,8 +1,8 @@
 syntax = "proto3";
 
 option java_multiple_files = true;
-option java_outer_classname = "SynchProto";
-option java_package = "com.backend.proto.synch";
+option java_outer_classname = "SyncProto";
+option java_package = "com.backend.proto.sync";
 
 
 
@@ -89,7 +89,7 @@ message TransactionItem {
   double total = 8;
 }
 
-message SynchRequest {
+message SyncRequest {
   Shop shop = 1;
   Firmware firmware = 2;
   Model model = 3;
@@ -102,10 +102,10 @@ message SynchRequest {
   repeated TransactionItem transaction_items = 10;
 }
 
-message SynchResponse {
+message SyncResponse {
   int32 result = 1;
 }
 
-service SynchService {
-  rpc SynchDevice(SynchRequest) returns (SynchResponse);
+service SyncService {
+  rpc SyncDevice(SyncRequest) returns (SyncResponse);
 }
