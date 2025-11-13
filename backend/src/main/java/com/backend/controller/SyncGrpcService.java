@@ -69,7 +69,7 @@ public class SyncGrpcService extends SyncServiceImplBase {
 
     for (Transaction transaction : syncRequest.getTransactionsList()) {
       ByteString txId = transaction.getTransactionId();
-      String paymentType = transaction.getPaymentType().toUpperCase();
+      String paymentType = transaction.getPaymentType();
       double transactionTotal = transaction.getTotal();
 
       transactionPaymentType.put(txId, paymentType);
@@ -78,7 +78,6 @@ public class SyncGrpcService extends SyncServiceImplBase {
         case "cancel":
           canceledReceiptsCount++;
           canceledReceiptsAmount += transactionTotal;
-
           break;
         case "cash":
           cashPaymentAmount += transactionTotal;
@@ -110,11 +109,11 @@ public class SyncGrpcService extends SyncServiceImplBase {
 
         if (Math.abs(vatRate - 0.0) < 0.0001) {
           vatRate0Amount += vatAmount;
-        } else if (Math.abs(vatRate - 0.01) < 0.0001) {
+        } else if (Math.abs(vatRate - 1.00) < 0.0001) {
           vatRate1Amount += vatAmount;
-        } else if (Math.abs(vatRate - 0.10) < 0.0001) {
+        } else if (Math.abs(vatRate - 10.0) < 0.0001) {
           vatRate10Amount += vatAmount;
-        } else if (Math.abs(vatRate - 0.20) < 0.0001) {
+        } else if (Math.abs(vatRate - 20.0) < 0.0001) {
           vatRate20Amount += vatAmount;
         }
       }
