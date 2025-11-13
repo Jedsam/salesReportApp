@@ -7,4 +7,5 @@ import java.util.UUID
 
 interface UserRepository {
     suspend fun getCurrentUserID(): UUID
+    suspend fun checkIfTokenNotEmpty(): Boolean
 }
