@@ -32,7 +32,6 @@ import androidx.compose.ui.unit.dp
 import com.example.frontendinternship.domain.model.ProductModel
 import com.example.frontendinternship.domain.model.ProductWithCount
 import com.example.frontendinternship.ui.theme.FrontendInternshipTheme
-import com.example.frontendinternship.ui.theme.LocalColors
 import com.example.frontendinternship.ui.theme.LocalDimensions
 import com.example.frontendinternship.ui.theme.LocalPadding
 import com.example.frontendinternship.ui.theme.LocalTextFormat
@@ -47,8 +46,7 @@ fun OrderProductList(
     onDecrementButtonClicked: (ProductWithCount) -> Unit,
     content: @Composable () -> Unit,
 ) {
-    Box(
-    ) {
+    Box(){
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(LocalPadding.current.Normal),
             modifier = Modifier
@@ -101,7 +99,7 @@ fun OrderProductList(
                                 tint = MaterialTheme.colorScheme.secondary
                             )
                         }
-                        Text(text = String.format("%03d", product.count))
+                        Text(text = String.format("%3.1f", product.count))
                         IconButton(
                             onClick ={onIncrementButtonClicked(product) },
                         ) {
@@ -137,28 +135,28 @@ fun OrderProductListPreview() {
                             productName = "MyProduct1",
                             vatRate = 10.0,
                             price = 30.0
-                        ), 4
+                        ), 4.0
                     ),
                     ProductWithCount(
                         ProductModel(
                             productName = "MyBigProductNameItsBigItsVeryBig",
                             vatRate = 0.0,
                             price = 15.25
-                        ), 10
+                        ), 10.0
                     ),
                     ProductWithCount(
                         ProductModel(
                             productName = "mp2",
                             vatRate = 20.0,
                             price = 0.00
-                        ), 1
+                        ), 1.0
                     ),
                     ProductWithCount(
                         ProductModel(
                             productName = "$*^($@!*@#",
                             vatRate = 5.0,
                             price = 5.49812940
-                        ), 594
+                        ), 594.0
                     ),
                 ),
                 paddingValue = innerPadding,
@@ -170,7 +168,7 @@ fun OrderProductListPreview() {
                     thickness = 0.5.dp,
                     color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.2f)
                 )
-                Column() {
+                Column{
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()

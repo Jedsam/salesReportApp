@@ -14,7 +14,6 @@ data class TransactionItemModel(
     val transactionItemId: UUID? = UUID.randomUUID(),
     val product: ProductModel = ProductModel(),
     val productName: String = "PRODUCT_NAME",
-    val sku: String = "a/a/a/a",
     val unitPrice: Double = 0.0,
     val quantity: Double = 0.0,
     val vatRate: Double = 0.0,

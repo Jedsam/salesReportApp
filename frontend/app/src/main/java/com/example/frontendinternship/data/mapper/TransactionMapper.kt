@@ -6,6 +6,7 @@ import com.example.frontendinternship.data.model.TransactionWithItemsAndProducts
 import com.example.frontendinternship.domain.model.ProductModel
 import com.example.frontendinternship.domain.model.TransactionModel
 import com.example.frontendinternship.domain.model.TransactionWithItemModel
+import com.example.frontendinternship.ui.states.PaymentState
 import com.example.frontendinternship.utils.PaymentTypeEnum
 import com.example.frontendinternship.utils.StatusEnum
 import com.example.frontendinternship.utils.toBytes
@@ -38,11 +39,26 @@ fun TransactionModel.toData(deviceId: UUID): TransactionEntity {
         deviceId = deviceId.toBytes(),
     )
 }
+
 fun TransactionWithItemsAndProducts.toDomain(): TransactionWithItemModel {
     return TransactionWithItemModel(
         transaction = this.transaction.toDomain(),
-        transactionItem = this.transactionItemsWithProduct.map {
-            item -> item.toDomain()
+        transactionItem = this.transactionItemsWithProduct.map { item ->
+            item.toDomain()
         },
+    )
+}
+
+fun PaymentState.toData(deviceId: ByteArray): TransactionEntity {
+    return TransactionEntity(
+        transactionId = this.transactionId.toBytes(),
+        total = this.total,
+        subtotal = this.subtotal,
+        status = this.status.value,
+        paymentType = this.paymentType.value,
+        createdAt = this.createdAt,
+        authCode = this.authCode,
+        currency = this.currency,
+        deviceId = deviceId,
     )
 }

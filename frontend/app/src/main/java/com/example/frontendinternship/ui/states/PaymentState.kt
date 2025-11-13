@@ -2,7 +2,7 @@ package com.example.frontendinternship.ui.states
 
 import android.icu.text.SimpleDateFormat
 import com.example.frontendinternship.utils.PaymentTypeEnum
-import com.example.frontendinternship.utils.TransactionStatusEnum
+import com.example.frontendinternship.utils.StatusEnum
 import java.util.Date
 import java.util.Locale
 import java.util.UUID
@@ -17,6 +17,6 @@ data class PaymentState(
         "yyyy-MM-dd HH:mm:ss",
         Locale.getDefault()
     ).format(Date(System.currentTimeMillis())),
-    val status: TransactionStatusEnum = TransactionStatusEnum.ACTIVE,
+    val status: StatusEnum = StatusEnum.ACTIVE,
     val paymentType: PaymentTypeEnum = PaymentTypeEnum.CREDIT,
 )

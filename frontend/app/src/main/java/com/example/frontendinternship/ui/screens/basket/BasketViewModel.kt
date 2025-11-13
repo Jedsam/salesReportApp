@@ -15,7 +15,10 @@ class BasketViewModel @Inject constructor() :
     ViewModel() {
     data class BasketUiState(
         var productBasket: List<ProductWithCount> = emptyList(),
-        var lastAddedProduct: ProductWithCount = ProductWithCount(ProductModel(productName = ""), 0)
+        var lastAddedProduct: ProductWithCount = ProductWithCount(
+            ProductModel(productName = ""),
+            0.0
+        )
     )
 
     private val _uiState = MutableStateFlow(BasketUiState())
@@ -55,7 +58,7 @@ class BasketViewModel @Inject constructor() :
                         productBasket = newBasket
                     )
                 }
-            } else if (decrementedValue == 0) {
+            } else if (decrementedValue <= 0.0) {
                 // Delete the element from the list
                 _uiState.update { currentState ->
                     val newBasket = currentState.productBasket.toMutableList()
@@ -76,7 +79,7 @@ class BasketViewModel @Inject constructor() :
         if (existingProduct == null) {
             _uiState.update { currentState ->
                 val newBasket = currentState.productBasket.toMutableList()
-                val lastAddedProductWithCount = ProductWithCount(product, count = 1)
+                val lastAddedProductWithCount = ProductWithCount(product, count = 1.0)
                 newBasket.add(lastAddedProductWithCount)
                 currentState.copy(
                     lastAddedProduct = lastAddedProductWithCount,

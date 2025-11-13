@@ -28,7 +28,6 @@ data class TransactionItemEntity(
     @ColumnInfo(name = "transaction_id") val transactionId: ByteArray,
     @ColumnInfo(name = "product_id") val productId: ByteArray,
     @ColumnInfo(name = "product_name") val productName: String,
-    @ColumnInfo(name = "sku") val sku: String,
     @ColumnInfo(name = "unit_price") val unitPrice: Double,
     @ColumnInfo(name = "quantity") val quantity: Double,
     @ColumnInfo(name = "vat_rate") val vatRate: Double,

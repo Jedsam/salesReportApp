@@ -120,7 +120,6 @@ CREATE TABLE IF NOT EXISTS TRANSACTION_ITEMS (
     transaction_id       BLOB NOT NULL,
     product_id           BLOB NOT NULL,
     product_name         TEXT NOT NULL,
-    sku                  TEXT NOT NULL,
     unit_price           REAL NOT NULL,
     quantity             REAL NOT NULL,
     vat_rate             REAL NOT NULL,

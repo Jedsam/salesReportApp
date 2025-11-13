@@ -116,7 +116,8 @@ fun Navigation(
         ) {
             PaymentScreen(
                 navController = navController,
-                viewModel = paymentViewModel
+                viewModel = paymentViewModel,
+                basketViewModel = basketViewModel,
             )
         }
         composable(

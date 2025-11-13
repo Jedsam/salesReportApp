@@ -29,8 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.frontendinternship.domain.model.UserModel
-import com.example.frontendinternship.domain.usecase.authentication.ILoginUseCase
+import com.example.frontendinternship.domain.model.ProductWithCount
 import com.example.frontendinternship.domain.usecase.transaction.ICreateCancelTransactionUseCase
 import com.example.frontendinternship.domain.usecase.transaction.ICreateCashTransactionUseCase
 import com.example.frontendinternship.domain.usecase.transaction.ICreateCouponTransactionUseCase
@@ -41,6 +40,7 @@ import com.example.frontendinternship.ui.components.RoundedTextField
 import com.example.frontendinternship.ui.components.MyScaffold
 import com.example.frontendinternship.ui.components.WifiOnorOff
 import com.example.frontendinternship.ui.navigation.Screen
+import com.example.frontendinternship.ui.screens.basket.BasketViewModel
 import com.example.frontendinternship.ui.states.CashPaymentState
 import com.example.frontendinternship.ui.states.CouponPaymentState
 import com.example.frontendinternship.ui.states.CreditPaymentState
@@ -55,8 +55,10 @@ import com.example.frontendinternship.utils.PaymentTypeEnum
 fun PaymentScreen(
     navController: NavController,
     viewModel: PaymentViewModel = hiltViewModel(),
+    basketViewModel: BasketViewModel,
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    val basketTransferState by basketViewModel.uiState.collectAsState()
     MyScaffold(
         navController = navController,
         containerColor = MaterialTheme.colorScheme.background,
@@ -74,7 +76,7 @@ fun PaymentScreen(
                 RoundedButton(
                     buttonText = "Charge ${"%.2f".format(uiState.payment.total)}TL",
                     onButtonPress = {
-                        viewModel.chargePayment()
+                        viewModel.chargePayment(basketTransferState.productBasket)
                         navController.popBackStack(
                             Screen.Catalog.route,
                             inclusive = false
@@ -90,7 +92,7 @@ fun PaymentScreen(
                 RoundedButton(
                     buttonText = "Cancel",
                     onButtonPress = {
-                        viewModel.cancelPayment()
+                        viewModel.cancelPayment(basketTransferState.productBasket)
                         navController.popBackStack(
                             Screen.Catalog.route,
                             inclusive = false
@@ -292,17 +294,28 @@ fun PaymentScreen(
 @Preview
 @Composable
 fun PaymentScreenCashPreview() {
-    val paymentViewModel = remember { mutableStateOf(PaymentViewModel(
-        FakeCreateCancelTransactionUseCase(),
-        FakeCreateCashTransactionUseCase(),
-        FakeCreateCouponTransactionUseCase(),
-        FakeCreateCreditTransactionUseCase(),
-    )) }
+    val paymentViewModel = remember {
+        mutableStateOf(
+            PaymentViewModel(
+                FakeCreateCancelTransactionUseCase(),
+                FakeCreateCashTransactionUseCase(),
+                FakeCreateCouponTransactionUseCase(),
+                FakeCreateCreditTransactionUseCase(),
+            )
+        )
+    }
+    val basketViewModel = remember {
+        mutableStateOf(
+            BasketViewModel(
+            )
+        )
+    }
     paymentViewModel.value.changeToCashPayment()
     FrontendInternshipTheme {
         PaymentScreen(
             navController = rememberNavController(),
-            viewModel = paymentViewModel.value
+            viewModel = paymentViewModel.value,
+            basketViewModel = basketViewModel.value,
         )
     }
 }
@@ -310,17 +323,28 @@ fun PaymentScreenCashPreview() {
 @Preview
 @Composable
 fun PaymentScreenCreditPreview() {
-    val paymentViewModel = remember { mutableStateOf(PaymentViewModel(
-        FakeCreateCancelTransactionUseCase(),
-        FakeCreateCashTransactionUseCase(),
-        FakeCreateCouponTransactionUseCase(),
-        FakeCreateCreditTransactionUseCase(),
-    )) }
+    val paymentViewModel = remember {
+        mutableStateOf(
+            PaymentViewModel(
+                FakeCreateCancelTransactionUseCase(),
+                FakeCreateCashTransactionUseCase(),
+                FakeCreateCouponTransactionUseCase(),
+                FakeCreateCreditTransactionUseCase(),
+            )
+        )
+    }
+    val basketViewModel = remember {
+        mutableStateOf(
+            BasketViewModel(
+            )
+        )
+    }
     paymentViewModel.value.changeToCreditPayment()
     FrontendInternshipTheme {
         PaymentScreen(
             navController = rememberNavController(),
-            viewModel = paymentViewModel.value
+            viewModel = paymentViewModel.value,
+            basketViewModel = basketViewModel.value,
         )
     }
 }
@@ -328,44 +352,63 @@ fun PaymentScreenCreditPreview() {
 @Preview
 @Composable
 fun PaymentScreenCouponPreview() {
-    val paymentViewModel = remember { mutableStateOf(PaymentViewModel(
-        FakeCreateCancelTransactionUseCase(),
-        FakeCreateCashTransactionUseCase(),
-        FakeCreateCouponTransactionUseCase(),
-        FakeCreateCreditTransactionUseCase(),
-    )) }
+    val paymentViewModel = remember {
+        mutableStateOf(
+            PaymentViewModel(
+                FakeCreateCancelTransactionUseCase(),
+                FakeCreateCashTransactionUseCase(),
+                FakeCreateCouponTransactionUseCase(),
+                FakeCreateCreditTransactionUseCase(),
+            )
+        )
+    }
     paymentViewModel.value.changeToCouponPayment()
+    val basketViewModel = remember {
+        mutableStateOf(
+            BasketViewModel(
+            )
+        )
+    }
     FrontendInternshipTheme {
         PaymentScreen(
             navController = rememberNavController(),
-            viewModel = paymentViewModel.value
-        )
+            viewModel = paymentViewModel.value,
+            basketViewModel = basketViewModel.value,
+
+            )
     }
 }
-class FakeCreateCancelTransactionUseCase: ICreateCancelTransactionUseCase {
-    override suspend fun invoke(paymentState: PaymentState) {
+
+class FakeCreateCancelTransactionUseCase : ICreateCancelTransactionUseCase {
+    override suspend fun invoke(paymentState: PaymentState, productBasket: List<ProductWithCount>) {
     }
 }
-class FakeCreateCashTransactionUseCase: ICreateCashTransactionUseCase {
+
+class FakeCreateCashTransactionUseCase : ICreateCashTransactionUseCase {
     override suspend fun invoke(
         paymentState: PaymentState,
-        cashPaymentState: CashPaymentState
+        cashPaymentState: CashPaymentState,
+        productBasket: List<ProductWithCount>
     ) {
 
     }
 }
-class FakeCreateCreditTransactionUseCase: ICreateCreditTransactionUseCase {
+
+class FakeCreateCreditTransactionUseCase : ICreateCreditTransactionUseCase {
     override suspend fun invoke(
         paymentState: PaymentState,
-        creditPaymentState: CreditPaymentState
+        creditPaymentState: CreditPaymentState,
+        productBasket: List<ProductWithCount>
     ) {
 
     }
 }
-class FakeCreateCouponTransactionUseCase: ICreateCouponTransactionUseCase {
+
+class FakeCreateCouponTransactionUseCase : ICreateCouponTransactionUseCase {
     override suspend fun invoke(
         paymentState: PaymentState,
-        couponPaymentState: CouponPaymentState
+        couponPaymentState: CouponPaymentState,
+        productBasket: List<ProductWithCount>
     ) {
 
     }

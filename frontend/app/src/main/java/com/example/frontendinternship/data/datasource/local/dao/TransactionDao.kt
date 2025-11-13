@@ -18,8 +18,12 @@ interface TransactionDao {
     @Query("SELECT * FROM TRANSACTIONS WHERE transaction_id = :id")
     suspend fun getById(id: ByteArray): TransactionEntity?
 
+    @Transaction
     @Query("SELECT * FROM TRANSACTIONS WHERE transaction_id = :id")
     suspend fun getTransactionWithItemsAndProducts(id: ByteArray): TransactionWithItemsAndProducts
+
+    @Insert
+    suspend fun insert(transactions: TransactionEntity)
 
     @Insert
     suspend fun addAll(transactions: List<TransactionEntity>)

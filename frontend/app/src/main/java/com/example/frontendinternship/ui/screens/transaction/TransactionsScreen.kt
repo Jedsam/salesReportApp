@@ -84,8 +84,9 @@ fun TransactionsScreen(
         },
     ) { innerPadding ->
         TransactionList(
-            onTransactionSelected = { transaction: TransactionModel ->
-                navController.navigate(Screen.Transaction.route)
+            onTransactionSelected = {
+                //transaction: TransactionModel ->
+                //navController.navigate(Screen.Transaction.route)
             },
             transactionList = uiState.transactionList,
             paddingValue = innerPadding

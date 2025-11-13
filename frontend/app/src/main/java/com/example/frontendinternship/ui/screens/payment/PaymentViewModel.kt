@@ -60,20 +60,35 @@ class PaymentViewModel @Inject constructor(
         }
     }
 
-    fun cancelPayment() {
+    fun cancelPayment(productBasket: List<ProductWithCount>) {
         viewModelScope.launch {
-            createCancelTransactionUseCase(uiState.value.payment)
+            createCancelTransactionUseCase(uiState.value.payment, productBasket)
         }
     }
-    fun chargePayment() {
+
+    fun chargePayment(productBasket: List<ProductWithCount>) {
         viewModelScope.launch {
             when (uiState.value.payment.paymentType) {
                 PaymentTypeEnum.CASH ->
-                createCashTransactionUseCase(uiState.value.payment, uiState.value.cashPayment)
+                    createCashTransactionUseCase(
+                        uiState.value.payment,
+                        uiState.value.cashPayment,
+                        productBasket
+                    )
+
                 PaymentTypeEnum.CREDIT ->
-                createCreditTransactionUseCase(uiState.value.payment, uiState.value.creditPayment)
+                    createCreditTransactionUseCase(
+                        uiState.value.payment,
+                        uiState.value.creditPayment,
+                        productBasket
+                    )
+
                 PaymentTypeEnum.COUPON ->
-                createCouponTransactionUseCase(uiState.value.payment, uiState.value.couponPayment)
+                    createCouponTransactionUseCase(
+                        uiState.value.payment,
+                        uiState.value.couponPayment,
+                        productBasket
+                    )
             }
         }
     }
@@ -104,6 +119,7 @@ class PaymentViewModel @Inject constructor(
             }
         }
     }
+
     fun updateExpirationDate(expirationDate: String) {
         viewModelScope.launch {
             _uiState.update { currentState ->
@@ -127,6 +143,7 @@ class PaymentViewModel @Inject constructor(
             }
         }
     }
+
     fun updateCouponValue(couponValue: Double) {
         viewModelScope.launch {
             _uiState.update { currentState ->
@@ -134,13 +151,15 @@ class PaymentViewModel @Inject constructor(
             }
         }
     }
+
     fun updateExpiryDate(expiryDate: String) {
         viewModelScope.launch {
             _uiState.update { currentState ->
-                currentState.copy(couponPayment = currentState.couponPayment.copy(expiryDate = expiryDate ))
+                currentState.copy(couponPayment = currentState.couponPayment.copy(expiryDate = expiryDate))
             }
         }
     }
+
     fun updateCashAmount(receivedAmount: Double) {
         viewModelScope.launch {
             _uiState.update { currentState ->

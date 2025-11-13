@@ -11,14 +11,13 @@ import com.example.frontendinternship.data.model.TransactionItemEntity
 
 @Dao
 interface TransactionItemDao {
-    @Query("SELECT * FROM TRANSACTIONS")
-    suspend fun getAll(): List<TransactionEntity>
 
-    @Query("SELECT * FROM TRANSACTIONS WHERE transaction_id = :id")
-    suspend fun getById(id: ByteArray): TransactionEntity?
 
     @Insert
-    suspend fun addAll(transactions: List<TransactionEntity>)
+    suspend fun insert(transactionItemEntity: TransactionItemEntity)
+
+    @Insert
+    suspend fun insertAll(transactionItemEntities: List<TransactionItemEntity>)
 
     @Query("SELECT * FROM TRANSACTION_ITEMS WHERE transaction_id = :id")
     suspend fun getByTransactionId(id: ByteArray): List<TransactionItemEntity>

@@ -1,8 +1,6 @@
 package com.example.frontendinternship.domain.usecase.transaction
 
-import com.example.frontendinternship.domain.model.TransactionItemModel
-import com.example.frontendinternship.domain.model.TransactionWithItemModel
-import com.example.frontendinternship.domain.repository.TransactionItemRepository
+import com.example.frontendinternship.domain.model.ProductWithCount
 import com.example.frontendinternship.domain.repository.TransactionRepository
 import com.example.frontendinternship.ui.states.CashPaymentState
 import com.example.frontendinternship.ui.states.PaymentState
@@ -13,8 +11,9 @@ class CreateCashTransactionUseCase @Inject constructor(
 ) : ICreateCashTransactionUseCase {
     override suspend fun invoke(
         paymentState: PaymentState,
-        cashPaymentState: CashPaymentState
-    ){
-
+        cashPaymentState: CashPaymentState,
+        productBasket: List<ProductWithCount>
+    ) {
+        transactionRepository.createCashTransaction(paymentState, cashPaymentState, productBasket)
     }
 }

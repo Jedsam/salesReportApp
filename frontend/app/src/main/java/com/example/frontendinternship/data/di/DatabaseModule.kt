@@ -3,11 +3,14 @@ package com.example.frontendinternship.data.di
 import android.content.Context
 import androidx.room.Room
 import com.example.frontendinternship.data.datasource.local.SalesAppDatabase
+import com.example.frontendinternship.data.datasource.local.dao.DeviceDao
 import com.example.frontendinternship.data.datasource.local.dao.MerchantDao
+import com.example.frontendinternship.data.datasource.local.dao.PaymentDao
 import com.example.frontendinternship.data.datasource.local.dao.ProductDao
 import com.example.frontendinternship.data.datasource.local.dao.ReceiptDao
 import com.example.frontendinternship.data.datasource.local.dao.ShopDao
 import com.example.frontendinternship.data.datasource.local.dao.TransactionDao
+import com.example.frontendinternship.data.datasource.local.dao.TransactionItemDao
 import com.example.frontendinternship.data.datasource.local.dao.UserDao
 import dagger.Module
 import dagger.Provides
@@ -24,7 +27,6 @@ class DatabaseModule {
         @Provides
         @Singleton
         fun provideAppDatabase(@ApplicationContext applicationContext: Context): SalesAppDatabase.AppDatabase {
-            // --- Your database setup code goes here ---
             return Room.databaseBuilder(
                 applicationContext,
                 SalesAppDatabase.AppDatabase::class.java, "PRODUCTS"
@@ -62,5 +64,22 @@ class DatabaseModule {
         fun provideTransactionDao(appDatabase: SalesAppDatabase.AppDatabase): TransactionDao {
             return appDatabase.transactionDao()
         }
+
+        @Provides
+        fun provideDeviceDao(appDatabase: SalesAppDatabase.AppDatabase): DeviceDao {
+            return appDatabase.deviceDao()
+        }
+
+        @Provides
+        fun providePaymentDao(appDatabase: SalesAppDatabase.AppDatabase): PaymentDao {
+            return appDatabase.paymentDao()
+        }
+
+        @Provides
+        fun provideTransactionItemDao(appDatabase: SalesAppDatabase.AppDatabase): TransactionItemDao {
+            return appDatabase.transactionItemDao()
+        }
+
+
     }
 }
