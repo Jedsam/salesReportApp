@@ -1,7 +1,7 @@
 # Sales Report App  
 
 A full-stack sales reporting application featuring a gRPC-based backend (Java / Spring Boot) and an Android client (Kotlin / Jetpack Compose).  
-Designed with modern libraries, Clean Architecture using MVVC pattern for frontend/MVC pattern for backend and cross-platform communication using Protocol Buffers.
+Designed with modern libraries, Clean Architecture using MVVC pattern for frontend/MVC pattern for backend and cross-platform communication with JWT Authentication using Protocol Buffers.
 
 ## 🧩 Project Architecture  
 
@@ -15,7 +15,8 @@ frontend/app/src/main/java ← Android app in Kotlin + Compose
 - Implements gRPC services defined in `proto/salesreport.proto`  
 - Java + Spring Boot ecosystem
 - Model, View, Controller pattern
-- Uses Spring Boot’s support for gRPC + Protobuf  
+- Uses Spring Boot’s support for gRPC + Protobuf
+- Login, Register, authentication systems using JWT
 - Connects to a relational database (see [backend setup](https://github.com/Jedsam/salesReportApp/tree/master/backend/database/setup) for creating the database)  
 - Provides endpoints such as:  
   - Fetch hourly sales  
@@ -25,6 +26,7 @@ frontend/app/src/main/java ← Android app in Kotlin + Compose
 ### Frontend (Android Kotlin + Compose + gRPC)  
 - Android app built with Kotlin and Jetpack Compose
 - Model, View, Viewmodel pattern
+- Store/Generate(login) JWT for communicating with the backend 
 - Clearn architecture (Data/Domain/UI)
 - Uses gRPC client generated from the same Protobuf contract  
 - UI design: clean, modern, stateless components  
