@@ -78,7 +78,7 @@ frontend/app/src/main/java ← Android app in Kotlin + Compose
 
 - Modern Android libraries: (e.g., Hilt/Dagger, Kotlin Coroutines, Flow, Navigate)  
 
-- Relational database (SQLite) for backend persistence (see [frontend database](https://github.com/Jedsam/salesReportApp/tree/master/frontend/database) schema)  
+- Relational database (MariaDB/SQLite) for persistence (see [frontend database](https://github.com/Jedsam/salesReportApp/tree/master/frontend/database) schema)  
 
 
 
