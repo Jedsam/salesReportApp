@@ -13,7 +13,8 @@ frontend/app/src/main/java ← Android app in Kotlin + Compose
 
 ### Backend (Spring Boot + gRPC)  
 - Implements gRPC services defined in `proto/salesreport.proto`  
-- Java + Spring Boot ecosystem  
+- Java + Spring Boot ecosystem
+- Model, View, Controller pattern
 - Uses Spring Boot’s support for gRPC + Protobuf  
 - Connects to a relational database (see [backend setup](https://github.com/Jedsam/salesReportApp/tree/master/backend/database/setup) for creating the database)  
 - Provides endpoints such as:  
@@ -22,7 +23,9 @@ frontend/app/src/main/java ← Android app in Kotlin + Compose
   - Aggregate by device/location  
 
 ### Frontend (Android Kotlin + Compose + gRPC)  
-- Android app built with Kotlin and Jetpack Compose  
+- Android app built with Kotlin and Jetpack Compose
+- Model, View, Viewmodel pattern
+- Clearn architecture (Data/Domain/UI)
 - Uses gRPC client generated from the same Protobuf contract  
 - UI design: clean, modern, stateless components  
 - Offline-capable, syncs with backend when connected  
