@@ -6,45 +6,55 @@ A full-stack sales reporting application featuring a gRPC-based backend (Java / 
 
 Designed with modern libraries, Clean Architecture using MVVC pattern for frontend/MVC pattern for backend and cross-platform communication with JWT Authentication using Protocol Buffers.
 
+![Spring Boot](https://img.shields.io/badge/Spring_Boot-6DB33F?style=for-the-badge&logo=spring&logoColor=white)
+![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)
+![gRPC](https://img.shields.io/badge/gRPC-4285F4?style=for-the-badge&logo=grpc&logoColor=white)
+![Kotlin](https://img.shields.io/badge/Kotlin-7F52FF?style=for-the-badge&logo=kotlin&logoColor=white)
+![Android](https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white)
+![JWT](https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=jsonwebtokens&logoColor=white)
 
+## 🎞️ Demo
+
+A short demo video is included showing the frontend working (though no connection is present)
+<br>
+<video src="https://github.com/user-attachments/assets/95c7018f-0a02-4ddb-81e1-a864a41b5b64" width="300"></video>
+
+---
+## 🛠️ Technology Stack
+
+| Category | Technology |
+| :--- | :--- |
+| 🛰️ **Shared Contract** | gRPC, Protocol Buffers (Protobuf) |
+| 🖥️ **Backend** | Java 17+, Spring Boot, Spring Security (for JWT), gRPC-Spring-Boot-Starter |
+| 📱 **Frontend** | Kotlin, Android SDK, Jetpack Compose, Coroutines & Flow, Hilt (DI), gRPC-Kotlin |
+| 🛢️ **Database** | **Backend:** Relational DB (MariaDB) <br> **Frontend:** SQLite (via Room) for offline cache |
+
+---
 
 ## 🧩 Project Architecture  
 
 
 
-proto/... ← shared contract (gRPC / Protobuf)
+    ├── proto/              # 🛰️ Shared gRPC & Protobuf Contract
+    │   └── salesreport.proto
+    ├── backend/            # 🖥️ Spring Boot gRPC Server
+    │   └── src/main/java
+    └── frontend/           # 📱 Android Client
+        └── app/src/main/java
 
 
 
-backend/src/main/java/... ← Spring Boot gRPC server
+### 🖥️ Backend (Spring Boot & gRPC Server)
 
+The backend is a robust gRPC server built with Spring Boot. It implements the services defined in `salesreport.proto`.
 
-
-frontend/app/src/main/java ← Android app in Kotlin + Compose
-
-
-
-### Backend (Spring Boot + gRPC)  
-
-- Implements gRPC services defined in `proto/salesreport.proto`  
-
-- Java + Spring Boot ecosystem
-
-- Model, View, Controller pattern
-
-- Uses Spring Boot’s support for gRPC + Protobuf
-
-- Login, Register, authentication systems using JWT
-
-- Connects to a relational database MariaDB (see [backend setup](https://github.com/Jedsam/salesReportApp/tree/master/backend/database/setup) for creating the database)  
-
-- Provides endpoints such as:  
-
-  - Fetch hourly sales  
-
-  - Report new sales  
-
-  - Aggregate by device/location  
+* **Pattern:** Follows a classic Model-View-Controller (MVC)-style layering.
+* **Authentication:** Implements JWT-based authentication. A gRPC interceptor validates the JWT on protected endpoints.
+* **Services:** Provides gRPC endpoints for:
+    * User registration and login (generating JWTs).
+    * Reporting new transaction events.
+    * Querying user information.
+* **Persistence:** Connects to a relational database to persist user and sales data. (See [Backend Database Setup](https://github.com/Jedsam/salesReportApp/tree/master/backend/database/setup)).
 
 
 
@@ -96,12 +106,4 @@ frontend/app/src/main/java ← Android app in Kotlin + Compose
 
 - Jetpack Compose-based UI for future scalability  
 
-
-## 🎞️ Demo  
-
-A short demo video is included showing the frontend working (though no connection is present)
-
-
-
-https://github.com/user-attachments/assets/95c7018f-0a02-4ddb-81e1-a864a41b5b64
 
