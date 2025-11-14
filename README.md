@@ -13,6 +13,19 @@ Designed with modern libraries, Clean Architecture using MVVC pattern for fronte
 ![Android](https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white)
 ![JWT](https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=jsonwebtokens&logoColor=white)
 
+
+
+## ✅ Core Features
+
+* **Real-time Reporting:** Real-time hourly transaction reporting.
+* **Data Aggregation:** View sales aggregated by device or location.
+* **Secure Authentication:** Full Login/Register flow using **JWT** for secure API communication.
+* **Cross-Platform Contract:** A single `.proto` file defines the API contract, ensuring type safety between the backend and Android client.
+* **Clean architecture:** Modern architecture for both backend and Android frontend
+* **Offline-First Android App:** The Android client caches data and syncs with the backend when connected.
+* **Modern UI:** A clean, stateless UI built entirely with Jetpack Compose.
+
+---
 ## 🎞️ Demo
 
 A short demo video is included showing the frontend working (though no connection is present)
@@ -56,54 +69,16 @@ The backend is a robust gRPC server built with Spring Boot. It implements the se
     * Querying user information.
 * **Persistence:** Connects to a relational database to persist user and sales data. (See [Backend Database Setup](https://github.com/Jedsam/salesReportApp/tree/master/backend/database/setup)).
 
+### 📱 Frontend (Android, Compose & gRPC Client)
 
+The Android app is a modern, offline-capable client built with 100% Kotlin and Jetpack Compose.
 
-### Frontend (Android Kotlin + Compose + gRPC)  
-
-- Android app built with Kotlin and Jetpack Compose
-
-- Model, View, Viewmodel pattern
-
-- Store/Generate(login) JWT for communicating with the backend 
-
-- Clearn architecture (Data/Domain/UI)
-
-- Uses gRPC client generated from the same Protobuf contract  
-
-- UI design: clean, modern, stateless components  
-
-- Offline-capable, syncs with backend when connected
-
-- Stores data in local database SQLite (see [frontend database](https://github.com/Jedsam/salesReportApp/tree/master/frontend/database) for creating the database)
-
-
-
-## 🔧 Key Technologies & Libraries  
-
-- Protocol Buffers + gRPC for schema-first API  
-
-- Java 17 (or latest LTS) + Spring Boot  
-
-- Kotlin for Android client  
-
-- Android Jetpack Compose for UI  
-
-- Modern Android libraries: (e.g., Hilt/Dagger, Kotlin Coroutines, Flow, Navigate)  
-
-- Relational database (MariaDB/SQLite) for persistence
-
-
-
-## ✅ Features  
-
-- Real-time hourly sales reporting  
-
-- Aggregation by device/location  
-
-- Shared gRPC contract ensures strong typing across client/server  
-
-- Clean architecture for both backend and Android  
-
-- Jetpack Compose-based UI for future scalability  
+* **Architecture:** Implements **Clean Architecture** (Data / Domain / UI layers).
+* **UI Pattern:** Uses the **Model-View-ViewModel (MVVM)** pattern.
+* **UI:** Built entirely with Jetpack Compose, using stateless components and state hoisting.
+* **Concurrency:** Uses Kotlin Coroutines and Flow for all asynchronous operations (API calls, database access).
+* **Networking:** Uses a generated gRPC-Kotlin client to communicate with the backend, securely attaching the JWT to requests.
+* **Authentication:** Stores/Generates(login) JWT for communicating with the backend 
+* **Offline Storage:** Uses a local **SQLite** database (see [Frontend Database Schema](https://github.com/Jedsam/salesReportApp/tree/master/frontend/database)) to cache data, allowing the app to function offline.
 
 
