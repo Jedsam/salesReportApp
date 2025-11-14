@@ -36,7 +36,7 @@ frontend/app/src/main/java ← Android app in Kotlin + Compose
 
 - Login, Register, authentication systems using JWT
 
-- Connects to a relational database (see [backend setup](https://github.com/Jedsam/salesReportApp/tree/master/backend/database/setup) for creating the database)  
+- Connects to a relational database MariaDB (see [backend setup](https://github.com/Jedsam/salesReportApp/tree/master/backend/database/setup) for creating the database)  
 
 - Provides endpoints such as:  
 
@@ -62,7 +62,9 @@ frontend/app/src/main/java ← Android app in Kotlin + Compose
 
 - UI design: clean, modern, stateless components  
 
-- Offline-capable, syncs with backend when connected  
+- Offline-capable, syncs with backend when connected
+
+- Stores data in local database SQLite (see [frontend database](https://github.com/Jedsam/salesReportApp/tree/master/frontend/database) for creating the database)
 
 
 
@@ -78,7 +80,7 @@ frontend/app/src/main/java ← Android app in Kotlin + Compose
 
 - Modern Android libraries: (e.g., Hilt/Dagger, Kotlin Coroutines, Flow, Navigate)  
 
-- Relational database (MariaDB/SQLite) for persistence (see [frontend database](https://github.com/Jedsam/salesReportApp/tree/master/frontend/database) schema)  
+- Relational database (MariaDB/SQLite) for persistence
 
 
 
@@ -93,9 +95,6 @@ frontend/app/src/main/java ← Android app in Kotlin + Compose
 - Clean architecture for both backend and Android  
 
 - Jetpack Compose-based UI for future scalability  
-
-
-
 
 
 ## 🎞️ Demo  
